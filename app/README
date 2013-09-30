@@ -1,0 +1,13 @@
+Public Content page templating
+------------------------------
+1. Added /Themed/Kmstheme/Layouts/public.ctp
+2. modified /home/aiforg/domains/dev-ekp.aif.org.my/public_html/app/webroot/login/css/style.css
+	adding .wide.column for 980px
+3. modified Plugins/Nodes/Controller/NodesController.php
+   function view to use $this->layout = "public";
+
+4. added Public permission for 
+	Nodes	->	view
+		->	promoted
+					
+

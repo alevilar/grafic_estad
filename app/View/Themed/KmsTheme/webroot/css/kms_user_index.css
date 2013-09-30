@@ -1,0 +1,15 @@
+#pics{
+	float: left;
+	width: 100%;
+}
+
+#pics img{
+	height: 200px;
+}
+
+#pics li{
+    height: 210px;
+    width: 100%;
+    float: left;
+    overflow: hidden;
+}

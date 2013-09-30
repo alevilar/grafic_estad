@@ -1,0 +1,158 @@
+
+a{
+color: #08C;
+}
+
+.item-actions a:hover{
+ text-decoration: none;
+}
+
+/* Font tace */
+@font-face {
+    font-family: 'PTSansRegular';
+    src: url('../fonts/pts55f-webfont.eot');
+    src: url('../fonts/pts55f-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/pts55f-webfont.woff') format('woff'),
+         url('../fonts/pts55f-webfont.ttf') format('truetype'),
+         url('../fonts/pts55f-webfont.svg#PTSansRegular') format('svg');
+   font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+    font-family: 'PTSansBold';
+    src: url('../fonts/pts75f-webfont.eot');
+    src: url('../fonts/pts75f-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/pts75f-webfont.ttf') format('truetype'),
+         url('../fonts/pts75f-webfont.svg#PTSansBold') format('svg');
+    font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+    font-family: 'PTSansNarrowRegular';
+    src: url('../fonts/ptn57f_0.eot');
+    src: url('../fonts/ptn57f_0.eot') format('embedded-opentype'),
+         url('../fonts/ptn57f_0.woff') format('woff'),
+         url('../fonts/ptn57f_0.ttf') format('truetype'),
+         url('../fonts/ptn57f_0.svg#PTSansNarrowRegular') format('svg');
+
+}
+
+
+
+.header h1{
+	text-align: center;
+	
+	font-size: 20px;
+	font-family: 'PTSansBold';
+}
+.header h1 span{
+	color: #AFAF47;
+}
+
+
+.brand img{
+	max-height: 60px !important;
+}
+
+.border{
+	border-bottom: 1px solid #b2b2b2;
+}
+
+h1{
+	color: #0381a0;
+	font-size: 24px;
+	font-family: 'PTSansBold';
+}
+
+h2{
+	margin: 20px 0 20px 0;
+	padding: 0 0 3px 0;
+	color: #0381a0;
+	font-size: 24px;
+	
+	font-family: 'PTSansBold';
+}
+
+
+h3{
+	margin: 0 0 10px 0;
+	padding: 0 0 3px 0;
+	color: #0195B9;
+	font-size: 18px;
+	font-family: 'PTSansBold';
+}
+
+
+h4{
+	color: #0195B9;
+}
+
+h5{
+	color: #0195B9;
+}
+
+.list-btn-div { margin:0; padding:0 0 20px 0;}
+.list-btn-div p{ margin:0 20px 0 0; padding:0; display:inline-block;}
+.list { margin:0; padding:5px; border:1px solid #b7b6b6; background:#f3f3f3; width:200px; -webkit-border-radius: 4px;border-radius: 4px;}
+
+
+
+
+.network-div { margin:0; padding:10px; background-color:#f2f2f2; border-top:1px solid #97d1df; border-bottom:1px solid #97d1df;}
+.network-div ul { margin:0; padding:0;}
+.network-div li{ margin:0; padding:8px 0 8px 0; float:left; width:50%;}
+.network-div li img{ margin:0; padding:0; float:left;}
+.network-div li span{ margin:0; padding:10px 0 0 10px; display:block; float:left;}
+.network-div li a{ margin:0; padding:0; color:#0683a1; font-size:14px;}
+.network-div li a:hover { color:#000; text-decoration:underline;}
+
+
+
+.social { margin:0 0 0 0; padding:0 0 0 0;}
+.social li{ margin:0 0 0 0; padding:0 0 0 0;}
+a.icn {float: left; text-indent:-9990px; margin-right: 5px; cursor: pointer;  background-image:url(../img/social-icon.png);background-repeat: no-repeat; width:30px; height:31px; -webkit-transition: all 0s linear 0s; -moz-transition: all 0s linear 0s; -o-transition: all 0s linear 0s;	transition: all 0s linear 0s;}
+.icn:focus, .icn:active {outline: none;}
+.icn.facebook {background-position:0 -31px;}
+.icn.facebook:hover {background-position:0 0;}
+
+.icn.twitter { background-position:-30px -31px; }
+.icn.twitter:hover { background-position:-30px 0; }
+
+.icn.linkdin {background-position:-270px -31px; }
+.icn.linkdin:hover {background-position:-270px 0; }
+
+.icn.plus {background-position:-330px -31px; }
+.icn.plus:hover {background-position:-330px 0; }
+
+
+#footer{
+	background: #fff;
+	border-top: 1px double #01809f;
+	margin-top: 40px;
+	color: #737373;
+	font-size: 12px;
+	text-align: center;
+	padding: 10px 0 20px 0;
+	
+}
+
+
+.error-message{
+	color: red;
+}
+
+
+.kms-thumb{
+	margin: 10px;
+	width: 50px;
+}
+
+
+.navbar .nav>li>a.active, .navbar .nav>li>a.active:hover, .navbar .nav>li>a.active:focus {
+color: rgb(85, 85, 85);
+text-decoration: none;
+background-color: rgb(229, 229, 229);
+-webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+-moz-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+}

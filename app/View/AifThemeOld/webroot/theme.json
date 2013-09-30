@@ -1,0 +1,22 @@
+{
+  "name": "AifThemeOld",
+  "description": "Aif theme",
+  "screenshot": "screenshot.jpg",
+  
+  "author": "ShivanKRC ",
+  "authorEmail": "ravindran.vc@gmail.com",
+  
+  "menus": [
+	"main"
+  ],
+          
+  "regions": [
+	"right",
+	"header",
+	"footer",
+	"region_1",
+	"region_2",
+        "region_3",
+        "region_4"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "KmsTheme",
+  "description": "Kms theme",
+  "screenshot": "screenshot.png",
+
+  "author": "ShivanKRC ",
+  "authorEmail": "ravindran.vc@gmail.com",
+
+  "menus": [
+	"main"
+  ],
+
+  "regions": [
+	"right",
+	"header",
+	"footer",
+	"region_1",
+	"region_2"	
+  ]
+}
