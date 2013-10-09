@@ -32,8 +32,8 @@ class LogMstation extends SkyAppModel {
 			),
 		),
 		'status_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'notempty' => array(
+				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -132,8 +132,8 @@ class LogMstation extends SkyAppModel {
 			),
 		),
 		'dl_mimo_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'notempty' => array(
+				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

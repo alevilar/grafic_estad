@@ -1,10 +1,10 @@
 <?php
 App::uses('SkyAppModel', 'Sky.Model');
 /**
- * SkySite Model
+ * Retcode Model
  *
  */
-class Site extends SkyAppModel {
+class Retcode extends SkyAppModel {
 
 /**
  * Display field
@@ -19,6 +19,16 @@ class Site extends SkyAppModel {
  * @var array
  */
 	public $validate = array(
+                'code' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 		'name' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
@@ -29,15 +39,5 @@ class Site extends SkyAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-        
-        
-        /**
- * belongsTo associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Sky.Sector'
 	);
 }

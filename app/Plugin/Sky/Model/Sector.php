@@ -58,4 +58,9 @@ class Sector extends SkyAppModel {
 			'order' => ''
 		)
 	);
+        
+        
+        public $hasMany = array(
+		'Sky.Carrier',
+	);
 }

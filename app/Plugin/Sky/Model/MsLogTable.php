@@ -82,7 +82,7 @@ class MsLogTable extends SkyAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'retcode' => array(
+		'retcode_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -122,7 +122,8 @@ class MsLogTable extends SkyAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+                'Sky.Retcode',
 	);
         
         

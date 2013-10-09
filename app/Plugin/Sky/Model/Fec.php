@@ -11,7 +11,7 @@ class Fec extends SkyAppModel {
  *
  * @var string
  */
-	public $displayField = 'number';
+	public $displayField = 'id';
 
 /**
  * Validation rules
@@ -19,7 +19,7 @@ class Fec extends SkyAppModel {
  * @var array
  */
 	public $validate = array(
-		'number' => array(
+		'id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
