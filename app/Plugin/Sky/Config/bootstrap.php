@@ -64,9 +64,10 @@ CroogoNav::add('settings.children.sky', array(
 
 
 function get_num_results_value ( $rawline ) {
-    preg_match(PT_NUMBER_RESULTS, $rawline, $matches);
-    if (!empty($matches[1])) {
-        return $matches[1];
+    if ( preg_match(PT_NUMBER_RESULTS, $rawline, $matches) ) {
+        if (!empty($matches[1])) {
+            return $matches[1];
+        }
     }
     return 0;
 }
@@ -78,4 +79,23 @@ function get_num_of_reports($rawline) {
     }
     return 0;
     
+}
+
+
+/**
+ * 
+ * @param REGEX $pattern
+ * @param string $string
+ * @param int $i Number or the variable of the REGEX 
+ * @param int $rep Number of the repetition of the REGEX
+ * @return null
+ */
+function get_match_pattern($pattern, $string, &$matches = null) {
+    
+    if ( preg_match_all($pattern, $string, $matches) ) {  
+        if ( !empty($matches[1]) && !empty($matches[1][0])) {
+                return trim($matches[1][0]);
+        }        
+    }
+    return null;
 }

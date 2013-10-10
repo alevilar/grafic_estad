@@ -13,9 +13,5 @@
             <?php echo $this->Menus->nestedLinks($menu['threaded'], $options); ?>
         </div>
 
-        <form class="navbar-search pull-right">
-            <input type="text" class="search-query" placeholder="Search">
-        </form>
-
     </div>
 </div>

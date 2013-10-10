@@ -15,6 +15,33 @@ class MsLogTable extends SkyAppModel {
  * @var string
  */
 	public $displayField = 'comand_number';
+        
+        
+        public $actsAs = array(
+		'Search.Searchable',
+	);        
+        
+/**
+ * Filter search fields
+ *
+ * @var array
+ * @access public
+ */
+	public $filterArgs = array(
+		'site_id' => array('type' => 'value'),
+		'sector_id' => array('type' => 'value'),
+		'carrier_id' => array('type' => 'value'),
+                'datetime' => array('type' => 'value'),
+                'datetime_from' => array('type' => 'value', 'field' => 'MsLogTable.datetime'),
+                'retcode_id' => array('type' => 'value'),
+                'om_id' => array('type' => 'value'),
+                'comand_number' => array('type' => 'value'),
+	);
+        
+        public $order = array(
+            'MsLogTable.datetime DESC', 
+            'MsLogTable.site_id',  
+            'MsLogTable.sector_id');
 
 /**
  * Validation rules
@@ -36,8 +63,8 @@ class MsLogTable extends SkyAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => true,
+				'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -46,8 +73,8 @@ class MsLogTable extends SkyAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => true,
+				'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -56,8 +83,8 @@ class MsLogTable extends SkyAppModel {
 			'datetime' => array(
 				'rule' => array('datetime'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => true,
+				'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -66,8 +93,8 @@ class MsLogTable extends SkyAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => true,
+				'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -76,8 +103,8 @@ class MsLogTable extends SkyAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => true,
+				'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),

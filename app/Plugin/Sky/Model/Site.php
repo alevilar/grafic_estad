@@ -12,6 +12,9 @@ class Site extends SkyAppModel {
  * @var string
  */
 	public $displayField = 'name';
+        
+        
+        public $order = array('Site.name');
 
 /**
  * Validation rules

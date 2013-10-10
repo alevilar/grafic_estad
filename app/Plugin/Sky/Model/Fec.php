@@ -12,6 +12,11 @@ class Fec extends SkyAppModel {
  * @var string
  */
 	public $displayField = 'id';
+        
+        
+        public $virtualFields = array(
+            'full_name' => 'CONCAT(Fec.id, " - ", Fec.modulation)',
+        );
 
 /**
  * Validation rules
@@ -40,4 +45,9 @@ class Fec extends SkyAppModel {
 			),
 		),
 	);
+        
+        public function __construct($id = false, $table = null, $ds = null) {
+            parent::__construct($id, $table, $ds);
+            $this->virtualFields['full_name'] = sprintf('CONCAT(%s.id, " - ", %s.modulation)', $this->alias, $this->alias);
+        }
 }
