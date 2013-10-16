@@ -31,7 +31,7 @@ class MigrateShell extends AppShell
     public function main()
     {    
         
-        $this->out("<success>         ,==                 |)             O  O
+        $this->out("<warning>         ,==                 |)             O  O
                    (( ^\                |       ...''  |  |
                (`.  ;`. )               | .'''''  __   |  | .....''
                 `.`.uu ;`'             O .'      |--|,.|__|'
@@ -52,7 +52,7 @@ class MigrateShell extends AppShell
       |/,'_ +__,-'!!  :-'^`\|
       o88o.-'  `\"\"\"'| /    |/
      (8888;        .\(__,o.
-    __Y88;_________,888888P______________________________alevilar</success>");
+    __Y88;_________,888888P______________________________alevilar</warning>");
         
         try {
             $tmpDir = Configure::read('Sky.tmpdir');
@@ -79,7 +79,7 @@ class MigrateShell extends AppShell
             
             // contruir una Clase intermedia entre los datos del archivo y el Model de la BD
             // Instancia un Objeto del tipo DataMigration
-            $this->_buildADataMig();
+            $this->_buildADataMig($f->name);
 
 
             // guardar en la BD
@@ -96,11 +96,11 @@ class MigrateShell extends AppShell
     }
 
     
-    function _buildADataMig () {
+    function _buildADataMig ($filename) {
         $this->aDataMig = array();
         
         foreach ( $this->fp->aContent as $ad ) {           
-            $this->aDataMig[] = new DataMigration($ad);
+            $this->aDataMig[] = new DataMigration($filename,$ad);
         }
                 
         return true;
@@ -114,7 +114,6 @@ class MigrateShell extends AppShell
         
         foreach ($this->aDataMig as  $as) {
             /* @var $as DataMigration */
-            
             $this->out("Migrando SITIO ".$as->msLogTableData['Site']['name']." Sector ".$as->msLogTableData['Sector']['name']." y Carrier ".$as->msLogTableData['Carrier']['name']);
 
             // realiza algunas verficaciones y tira exception si encuentra algo mal
@@ -129,8 +128,6 @@ class MigrateShell extends AppShell
             $as->msLogTableData['MsLogTable']['sector_id'] = $sector_id;
             $as->msLogTableData['MsLogTable']['carrier_id'] = $carrier_id;
             $as->msLogTableData['MsLogTable']['retcode_id'] = $retcode_id;
-            
-            
             $exists = $this->MsLogTable->find('count', array(
                 'conditions' =>  $as->msLogTableData['MsLogTable'],
                 'recursive'  => -1,

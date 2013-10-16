@@ -84,11 +84,11 @@ class BlocksComponent extends Component {
 				'config' => 'croogo_blocks',
 			),
 		));
-                
-		$roleId = PUBLIC_ROLE;
-                if ($this->controller->Session->check('Auth.User.id')) {
-			$roleId = $this->controller->Session->read('Auth.User.role_id');
+
+		if ($this->controller->Session->check('Auth.User.role_id')) {
+			$this->controller->Croogo->roleId = $this->controller->Auth->user('role_id');
 		}
+		$roleId = $this->controller->Croogo->roleId;
 		foreach ($regions as $regionId => $regionAlias) {
 			$this->blocksForLayout[$regionAlias] = array();
 			$findOptions = array(
@@ -105,7 +105,7 @@ class BlocksComponent extends Component {
 						array(
 							'OR' => array(
 								'Block.visibility_paths' => '',
-								'Block.visibility_paths LIKE' => '%"' . $this->controller->request->here . '"%',
+								'Block.visibility_paths LIKE' => '%"/' . $this->controller->request->url . '"%',
 							),
 						),
 					),

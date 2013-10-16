@@ -4,7 +4,7 @@ App::uses('CroogoFormHelper', 'Croogo.View/Helper');
 App::uses('Controller', 'Controller');
 App::uses('CroogoTestCase', 'Croogo.TestSuite');
 
-class CroogoFormHelperTest extends CroogoTestCase{
+class CroogoFormHelperTest extends CroogoTestCase {
 
 	public function setUp() {
 		$controller = null;
@@ -321,6 +321,36 @@ class CroogoFormHelperTest extends CroogoTestCase{
 			),
 			'/div',
 		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * Test placeholder with nested model fields
+ */
+	public function testInputPlaceholderNestedModel() {
+		$expected = array(
+			'div' => array(
+				'class',
+			),
+			'label' => array(
+				'for',
+			),
+			'Node',
+			'/label',
+			'select' => array(
+				'name',
+				'placeholder' => 'Node',
+				'data-placement',
+				'data-trigger',
+				'data-title',
+				'id',
+			),
+			'/select',
+			'/div',
+		);
+		$result = $this->CroogoForm->input('User.Comment.node_id', array(
+			'placeholder' => true,
+		));
 		$this->assertTags($result, $expected);
 	}
 

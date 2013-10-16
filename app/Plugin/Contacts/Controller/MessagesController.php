@@ -75,28 +75,6 @@ class MessagesController extends ContactsAppController {
 		));
 		$this->set(compact('criteria', 'messages', 'contacts', 'searchFields'));
 	}
-        
-/**
- * My Message index
- *
- * @return void
- * @access public
- */
-	public function admin_my_index() {
-		$this->set('title_for_layout', __d('croogo', 'Messages'));
-		$this->Prg->commonProcess();
-
-		$this->Message->recursive = 0;
-		$criteria = $this->Message->parseCriteria($this->request->query);
-                $criteria['Message.contact_id'] = CakeSession::read('Auth.User.id');
-		$contacts = $this->Message->Contact->find('list');
-		$messages = $this->paginate($criteria);
-		$searchFields = array('contact_id', 'status' => array(
-			'label' => __d('croogo', 'Read'),
-			'type' => 'hidden',
-		));
-		$this->set(compact('criteria', 'messages', 'contacts', 'searchFields'));
-	}        
 
 /**
  * Admin edit
@@ -177,43 +155,6 @@ class MessagesController extends ContactsAppController {
 		}
 
 		$this->redirect(array('action' => 'index'));
-	}
-        
-        
-        /**
-        *  process
-        *
-        * @return void
-        * @access public
-        */
-	public function admin_my_process() {
-		$action = $this->request->data['Message']['action'];
-		$ids = array();
-		foreach ($this->request->data['Message'] as $id => $value) {
-			if ($id != 'action' && $value['id'] == 1) {
-				$ids[] = $id;
-			}
-		}
-
-		if (count($ids) == 0 || $action == null) {
-			$this->Session->setFlash(__d('croogo', 'No items selected.'), 'default', array('class' => 'error'));
-			$this->redirect(array('action' => 'my_index'));
-		}
-
-		if ($action == 'delete' &&
-			$this->Message->deleteAll(array('Message.id' => $ids), true, true)) {
-			$this->Session->setFlash(__d('croogo', 'Messages deleted.'), 'default', array('class' => 'success'));
-		} elseif ($action == 'read' &&
-			$this->Message->updateAll(array('Message.status' => 1), array('Message.id' => $ids))) {
-			$this->Session->setFlash(__d('croogo', 'Messages marked as read'), 'default', array('class' => 'success'));
-		} elseif ($action == 'unread' &&
-			$this->Message->updateAll(array('Message.status' => 0), array('Message.id' => $ids))) {
-			$this->Session->setFlash(__d('croogo', 'Messages marked as unread'), 'default', array('class' => 'success'));
-		} else {
-			$this->Session->setFlash(__d('croogo', 'An error occurred.'), 'default', array('class' => 'error'));
-		}
-
-		$this->redirect(array('action' => 'my_index'));
 	}
 
 }

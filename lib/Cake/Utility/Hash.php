@@ -54,7 +54,6 @@ class Hash {
 			} else {
 				return null;
 			}
-
 		}
 		return $data;
 	}
@@ -817,7 +816,7 @@ class Hash {
 		$stack = array();
 		foreach ($data as $k => $r) {
 			$id = $k;
-			if (!is_null($key)) {
+			if ($key !== null) {
 				$id = $key;
 			}
 			if (is_array($r) && !empty($r)) {

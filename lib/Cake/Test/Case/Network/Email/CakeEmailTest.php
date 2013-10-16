@@ -65,6 +65,14 @@ class TestCakeEmail extends CakeEmail {
 		return $this->_encode($text);
 	}
 
+/**
+ * Render to protected method
+ *
+ */
+	public function render($content) {
+		return $this->_render($content);
+	}
+
 }
 
 /*
@@ -85,6 +93,20 @@ class EmailConfig {
 		'transport' => 'Debug',
 		'theme' => 'TestTheme',
 		'helpers' => array('Html', 'Form'),
+	);
+
+/**
+ * test config 2
+ *
+ * @var string
+ */
+	public $test2 = array(
+		'from' => array('some@example.com' => 'My website'),
+		'to' => array('test@example.com' => 'Testname'),
+		'subject' => 'Test mail subject',
+		'transport' => 'Smtp',
+		'host' => 'cakephp.org',
+		'timeout' => 60
 	);
 
 }
@@ -718,12 +740,13 @@ class CakeEmailTest extends CakeTestCase {
 		$this->assertSame($this->CakeEmail->config(), $config);
 
 		$this->CakeEmail->config(array());
-		$this->assertSame($transportClass->config(), array());
+		$this->assertSame($transportClass->config(), $config);
 
 		$config = array('test' => 'test@example.com');
 		$this->CakeEmail->config($config);
 		$expected = array('test' => 'test@example.com', 'test2' => true);
 		$this->assertSame($expected, $this->CakeEmail->config());
+		$this->assertSame($expected, $transportClass->config());
 	}
 
 /**
@@ -755,6 +778,35 @@ class CakeEmailTest extends CakeTestCase {
 
 		$result = $this->CakeEmail->helpers();
 		$this->assertEquals($configs->test['helpers'], $result);
+	}
+
+/**
+ * Test updating config doesn't reset transport's config.
+ *
+ * @return void
+ */
+	public function testConfigMerge() {
+		$this->CakeEmail->config('test2');
+
+		$expected = array(
+			'host' => 'cakephp.org',
+			'port' => 25,
+			'timeout' => 60,
+			'username' => null,
+			'password' => null,
+			'client' => null,
+			'tls' => false
+		);
+		$this->assertEquals($expected, $this->CakeEmail->transportClass()->config());
+
+		$this->CakeEmail->config(array('log' => true));
+		$result = $this->CakeEmail->transportClass()->config();
+		$expected += array('log' => true);
+		$this->assertEquals($expected, $this->CakeEmail->transportClass()->config());
+
+		$this->CakeEmail->config(array('timeout' => 45));
+		$result = $this->CakeEmail->transportClass()->config();
+		$this->assertEquals(45, $result['timeout']);
 	}
 
 /**
@@ -1038,6 +1090,26 @@ class CakeEmailTest extends CakeTestCase {
 		$this->assertContains('This email was sent using the CakePHP Framework', $result['message']);
 		$this->assertContains('Message-ID: ', $result['headers']);
 		$this->assertContains('To: ', $result['headers']);
+	}
+
+/**
+ * test sending and rendering with no layout
+ *
+ * @return void
+ */
+	public function testSendRenderNoLayout() {
+		$this->CakeEmail->reset();
+		$this->CakeEmail->transport('debug');
+
+		$this->CakeEmail->from('cake@cakephp.org');
+		$this->CakeEmail->to(array('you@cakephp.org' => 'You'));
+		$this->CakeEmail->subject('My title');
+		$this->CakeEmail->config(array('empty'));
+		$this->CakeEmail->template('default', null);
+		$result = $this->CakeEmail->send('message body.');
+
+		$this->assertContains('message body.', $result['message']);
+		$this->assertNotContains('This email was sent using the CakePHP Framework', $result['message']);
 	}
 
 /**
@@ -1485,6 +1557,22 @@ class CakeEmailTest extends CakeTestCase {
 	}
 
 /**
+ * testRender method
+ *
+ * @return void
+ */
+	public function testRenderWithLayoutAndAttachment() {
+		$this->CakeEmail->emailFormat('html');
+		$this->CakeEmail->template('html', 'default');
+		$this->CakeEmail->attachments(array(CAKE . 'basics.php'));
+		$result = $this->CakeEmail->render(array());
+		$this->assertNotEmpty($result);
+
+		$result = $this->CakeEmail->getBoundary();
+		$this->assertNotEmpty($result);
+	}
+
+/**
  * testConstructWithConfigArray method
  *
  * @return void
@@ -1645,7 +1733,7 @@ class CakeEmailTest extends CakeTestCase {
 		$email->to('someone@example.com')->from('someone@example.com');
 		$result = $email->send('ってテーブルを作ってやってたらう');
 		$this->assertContains('Content-Type: text/plain; charset=ISO-2022-JP', $result['headers']);
-		$this->assertContains(mb_convert_encoding('ってテーブルを作ってやってたらう','ISO-2022-JP'), $result['message']);
+		$this->assertContains(mb_convert_encoding('ってテーブルを作ってやってたらう', 'ISO-2022-JP'), $result['message']);
 	}
 
 /**
@@ -1669,7 +1757,7 @@ class CakeEmailTest extends CakeTestCase {
 		$result = $email->send('①㈱');
 		$this->assertTextContains("Content-Type: text/plain; charset=ISO-2022-JP", $result['headers']);
 		$this->assertTextNotContains("Content-Type: text/plain; charset=ISO-2022-JP-MS", $result['headers']); // not charset=iso-2022-jp-ms
-		$this->assertTextNotContains(mb_convert_encoding('①㈱','ISO-2022-JP-MS'), $result['message']);
+		$this->assertTextNotContains(mb_convert_encoding('①㈱', 'ISO-2022-JP-MS'), $result['message']);
 	}
 
 /**
@@ -1693,7 +1781,7 @@ class CakeEmailTest extends CakeTestCase {
 		$result = $email->send('①㈱');
 		$this->assertTextContains("Content-Type: text/plain; charset=ISO-2022-JP", $result['headers']);
 		$this->assertTextNotContains("Content-Type: text/plain; charset=iso-2022-jp-ms", $result['headers']); // not charset=iso-2022-jp-ms
-		$this->assertContains(mb_convert_encoding('①㈱','ISO-2022-JP-MS'), $result['message']);
+		$this->assertContains(mb_convert_encoding('①㈱', 'ISO-2022-JP-MS'), $result['message']);
 	}
 
 	protected function _checkContentTransferEncoding($message, $charset) {

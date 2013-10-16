@@ -129,6 +129,13 @@ class MsLogTable extends SkyAppModel {
  * @var array
  */
 	public $belongsTo = array(
+                'Migration' => array(
+                    'className' => 'Sky.Migration',
+                    'foreignKey' => 'datetime',
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => ''
+                ),
 		'Site' => array(
 			'className' => 'Sky.Site',
 			'foreignKey' => 'site_id',

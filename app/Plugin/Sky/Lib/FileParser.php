@@ -20,7 +20,7 @@ define('PT_RETCODE_ID', '/\[Mml Command retCode\].*\n*\s*(-?\d*)/');
 define('PT_RETCODE', '/\[Mml Command Result\].*\n*\s*([a-zA-Z0-9]+.*[a-zA-Z0-9]*)/');
 
 define('PT_TABLE_HEADER', '/Sector ID\s+Carrier +ID\s+MSID\s+MSSTATUS\s+MSPWR\(dBm\)\s+DLCINR\(dB\)\s+ULCINR\(dB\)\s+DLRSSI\(dBm\)\s+ULRSSI\(dBm\)\s+DLFEC\s+ULFEC\s+DLREPETITIONFATCTOR\s+ULREPETITIONFATCTOR\s+DLMIMOFLAG\s+BENUM\s+NRTPSNUM\s+RTPSNUM\s+ERTPSNUM\s+UGSNUM\s+UL PER for an MS.*NI Value of the Band Where an MS Is Located.*\s+DL Traffic Rate for an MS\(byte.s\)\s+UL Traffic Rate for an MS\(byte.s\)/');
-define('PT_MS_ROW', '/(-?\d)\s*(-?\d)\s*(....-....-......)\s*([a-zA-Z0-9]*)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s+([a-zA-Z0-9]+ ? ?[a-zA-Z]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)/');
+define('PT_MS_ROW', '/(-?\d)\s*(-?\d)\s*(....-....-......)\s*([a-zA-Z0-9]*)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s+([a-zA-Z0-9]+ ? ?[a-zA-Z_]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)\s*(-?[0-9]+)/');
 
 define('PT_MS_SECTOR_ID', '/\s*Sector ID  =  /');
 define('PT_MS_CARRIER_ID', '/\s*Carrier ID  =  /');
@@ -54,6 +54,9 @@ define('PT_CONTINUE', '/To be continued.../');
 define('PT_NUMBER_RESULTS', '/\(Number of results = (\d+)\)/'); // menos la que da 1 solo resultado
 //define('PT_NUMBER_RESULTS_1ROW', '/\(Number of results = 1\)/'); // la que da solo 1 resultado
 
+
+define('PT_FILENAME_DATE', '/(\d{4}-\d{2}-\d{2})/');
+define('PT_FILENAME_TIME', '/[^\d](\d{2}-\d{2}-\d{2})/');
 
 
 define('SK_EXPLODE_PATTERN',"/\[Ne Name\]/");
@@ -158,7 +161,8 @@ class FileParser
             throw new Exception("Could not read this file: $f->name");
         }
         $content .= $nContent;
-        
+
+        // separo el archivo por sitio
         $vv = preg_match_all(SK_EXPLODE_PATTERN, $content, $mach, PREG_OFFSET_CAPTURE);
         
         $cont = array();

@@ -2,7 +2,6 @@
 
 App::uses('AppModel', 'Model');
 App::uses('File', 'Utility');
-App::uses('SettingsAppModel', 'Settings.Model');
 
 /**
  * Setting
@@ -86,7 +85,7 @@ class Setting extends SettingsAppModel {
  *
  * @return void
  */
-	public function afterSave($created) {
+	public function afterSave($created, $options = array()) {
 		$this->updateJson();
 		$this->writeConfiguration();
 	}

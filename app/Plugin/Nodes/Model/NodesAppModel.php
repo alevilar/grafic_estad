@@ -13,5 +13,5 @@ App::uses('AppModel', 'Model');
  * @link     http://www.croogo.org
  */
 class NodesAppModel extends AppModel {
-    
+
 }

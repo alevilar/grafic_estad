@@ -29,7 +29,6 @@ class CroogoAppModel extends Model {
 	public $actsAs = array(
 		'Containable',
 	);
-       
 
 /**
  * Display fields for admin_index. Use displayFields()

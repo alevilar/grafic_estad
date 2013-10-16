@@ -6,7 +6,7 @@
 		->addCrumb($this->request->data['User']['name'], array(
 			'action' => 'edit', $this->request->data['User']['id'],
 		))
-		->addCrumb(__d('croogo', 'Reset Password'), $this->here);
+		->addCrumb(__d('croogo', 'Reset Password'), '/' . $this->request->url);
 ?>
 <?php echo $this->Form->create('User', array('url' => array('action' => 'reset_password')));?>
 <div class="row-fluid">
@@ -22,7 +22,6 @@
 			<div id="reset-password" class="tab-pane">
 			<?php
 				echo $this->Form->input('id');
-                                echo $this->Form->hidden('name');
 				echo $this->Form->input('password', array('label' => __d('croogo', 'New Password'), 'value' => ''));
 				echo $this->Form->input('verify_password', array('label' => __d('croogo', 'Verify Password'), 'type' => 'password', 'value' => ''));
 			?>

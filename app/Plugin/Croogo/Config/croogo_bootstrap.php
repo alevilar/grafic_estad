@@ -7,7 +7,7 @@ Configure::write('Site.acl_plugin', 'Acl');
 /**
  * Admin theme
  */
-//Configure::write('Site.admin_theme', 'themename');
+//Configure::write('Site.admin_theme', 'sample');
 
 /**
  * Cache configuration
@@ -43,11 +43,6 @@ Configure::write('Config.language', Configure::read('Site.locale'));
 $croogoPath = CakePlugin::path('Croogo');
 App::build(array(
 	'Console/Command' => array($croogoPath . 'Console' . DS . 'Command' . DS),
-	'Controller' => array($croogoPath . 'Controller' . DS),
-	'Controller/Component' => array($croogoPath . 'Controller' . DS . 'Component' . DS),
-	'Lib' => array($croogoPath . 'Lib' . DS),
-	'Model' => array($croogoPath . 'Model' . DS),
-	'Model/Behavior' => array($croogoPath . 'Model' . DS . 'Behavior' . DS),
 	'View' => array($croogoPath . 'View' . DS),
 	'View/Helper' => array($croogoPath . 'View' . DS . 'Helper' . DS),
 ), App::APPEND);

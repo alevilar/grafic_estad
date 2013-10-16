@@ -1,8 +1,6 @@
 <?php
 
 App::uses('Component', 'Controller');
-App::uses('AuthComponent', 'Component');
-
 
 /**
  * AclFilter Component
@@ -68,10 +66,9 @@ class AclFilterComponent extends Component {
 		if (!$this->_Collection->loaded('Cookie')) {
 			$this->_Collection->load('Cookie');
 		}
-		
 		//Configure AuthComponent
 		$this->_controller->Auth->authenticate = array(
-			'all' => array(
+			AuthComponent::ALL => array(
 				'userModel' => 'Users.User',
 				'fields' => array(
 					'username' => 'username',
@@ -103,8 +100,9 @@ class AclFilterComponent extends Component {
 		} else {
 			$this->_controller->Auth->authenticate[] = 'Form';
 		}
+
 		$this->_controller->Auth->authorize = array(
-			'all' => array(
+			AuthComponent::ALL => array(
 				'actionPath' => 'controllers',
 				'userModel' => 'Users.User',
 			),
@@ -167,11 +165,6 @@ class AclFilterComponent extends Component {
 	public function auth() {
 		$this->_configure();
 		$user = $this->_controller->Auth->user();
-		// Admin role is allowed to perform all actions, bypassing ACL
-		if (!empty($user['role_id']) && $user['role_id'] == 1) {
-			$this->_controller->Auth->allow();
-			return;
-		}
 
 		// authorization for authenticated user is handled by authorize object
 		if ($user) {

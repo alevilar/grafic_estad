@@ -8,9 +8,9 @@
  //if ($this->Session->check('Auth.User.id')) return "";
  
  ?>
-<div class="login-continer">
+<div class="login-continer" style="padding: 30px;">
 	<div class="login-box">
-		<h2>Access Portal</h2>
+            <h2>User Login</h2>
 	    
 		
 		<?php echo $this->Form->create('User', array(
@@ -40,9 +40,14 @@
 						'default' => false,
 					));
 				endif;
-				echo $this->Form->button(__d('croogo', 'Log In'), array('class' => 'btn-danger'));
+                                
+				echo $this->Form->button(__d('croogo', 'Log In'), array('class' => 'btn btn-primary'));
+                                echo "&nbsp;&nbsp;";
+                                echo $this->Form->button(__d('croogo', 'Cancel'), array('class' => 'btn', 'data-dismiss' => 'modal', 'aria-hidden' => 'true'));
+                                
 				echo $this->Html->link(__d('croogo', 'Forgot password?'), array(
 					'admin' => false,
+                                        'plugin' => 'users',
 					'controller' => 'users',
 					'action' => 'forgot',
 					), array(

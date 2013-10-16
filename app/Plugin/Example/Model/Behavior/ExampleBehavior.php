@@ -29,8 +29,28 @@ class ExampleBehavior extends ModelBehavior {
 		$this->settings[$model->alias] = $config;
 	}
 
+/**
+ * afterFind callback
+ *
+ * @param Model $model
+ * @param array $results
+ * @param boolean $primary
+ * @return array
+ */
+	public function afterFind(Model $model, $results, $primary = true) {
+		if ($primary && isset($results[0][$model->alias])) {
+			foreach ($results as $i => $result) {
+				if (isset($results[$i][$model->alias]['body'])) {
+					$results[$i][$model->alias]['body'] .= '<p>[Modified by ExampleBehavior]</p>';
+				}
+			}
+		} elseif (isset($results[$model->alias])) {
+			if (isset($results[$model->alias]['body'])) {
+				$results[$model->alias]['body'] .= '<p>[Modified by ExampleBehavior]</p>';
+			}
+		}
 
-	public function beforeFind($queryData) {
-		debug($this->name);die;
+		return $results;
 	}
+
 }

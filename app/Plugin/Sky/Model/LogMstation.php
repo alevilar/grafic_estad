@@ -39,7 +39,7 @@ class LogMstation extends SkyAppModel
         'site_id' => array('type' => 'value', 'field' => 'MsLogTable.site_id'),
         'sector_id' => array('type' => 'value', 'field' => 'MsLogTable.sector_id'),
         'carrier_id' => array('type' => 'value', 'field' => 'MsLogTable.carrier_id'),
-        'datetime' => array('type' => 'value', 'field' => 'MsLogTable.site_id'),
+        'datetime' => array('type' => 'value', 'field' => 'MsLogTable.datetime'),
         'datetime_from' => array('type' => 'query', 'method' => 'filterDatetimeFrom'),
         'datetime_to' => array('type' => 'query', 'method' => 'filterDatetimeTo'),
         'retcode_id' => array('type' => 'value', 'field' => 'MsLogTable.retcode_id'),

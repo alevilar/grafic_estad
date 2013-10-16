@@ -9,7 +9,7 @@ class AroData {
 			'parent_id' => '2',
 			'model' => 'Role',
 			'foreign_key' => '1',
-			'alias' => 'admin',
+			'alias' => 'Role-admin',
 			'lft' => '3',
 			'rght' => '4'
 		),
@@ -18,7 +18,7 @@ class AroData {
 			'parent_id' => '3',
 			'model' => 'Role',
 			'foreign_key' => '2',
-			'alias' => 'registered',
+			'alias' => 'Role-registered',
 			'lft' => '2',
 			'rght' => '5'
 		),
@@ -27,7 +27,7 @@ class AroData {
 			'parent_id' => '',
 			'model' => 'Role',
 			'foreign_key' => '3',
-			'alias' => 'public',
+			'alias' => 'Role-public',
 			'lft' => '1',
 			'rght' => '6'
 		),

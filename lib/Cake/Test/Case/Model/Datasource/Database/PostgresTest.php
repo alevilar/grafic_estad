@@ -215,6 +215,7 @@ class PostgresTest extends CakeTestCase {
  *
  */
 	public function setUp() {
+		parent::setUp();
 		Configure::write('Cache.disable', true);
 		$this->Dbo = ConnectionManager::getDataSource('test');
 		$this->skipIf(!($this->Dbo instanceof Postgres));
@@ -227,6 +228,7 @@ class PostgresTest extends CakeTestCase {
  *
  */
 	public function tearDown() {
+		parent::tearDown();
 		Configure::write('Cache.disable', false);
 		unset($this->Dbo2);
 	}
@@ -338,7 +340,8 @@ class PostgresTest extends CakeTestCase {
  */
 	public function testLocalizedFloats() {
 		$restore = setlocale(LC_NUMERIC, 0);
-		setlocale(LC_NUMERIC, 'de_DE');
+
+		$this->skipIf(setlocale(LC_NUMERIC, 'de_DE') === false, "The German locale isn't available.");
 
 		$result = $this->db->value(3.141593, 'float');
 		$this->assertEquals("3.141593", $result);
@@ -738,7 +741,7 @@ class PostgresTest extends CakeTestCase {
 	}
 
 /**
- * Test the alterSchema  RENAME statements
+ * Test the alterSchema RENAME statements
  *
  * @return void
  */

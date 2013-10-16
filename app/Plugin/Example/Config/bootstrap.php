@@ -20,6 +20,12 @@ Croogo::hookBehavior('Node', 'Example.Example', array());
  */
 Croogo::hookComponent('*', 'Example.Example');
 
+/**
+ * Helper
+ *
+ * This plugin's Example helper will be loaded via NodesController.
+ */
+Croogo::hookHelper('Nodes', 'Example.Example');
 
 /**
  * Admin menu (navigation)
@@ -148,5 +154,5 @@ Croogo::hookAdminRowAction('Nodes/admin_index', 'Icon Only', array(
  *
  * Useful for adding form extra form fields if necessary.
  */
-Croogo::hookAdminTab('Nodes/admin_add', 'Example', 'Workflow.admin/workflow_tab');
-Croogo::hookAdminTab('Nodes/admin_edit', 'Example', 'Workflow.admin/workflow_tab');
+Croogo::hookAdminTab('Nodes/admin_add', 'Example', 'example.admin_tab_node');
+Croogo::hookAdminTab('Nodes/admin_edit', 'Example', 'example.admin_tab_node');
