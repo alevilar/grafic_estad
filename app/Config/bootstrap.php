@@ -60,7 +60,7 @@ CakePlugin::load('Croogo', array('bootstrap' => true));
 //CakePlugin::load('Kms', array('routes' => true));
 CakePlugin::load('DebugKit');
 
-CakePlugin::load('Utility', array('bootstrap' => true, 'routes' => true));
+//CakePlugin::load('Utility', array('bootstrap' => true, 'routes' => true));
 
 //CakePlugin::load('Sky');
 

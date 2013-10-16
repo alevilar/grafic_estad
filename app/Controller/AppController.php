@@ -8,32 +8,14 @@ App::uses('CroogoAppController', 'Croogo.Controller');
  * @package  Croogo
  * @link     http://www.croogo.org
  */
-class AppController extends CroogoAppController
-{
+App::uses('CroogoAppController', 'Croogo.Controller');
 
-    public $components = array(
-        'Croogo.Croogo',
-        //'Security',
-        'Security' => array(
-            'csrfUseOnce' => false
-        ),
-        'Auth' => array(
-            'loginRedirect' => '/dashboard',
-            'logoutRedirect' => '/'
-        ),
-        //'Auth' => array( 		
-        //        'authenticate' => array('Saml.Saml')
-        //),
-        //'Saml.Saml',
-        'Acl',
-        'Session',
-        'RequestHandler',
-        'DebugKit.Toolbar'
-    );
+/**
+ * Base Application Controller
+ *
+ * @package  Croogo
+ * @link     http://www.croogo.org
+ */
+class AppController extends CroogoAppController {
 
-    function beforeFilter(){
-        $this->Session->read('Auth.redirect'. '/dashboard');
-        $this->Auth->loginRedirect = '/dashboard';
-        return parent::beforeFilter();
-    }
 }

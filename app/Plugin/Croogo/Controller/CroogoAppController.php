@@ -5,8 +5,6 @@ App::uses('Controller', 'Controller');
 /**
  * Croogo App Controller
  *
- * PHP version 5
- *
  * @category Croogo.Controller
  * @package  Croogo.Croogo.Controller
  * @version  1.5
@@ -25,13 +23,11 @@ class CroogoAppController extends Controller {
 	public $components = array(
 		'Croogo.Croogo',
 		'Security',
-		'Auth' => array(
-                    'loginRedirect' => '/dashboard',
-                    'logoutRedirect' => '/'
-                ),
 		'Acl',
+		'Auth',
 		'Session',
 		'RequestHandler',
+                'DebugKit.Toolbar',
 	);
 
 /**
@@ -133,14 +129,14 @@ class CroogoAppController extends Controller {
  * @return void
  * @throws MissingComponentException
  */
-	public function beforeFilter() {		
+	public function beforeFilter() {
 		parent::beforeFilter();
 		$aclFilterComponent = Configure::read('Site.acl_plugin') . 'Filter';
 		if (empty($this->{$aclFilterComponent})) {
 			throw new MissingComponentException(array('class' => $aclFilterComponent));
 		}
 		$this->{$aclFilterComponent}->auth();
-		$this->RequestHandler->setContent('json', 'text/x-json');
+		$this->RequestHandler->setContent('json', array('text/x-json', 'application/json'));
 		$this->Security->blackHoleCallback = 'securityError';
 		$this->Security->requirePost('admin_delete');
 
@@ -220,7 +216,7 @@ class CroogoAppController extends Controller {
  * @see Controller::render()
  */
 	public function render($view = null, $layout = null) {
-		if (strpos($view, '/') !== false) {
+		if (strpos($view, '/') !== false || $this instanceof CakeErrorController) {
 			return parent::render($view, $layout);
 		}
 		$viewPaths = App::path('View', $this->plugin);

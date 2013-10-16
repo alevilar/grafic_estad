@@ -41,6 +41,12 @@ class SkyActivation {
                 $controller->Setting->write('Sky.tmpdir', TMP  . 'sky', array(
                     'editable' => 1, 'description' => __('path where files will be to migrate', true))
                 );
+                
+                
+                $controller->Setting->write('Sky.max_reg_export', 3000, array(
+                    'editable' => 1, 'description' => __('Cantidad de registros a exportar, muchos pueden hacer que el sistema de error al exportar', true))
+                );
+                 
                
         }
 

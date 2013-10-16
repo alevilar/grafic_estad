@@ -140,6 +140,7 @@ class PaginatorComponent extends Component {
 		}
 
 		$options = $this->mergeOptions($object->alias);
+                
 		$options = $this->validateSort($object, $options, $whitelist);
 		$options = $this->checkLimit($options);
 
@@ -392,7 +393,9 @@ class PaginatorComponent extends Component {
 					$order[$field] = $value;
 				} elseif (isset($object->{$alias}) && $object->{$alias}->hasField($field, true)) {
 					$order[$alias . '.' . $field] = $value;
-				}
+				} else {
+                                    $order["$alias.$field"] = $value;
+                                }
 			}
 			$options['order'] = $order;
 		}

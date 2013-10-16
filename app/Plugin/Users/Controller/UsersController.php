@@ -6,8 +6,6 @@ App::uses('UsersAppController', 'Users.Controller');
 /**
  * Users Controller
  *
- * PHP version 5
- *
  * @category Controller
  * @package  Croogo.Users.Controller
  * @version  1.0
@@ -191,9 +189,7 @@ class UsersController extends UsersAppController {
 				$this->Session->setFlash(__d('croogo', 'Password could not be reset. Please, try again.'), 'default', array('class' => 'error'));
 			}
 		}
-		if (empty($this->request->data)) {
-			$this->request->data = $this->User->read(null, $id);
-		}                
+		$this->request->data = $this->User->findById($id);
 	}
 
 /**
@@ -367,6 +363,14 @@ class UsersController extends UsersAppController {
 		$this->redirect(array('action' => 'login'));
 	}
 
+/**
+ * Edit
+ *
+ * @return void
+ * @access public
+ */
+	public function edit() {
+	}
 
 /**
  * Forgot
@@ -396,7 +400,7 @@ class UsersController extends UsersAppController {
 				'Users.forgot_password',
 				'reset password',
 				$this->theme,
-				compact('user','activationKey')
+				compact('user', 'activationKey')
 			);
 
 			if ($emailSent) {
@@ -464,7 +468,7 @@ class UsersController extends UsersAppController {
 			Croogo::dispatchEvent('Controller.Users.beforeLogin', $this);
 			if ($this->Auth->login()) {
 				Croogo::dispatchEvent('Controller.Users.loginSuccessful', $this);
-				$this->redirect('/dashboard');
+				$this->redirect($this->Auth->redirect());
 			} else {
 				Croogo::dispatchEvent('Controller.Users.loginFailure', $this);
 				$this->Session->setFlash($this->Auth->authError, 'default', array('class' => 'error'), 'auth');
@@ -481,9 +485,8 @@ class UsersController extends UsersAppController {
  */
 	public function logout() {
 		Croogo::dispatchEvent('Controller.Users.beforeLogout', $this);
-                $this->Auth->logout();
 		$this->Session->setFlash(__d('croogo', 'Log out successful.'), 'default', array('class' => 'success'));
-		$this->redirect('/');
+		$this->redirect($this->Auth->logout());
 		Croogo::dispatchEvent('Controller.Users.afterLogout', $this);
 	}
 

@@ -34,6 +34,8 @@ class LogMstation extends SkyAppModel
         'mimo_id' => array('type' => 'value'),
         'dl_fec_id' => array('type' => 'value'),
         'ul_fec_id' => array('type' => 'value'),
+        'sector_name' => array('type' => 'query', 'method' => 'sectorByName'),
+        'carrier_name' => array('type' => 'query', 'method' => 'carrierByName'),
         'site_id' => array('type' => 'value', 'field' => 'MsLogTable.site_id'),
         'sector_id' => array('type' => 'value', 'field' => 'MsLogTable.sector_id'),
         'carrier_id' => array('type' => 'value', 'field' => 'MsLogTable.carrier_id'),
@@ -269,7 +271,27 @@ class LogMstation extends SkyAppModel
             'order' => ''
         ),
     );
+    
 
+    public function sectorByName($data = array()){
+        $conditions = array();
+        if (!empty($data['sector_name'])) {
+            $conditions = array(
+                'Sector.name' => $data['sector_name'],
+            );
+        }
+        return $conditions;
+    }
+    public function carrierByName($data = array()){
+        $conditions = array();
+        if (!empty($data['carrier_name'])) {
+            $conditions = array(
+                'Carrier.name' => $data['carrier_name'],
+            );
+        }
+        return $conditions;
+    }
+    
     public function filterDatetimeFrom($data = array())
     {
         $conditions = array();
@@ -290,6 +312,68 @@ class LogMstation extends SkyAppModel
             );
         }
         return $conditions;
+    }
+    
+    
+    public function beforeFind($queryData)
+    {
+        parent::beforeFind($queryData);
+        
+        if ( empty($queryData['joindata']) ) {
+            // si esta vacio entonces no seguis mas...
+            return true;
+        }
+        
+        if ( empty($queryData['fields']) ) {
+            $queryData['fields'] = '*';
+        }
+        
+        $queryData['joins'] = array (
+                    array(
+                        'table' => 'sky_ms_log_tables',
+                        'alias' => 'MsLogTable',
+                        'type' => 'left',
+                        'conditions' => array('MsLogTable.id = LogMstation.ms_log_table_id'),
+                    ),
+                    array(
+                        'table' => 'sky_sites',
+                        'alias' => 'Site',
+                        'type' => 'left',
+                        'conditions' => array('Site.id = MsLogTable.site_id'),
+                    ),
+                    array(
+                        'table' => 'sky_sectors',
+                        'alias' => 'Sector',
+                        'type' => 'left',
+                        'conditions' => array('Sector.id = MsLogTable.sector_id'),
+                    ),
+                    array(
+                        'table' => 'sky_carriers',
+                        'alias' => 'Carrier',
+                        'type' => 'left',
+                        'conditions' => array('Carrier.id = MsLogTable.carrier_id'),
+                    ),
+                    array(
+                        'table' => 'sky_mimos',
+                        'alias' => 'Mimo',
+                        'type' => 'left',
+                        'conditions' => array('Mimo.id = LogMstation.mimo_id'),
+                    ),
+                    array(
+                        'table' => 'sky_fecs',
+                        'alias' => 'DlFec',
+                        'type' => 'left',
+                        'conditions' => array('DlFec.id = LogMstation.dl_fec_id'),
+                    ),
+                    array(
+                        'table' => 'sky_fecs',
+                        'alias' => 'UlFec',
+                        'type' => 'left',
+                        'conditions' => array('UlFec.id = LogMstation.ul_fec_id'),
+                    ),
+                );
+        
+        return $queryData;
     }
 
 }
