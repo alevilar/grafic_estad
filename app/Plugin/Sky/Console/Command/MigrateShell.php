@@ -139,7 +139,6 @@ class MigrateShell extends AppShell
                     foreach ( $as->msLogTableData['LogMstation'] as $ls  ) {
                         $msData['LogMstation'] = $ls;
                         $msData['LogMstation']['ms_log_table_id'] = $this->MsLogTable->id;
-                        
                         $this->MsLogTable->LogMstation->create();
                         if ( !($this->MsLogTable->LogMstation->save($msData)) ) {
                             $errorMs++;

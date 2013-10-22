@@ -14,6 +14,30 @@ class Fec extends SkyAppModel {
 	public $displayField = 'id';
         
         
+        
+/**
+ * Display fields for this model
+ *
+ * @var array
+ */
+	protected $_displayFields = array(		
+		'id',
+                'modulation',
+                'line_color',
+	);
+
+/**
+ * Edit fields for this model
+ *
+ * @var array
+ */
+	protected $_editFields = array(
+		'id',
+                'modulation',
+                'line_color',
+	);
+        
+        
         public $virtualFields = array(
             'full_name' => 'CONCAT(Fec.id, " - ", Fec.modulation)',
         );

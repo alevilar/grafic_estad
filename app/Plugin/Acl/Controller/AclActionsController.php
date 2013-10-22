@@ -160,7 +160,7 @@ class AclActionsController extends AclAppController {
 /**
  * admin_generate
  */
-	public function admin_generate() {
+	public function admin_generate() {            
 		App::uses('AclExtras', 'Acl.Lib');
 		$AclExtras = new AclExtras();
 		$AclExtras->startup($this);

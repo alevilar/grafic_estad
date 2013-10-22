@@ -26,7 +26,7 @@
                 'style',
             ));
 
-
+            
 
 
 
@@ -51,8 +51,10 @@
             ));
             ?>
 
+            
+                <?php echo $this->fetch('head'); ?>
 
-
+            
 
 
         <!--[if IE 7]><?php echo $this->Html->css('ie7'); ?><![endif]-->

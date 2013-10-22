@@ -66,10 +66,6 @@ CakePlugin::load('DebugKit');
 
 
 
-if ( CakeSession::read('Auth.User.role_id') != 1 ) {
- 	Configure::write('Site.admin_theme', Configure::read('Site.theme'));
-}
-
 //CakePlugin::load('AuditLog', array('bootstrap' => true));
 
 

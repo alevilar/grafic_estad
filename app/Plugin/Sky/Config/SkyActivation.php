@@ -46,7 +46,10 @@ class SkyActivation {
                 $controller->Setting->write('Sky.max_reg_export', 3000, array(
                     'editable' => 1, 'description' => __('Cantidad de registros a exportar, muchos pueden hacer que el sistema de error al exportar', true))
                 );
-                 
+                
+                $controller->Setting->write('Sky.refreshTime', 900, array(
+                    'editable' => 1, 'description' => __('Cantidad de segundos para refrescar la página automáticamente. (utilizado en algunos gráficos)', true))
+                );
                
         }
 
