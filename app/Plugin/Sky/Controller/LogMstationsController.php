@@ -1,4 +1,4 @@
-<?php
+    <?php
 App::uses('SkyAppController', 'Sky.Controller');
 /**
  * SkyCarriers Controller
@@ -45,8 +45,9 @@ class LogMstationsController extends SkyAppController {
         public function beforeFilter()
         {
             $this->Prg->commonProcess();
+            $conds = $this->LogMstation->parseCriteria( $this->request->query );
             $this->paginate = array(
-                'conditions' => $this->LogMstation->parseCriteria( $this->request->query ),
+                'conditions' => $conds,
                 'recursive' => -1,                
                 'limit' => 20,
                 'order' => array(
@@ -63,16 +64,26 @@ class LogMstationsController extends SkyAppController {
                  unset($this->request->query['page']);
              }
              
-             if ( empty($this->paginate['conditions']['MsLogTable.datetime'])
-                  && 
-                empty($this->paginate['conditions']['MsLogTable.datetime >='])
-                && empty($this->paginate['conditions']['MsLogTable.datetime <='])
-                ) {
-                $lastDatetime = $this->LogMstation->MsLogTable->Migration->find('first', array('order' => 'id DESC'));
-                $this->paginate['conditions']['MsLogTable.datetime'] = $lastDatetime['Migration']['id'];
-                $this->request->data['LogMstation']['datetime'] = $lastDatetime['Migration']['id'];
-            }
-            
+             
+             // Hago que se filtre por defecto en el datetime ultimo (ultima migracion)
+             if ( !in_array($this->action, array('max_usuarios_x_modulacion', 'usuarios_x_modulacion')) ) {
+                if ( empty($this->paginate['conditions']['MsLogTable.datetime'])
+                     && 
+                   empty($this->paginate['conditions']['MsLogTable.datetime >='])
+                   && empty($this->paginate['conditions']['MsLogTable.datetime <='])
+                   ) {
+                   $lastDatetime = $this->LogMstation->MsLogTable->Migration->find('first', array('order' => 'id DESC'));
+                   $this->paginate['conditions']['MsLogTable.datetime'] = $lastDatetime['Migration']['id'];
+                   $this->request->data['LogMstation']['datetime'] = $lastDatetime['Migration']['id'];
+               }
+             }
+             
+             if (!empty($this->paginate['conditions']['MsLogTable.datetime >=']) ||
+                     !empty($this->paginate['conditions']['MsLogTable.datetime <='])) {
+                  unset($this->paginate['conditions']['MsLogTable.datetime']);
+             }
+             
+                         
             return parent::beforeFilter();
         }
         
@@ -92,7 +103,7 @@ class LogMstationsController extends SkyAppController {
                 $log_mstations = $this->paginate();
             }
             $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
-            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC'));
+            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'100'));
             $mimos = $this->LogMstation->Mimo->find('list');
             $fecs = $this->LogMstation->UlFec->find('list', array( 'fields' => array('id', 'full_name')));
             $this->set(compact('datetimes','sites', 'mimos', 'fecs', 'log_mstations'));
@@ -100,10 +111,10 @@ class LogMstationsController extends SkyAppController {
         
         
         public function modulaciones() {
+            $this->paginate['limit'] = null;
             $this->paginate['joindata'] = true;
-            $this->paginate['limit'] = Configure::read('Sky.max_reg_export');
             $this->paginate['conditions'][] = 'DlFec.modulation IS NOT NULL';
-//            $this->paginate['recursive'] = 1;
+            $this->paginate['recursive'] = -1;
             $this->paginate['order'] = 'DlFec.id';
             $this->paginate['fields'] = array('DlFec.modulation', 'DlFec.id', 'DlFec.line_color', 'count(1) as cant');
             $this->paginate['group'] = array(
@@ -112,19 +123,19 @@ class LogMstationsController extends SkyAppController {
             $log_mstations = $this->LogMstation->find('all', $this->paginate);
             $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
             $mimos = $this->LogMstation->Mimo->find('list');
-            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'10'));
+            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'100'));
             $this->set(compact('datetimes','sites', 'mimos', 'log_mstations'));            
         }
         
         
         public function modulaciones_x_sitio() {
             $this->paginate['joindata'] = true;
-            $this->paginate['limit'] = Configure::read('Sky.max_reg_export');
             $this->paginate['conditions'][] = 'DlFec.modulation IS NOT NULL';
 //            $this->paginate['recursive'] = 1;
+            $this->paginate['limit'] = null;
             $this->paginate['order'] = array('Site.name', 'DlFec.id');
             $this->paginate['fields'] = array(
-                'MsLogTable.site_id',
+                'Site.id',
                 'Site.name',
                 'DlFec.modulation', 
                 'DlFec.id', 
@@ -132,34 +143,34 @@ class LogMstationsController extends SkyAppController {
                 'count(1) as cant'
                 );
             $this->paginate['group'] = array(
-                'MsLogTable.site_id',
+                'Site.id',
+                'DlFec.id',
                 'DlFec.modulation',
             );
             $log_mstations = $this->LogMstation->find('all', $this->paginate);
             $results = array();
-            $colors = array();
             foreach ( $log_mstations as $lms ) {
-                $results[$lms['MsLogTable']['site_id']]['Site'] = $lms['Site'];
-                if ( !array_key_exists('DlFec', $results[$lms['MsLogTable']['site_id']])
-                        || !is_array($results[$lms['MsLogTable']['site_id']]['DlFec'])) {
-                    $results[$lms['MsLogTable']['site_id']]['DlFec'] = array();
+                    $results[$lms['Site']['id']]['Site'] = $lms['Site'];
+                if ( !array_key_exists('DlFec', $results[$lms['Site']['id']])
+                        || !is_array($results[$lms['Site']['id']]['DlFec'])) {
+                    $results[$lms['Site']['id']]['DlFec'] = array();
                 }
                 $lms['DlFec']['cant'] = $lms[0]['cant'];                
-                $results[$lms['MsLogTable']['site_id']]['DlFec'][] = $lms['DlFec'];
+                $results[$lms['Site']['id']]['DlFec'][] = $lms['DlFec'];
             }
             $log_mstations = $results;
-//            debug($log_mstations); die;
+            
             $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
             $mimos = $this->LogMstation->Mimo->find('list');
             $dl_fecs = $this->LogMstation->DlFec->find('list', array('fields'=>array( 'DlFec.modulation', 'DlFec.line_color')));
-            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'10'));
+            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'100'));
             $this->set(compact('datetimes','sites', 'mimos', 'log_mstations', 'dl_fecs'));            
         }
         
         
         public function graf_mimo() {
+            $this->paginate['limit'] = null;
             $this->paginate['joindata'] = true;
-            $this->paginate['limit'] = Configure::read('Sky.max_reg_export');
             $this->paginate['conditions'][] = 'DlFec.modulation IS NOT NULL';
 //            $this->paginate['recursive'] = 1;
             $this->paginate['order'] = 'DlFec.id';
@@ -178,8 +189,192 @@ class LogMstationsController extends SkyAppController {
             $log_mstations = $this->LogMstation->find('all', $this->paginate);
             $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
             $mimos = $this->LogMstation->Mimo->find('list');
-            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'10'));
+            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'100'));
             $this->set(compact('datetimes','sites', 'mimos', 'log_mstations'));
+            if ($this->request->is('ajax')){
+                $this->render("ajax_graf_mimo");
+            }
         }
-
+        
+        
+        
+        public function usuarios_x_modulacion() {
+            
+            if ( empty($this->paginate['conditions']['MsLogTable.datetime'])
+                  && 
+                empty($this->paginate['conditions']['MsLogTable.datetime >='])
+                && empty($this->paginate['conditions']['MsLogTable.datetime <='])
+                ) {
+                $lastDatetime = $this->LogMstation->MsLogTable->Migration->find('first', array('order' => 'id DESC'));
+                $nuevafecha = strtotime( '-2 day' , strtotime( $lastDatetime['Migration']['id'] ) ) ;
+                $this->paginate['conditions']['MsLogTable.datetime BETWEEN ? and ?'] = array(
+                    date('Y-m-d H:i:s', $nuevafecha),
+                    $lastDatetime['Migration']['id']
+                    );
+                unset( $this->paginate['conditions']['MsLogTable.datetime'] );
+            }
+            
+            
+            $this->paginate['joindata'] = true;
+            $this->paginate['conditions'][] = 'DlFec.modulation IS NOT NULL';
+//            $this->paginate['recursive'] = 1;
+            $this->paginate['order'] = array(
+                'DlModulation.modulation_type_id',  
+                'MsLogTable.datetime ASC',
+            );
+            $this->paginate['fields'] = array(
+                'MsLogTable.datetime',
+                'DlModulation.modulation_type_id',
+                'count(1) as cant',
+            );
+            $this->paginate['group'] = array(
+                'DlModulation.modulation_type_id',  
+                'MsLogTable.datetime',
+                              
+            );
+            
+            $this->paginate['limit'] = null;
+            $log_mstations = $this->LogMstation->find('all', $this->paginate);
+            $nlog = array();
+            foreach ( $log_mstations as $lm ) {
+                $nlog[$lm['DlModulation']['modulation_type_id']][] = array(
+                    $lm['MsLogTable']['datetime'],
+                    $lm[0]['cant']
+                );
+            }
+            $log_mstations = $nlog;
+            unset($log_mstations["Series 1"]);
+            
+            // colocar los colores de cada linea
+            $mdtypes = ClassRegistry::init('Sky.ModulationType')->find('list', array('fields'=>array('id', 'line_color')));
+            $dataColor = array();
+            foreach($log_mstations as $lllmmm=>$llldata) {
+                $dataColor[] = $mdtypes[$lllmmm];
+            }
+            
+    //        $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
+//            $mimos = $this->LogMstation->Mimo->find('list');
+            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'100'));
+            $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
+            $mimos = $this->LogMstation->Mimo->find('list');
+            $this->set(compact('datetimes', 'log_mstations', 'sites', 'mimos', 'dataColor'));
+        }
+        
+        
+        public function max_usuarios_x_modulacion () {
+            
+            if ( empty($this->paginate['conditions']['MsLogTable.datetime'])
+                  && 
+                empty($this->paginate['conditions']['MsLogTable.datetime >='])
+                && empty($this->paginate['conditions']['MsLogTable.datetime <='])
+                ) {
+                $lastDatetime = $this->LogMstation->MsLogTable->Migration->find('first', array('order' => 'id DESC'));
+                $nuevafecha = strtotime( '-7 day' , strtotime( $lastDatetime['Migration']['id'] ) ) ;
+                $fechaDesde = date('Y-m-d H:i:s', $nuevafecha);
+                $fechaHasta = $lastDatetime['Migration']['id'];
+                $this->paginate['conditions']['MsLogTable.datetime BETWEEN ? and ?'] = array(
+                    $fechaDesde,
+                    $fechaHasta
+                    );
+                unset( $this->paginate['conditions']['MsLogTable.datetime'] );
+            }
+            
+            
+            if (!empty($this->paginate['conditions']['MsLogTable.datetime >='])) {
+                $fechaDesde = $this->paginate['conditions']['MsLogTable.datetime >='];
+            }
+            
+            if (!empty($this->paginate['conditions']['MsLogTable.datetime <='])) {
+                $fechaHasta = $this->paginate['conditions']['MsLogTable.datetime <='];
+            }
+//            $this->paginate['conditions'][] = 'DlFec.modulation IS NOT NULL';
+            
+            $this->paginate['limit'] = null;
+            
+            // detectar maximos, primeo buscar todos
+            $all = $this->LogMstation->find('all', array(
+                'fields' => array(
+                    'count(1) as cant', 
+                    'DATE(MsLogTable.datetime) as date',
+                    'MsLogTable.datetime'
+                ),
+                'conditions' => $this->paginate['conditions'],
+                'joindata' => true,
+                'group' => 'MsLogTable.datetime',
+                
+            ));
+            
+            // filtrar los maximos
+            $results = array();
+            foreach ($all as $aa) {
+                $auxKey = $aa[0]['date'];
+                if ( array_key_exists($auxKey, $results) ) {
+                    if ( $results[$auxKey] < $aa[0]['cant']) {
+                        $results[$auxKey] = array(
+                            'cant' => $aa[0]['cant'],
+                            'datetime' =>  $aa['MsLogTable']['datetime'],
+                        );
+                    }
+                } else {
+                    $results[$auxKey] = array(
+                        'cant' => $aa[0]['cant'],
+                        'datetime' => $aa['MsLogTable']['datetime']
+                    );
+                }
+            }
+            $resutsDatetime = array();
+            foreach($results as $r) {
+                $resutsDatetime[] = $r['datetime'];
+            }
+            
+            $this->paginate['joindata'] = true;
+             
+            $this->paginate['conditions'][] = array('MsLogTable.datetime' => $resutsDatetime);
+            
+//            $this->paginate['recursive'] = 1;
+            $this->paginate['order'] = array(
+                'DlModulation.modulation_type_id',
+                'MsLogTable.datetime',
+            );
+            $this->paginate['fields'] = array(
+                'MsLogTable.datetime',
+                'DlModulation.modulation_type_id',
+                'count(1) as cant',
+            );
+            $this->paginate['group'] = array(
+                'DlModulation.modulation_type_id',  
+                'MsLogTable.datetime',
+            );
+            
+            
+            $log_mstations = $this->LogMstation->find('all', $this->paginate);
+            $mdtypes = ClassRegistry::init('Sky.ModulationType')->find('list', array('fields'=>array('id', 'line_color')));
+            $nlog = $mdtypes;
+            foreach ($nlog as &$nnnnl) {
+                $nnnnl = array();
+            }
+            foreach ( $log_mstations as $lm ) {
+                if (array_key_exists($lm['DlModulation']['modulation_type_id'], $nlog)) {
+                    $nlog[$lm['DlModulation']['modulation_type_id']][] = array(
+                        date('Y-m-d', strtotime($lm['MsLogTable']['datetime'])),
+                        $lm[0]['cant']
+                    );
+                }
+            }
+            $log_mstations = $nlog;
+            
+            //hack para esto que aparece y no quiero que se muestre
+            unset($log_mstations["Series 1"]);
+            
+            // colocar los colores de cada linea
+            $dataColor = array();
+            foreach($log_mstations as $lllmmm=>$llldata) {
+                $dataColor[] = $mdtypes[$lllmmm];
+            }
+//            $mimos = $this->LogMstation->Mimo->find('list');
+            $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'100'));
+            $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
+            $mimos = $this->LogMstation->Mimo->find('list');
+            $this->set(compact('datetimes','log_mstations', 'sites', 'mimos', 'dataColor', 'fechaDesde', 'fechaHasta'));
+        }
 }

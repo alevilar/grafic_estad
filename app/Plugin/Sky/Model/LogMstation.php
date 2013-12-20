@@ -29,14 +29,14 @@ class LogMstation extends SkyAppModel
      * @access public
      */
     public $filterArgs = array(
-        'mstation_id' => array('type' => 'like'),
+        'mstation_id' => array('type' => 'query', 'method' => 'mstationFilter'),
         'status_id' => array('type' => 'value'),
-        'mimo_id' => array('type' => 'value'),
+        'mimo_id' => array('type' => 'query', 'method' => 'searchMimoById'),
         'dl_fec_id' => array('type' => 'value'),
         'ul_fec_id' => array('type' => 'value'),
         'sector_name' => array('type' => 'query', 'method' => 'sectorByName'),
         'carrier_name' => array('type' => 'query', 'method' => 'carrierByName'),
-        'site_id' => array('type' => 'value', 'field' => 'MsLogTable.site_id'),
+        'site_id' => array('type' => 'query', 'method' => 'searchSiteById'),
         'sector_id' => array('type' => 'value', 'field' => 'MsLogTable.sector_id'),
         'carrier_id' => array('type' => 'value', 'field' => 'MsLogTable.carrier_id'),
         'datetime' => array('type' => 'value', 'field' => 'MsLogTable.datetime'),
@@ -272,10 +272,58 @@ class LogMstation extends SkyAppModel
         ),
     );
     
+    
+    public function searchSiteById ($data = array()) {
+        $nsp = $conditions = array();
+        
+        if (isset($data['site_id'])) {
+            foreach ( $data['site_id'] as $auxsp ) {
+                $nsp[]['MsLogTable.site_id'] = $auxsp;
+            }
+            if (count($nsp) == 1) {
+                $conditions['MsLogTable.site_id'] = $nsp[0];
+            } else {
+                $conditions['OR'] = $nsp;
+            }
+        }
+        return $conditions;
+    }
+    
+    public function searchMimoById ($data = array()) {
+        $nsp = $conditions = array();
+        
+        if (isset($data['mimo_id'])) {
+            foreach ( $data['mimo_id'] as $auxsp ) {
+                $nsp[]['LogMstation.mimo_id'] = $auxsp;
+            }
+            if (count($nsp) == 1) {
+                $conditions['LogMstation.mimo_id'] = $nsp[0];
+            } else {
+                $conditions['OR'] = $nsp;
+            }
+        }
+        return $conditions;
+    }
+    
+    public function mstationFilter($data = array()) {
+        $conditions = array();
+        if (isset($data['mstation_id'])) {
+            $sp = split(",",$data['mstation_id']);
+            foreach ( $sp as $auxsp ) {
+                $nsp[]['LogMstation.mstation_id'] = trim($auxsp);
+            }
+            if (count($nsp) == 1) {
+                $conditions['LogMstation.mstation_id'] = $nsp[0];
+            } else {
+                $conditions['OR'] = $nsp;
+            }
+        }
+        return $conditions;
+    }
 
     public function sectorByName($data = array()){
         $conditions = array();
-        if (!empty($data['sector_name'])) {
+        if (isset($data['sector_name'])) {
             $conditions = array(
                 'Sector.name' => $data['sector_name'],
             );
@@ -284,7 +332,7 @@ class LogMstation extends SkyAppModel
     }
     public function carrierByName($data = array()){
         $conditions = array();
-        if (!empty($data['carrier_name'])) {
+        if (isset($data['carrier_name'])) {
             $conditions = array(
                 'Carrier.name' => $data['carrier_name'],
             );
@@ -318,7 +366,6 @@ class LogMstation extends SkyAppModel
     public function beforeFind($queryData)
     {
         parent::beforeFind($queryData);
-        
         if ( empty($queryData['joindata']) ) {
             // si esta vacio entonces no seguis mas...
             return true;
@@ -327,7 +374,7 @@ class LogMstation extends SkyAppModel
         if ( empty($queryData['fields']) ) {
             $queryData['fields'] = '*';
         }
-        
+        $queryData['recursive'] = -1;
         $queryData['joins'] = array (
                     array(
                         'table' => 'sky_ms_log_tables',
@@ -370,6 +417,18 @@ class LogMstation extends SkyAppModel
                         'alias' => 'UlFec',
                         'type' => 'left',
                         'conditions' => array('UlFec.id = LogMstation.ul_fec_id'),
+                    ),
+                    array(
+                        'table' => 'sky_modulations',
+                        'alias' => 'DlModulation',
+                        'type' => 'left',
+                        'conditions' => array('DlModulation.id = DlFec.modulation'),
+                    ),
+                    array(
+                        'table' => 'sky_modulations',
+                        'alias' => 'UlModulation',
+                        'type' => 'left',
+                        'conditions' => array('UlModulation.id = UlFec.modulation'),
                     ),
                 );
         

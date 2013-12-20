@@ -104,3 +104,27 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
+
+
+
+function crear_fechas($desde, $hasta) {
+     $arr = array();
+     $td = strtotime($desde);
+     $th = strtotime($hasta);
+     
+     if ($th < $td) {
+         $taux = $td;
+         $td = $th;
+         $th = $taux;
+     }
+     
+     $dcurr = date('Y-m-d', $td);
+     $tcurr = $td;
+     while ( $tcurr <= $th ) {
+         $arr[] = $dcurr;
+         $dcurr = date('Y-m-d', strtotime('1 day',$tcurr));
+         $tcurr = strtotime($dcurr);
+         
+     }     
+     return $arr;
+}

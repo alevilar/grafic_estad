@@ -225,7 +225,6 @@ class DataMigration{
                 $data = $this->__buildFor1Row();
             } else {
                 get_match_pattern(PT_MS_ROW, $this->raw, $matchRes);
-                
                 if ( empty($matchRes) || empty($matchRes[0]) ) {
                     return $data;
                 }
@@ -334,9 +333,10 @@ class DataMigration{
     }
 
     public function getDateTimeFromFilename () {
-        $date = get_match_pattern(PT_FILENAME_DATE, $this->fileName);
-        $time = str_replace ('-', ':', get_match_pattern(PT_FILENAME_TIME, $this->fileName));
-        return $date . " " . $time;
+        $datetime = getDateTimeFromFilename($this->fileName);
+        // coloca en cero los segundos
+        $datetime = substr_replace($datetime, '00', strlen($datetime)-2, 2);
+        return $datetime;
     }
 
     public function getSite () {

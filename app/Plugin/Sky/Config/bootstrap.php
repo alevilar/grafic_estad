@@ -137,3 +137,12 @@ function rgbRandom ( $num ) {
     }
     return $newNum;
 }
+
+
+//
+// substr_replace($time, '0', strlen($time)-2, 2);
+function getDateTimeFromFilename ($filename) {
+        $date = trim(get_match_pattern(PT_FILENAME_DATE, $filename));
+        $time = trim(str_replace ('-', ':', get_match_pattern(PT_FILENAME_TIME, $filename)));        
+        return $date . " " . $time;
+}

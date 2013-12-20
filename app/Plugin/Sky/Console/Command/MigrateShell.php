@@ -9,6 +9,7 @@ class MigrateShell extends AppShell
 
     public $uses = array('Sky.MsLogTable');
     
+    public $huboError = false;
     
     /**
      *
@@ -27,11 +28,10 @@ class MigrateShell extends AppShell
     public $fp;
     
     
-
-    public function main()
-    {    
+    public function startup () {
+        parent::startup();
         
-        $this->out("<warning>         ,==                 |)             O  O
+         $this->out("<warning>         ,==                 |)             O  O
                    (( ^\                |       ...''  |  |
                (`.  ;`. )               | .'''''  __   |  | .....''
                 `.`.uu ;`'             O .'      |--|,.|__|'
@@ -54,6 +54,11 @@ class MigrateShell extends AppShell
      (8888;        .\(__,o.
     __Y88;_________,888888P______________________________alevilar</warning>");
         
+    }
+    
+
+    public function main()
+    {    
         try {
             $tmpDir = Configure::read('Sky.tmpdir');
             if ( !file_exists($tmpDir) ) {
@@ -75,20 +80,33 @@ class MigrateShell extends AppShell
             
             $this->out("Leyendo archivo: ".$f->name);
             
-            $this->fp->leerArchivo($f);
+            try {
+                $this->fp->leerArchivo($f);
+                
+                  // contruir una Clase intermedia entre los datos del archivo y el Model de la BD
+                  // Instancia un Objeto del tipo DataMigration
+                  $this->_buildADataMig($f->name);
+
+                  // guardar en la BD
+                  $this->save_ADataMig();
+            } catch (Exception $e) {
+                $this->huboError = true;
+                $this->out('Error al leer archivo ' . $f->name . ' (' .  $e->getMessage() . ')');
+            }
             
-            // contruir una Clase intermedia entre los datos del archivo y el Model de la BD
-            // Instancia un Objeto del tipo DataMigration
-            $this->_buildADataMig($f->name);
-
-
-            // guardar en la BD
-            $this->save_ADataMig();
-
-
-            // Mostrar un poco de información final
-            $numberOfResults = $this->fp->getNumberOfResults();
-            $this->out("Cantidad de MS según archivo: $numberOfResults y cantidad de MS guardados $this->cantMsGuardados");
+            if ( !$this->huboError ) {
+                // Mostrar un poco de información final
+                $numberOfResults = $this->fp->getNumberOfResults();
+                $this->out("Cantidad de MS según archivo: $numberOfResults y cantidad de MS guardados $this->cantMsGuardados");                        
+            } else {
+                $this->out('<error>Error al al procesar</error>');
+            }
+            
+            // si paso todo bien elimino este archivo
+            $f->delete();
+            
+            // inicializo el error para la proxima vuelta
+            $this->huboError = false;
         }
 
         // cerrar los archivos
@@ -135,26 +153,31 @@ class MigrateShell extends AppShell
             if ( !$exists ) {
                 $this->MsLogTable->create();
                 if ($this->MsLogTable->save($as->msLogTableData)) {
-                    $saved++;                    
+                    $saved++;    
+                    
+                    $msData = array();
                     foreach ( $as->msLogTableData['LogMstation'] as $ls  ) {
-                        $msData['LogMstation'] = $ls;
-                        $msData['LogMstation']['ms_log_table_id'] = $this->MsLogTable->id;
-                        $this->MsLogTable->LogMstation->create();
-                        if ( !($this->MsLogTable->LogMstation->save($msData)) ) {
-                            $errorMs++;
-                            CakeLog::write(implode($this->MsLogTable->LogMstation->validationErrors, '\n'));
-                            debug($this->MsLogTable->LogMstation->validationErrors);
-                            debug($msData);die;
-                        } else {                            
-                            $saveMs++;
-                        }
+                        $ls['ms_log_table_id'] = $this->MsLogTable->id;
+                        $msData[]['LogMstation'] = $ls;
                     }
+                    
+                    if ( !($this->MsLogTable->LogMstation->saveAll($msData)) ) {
+                        $this->huboError = true;
+                        $errorMs++;
+                        $this->err($this->MsLogTable->LogMstation->validationErrors);
+                        debug($this->MsLogTable->LogMstation->validationErrors);
+                        continue;
+                    } else {                            
+                        $saveMs++;
+                    }
+
                 } else {
-                    debug($as->msLogTableData);
+                    $this->huboError = true;
+                    $this->err($this->MsLogTable->LogMstation->validationErrors);
                     debug($this->MsLogTable->validationErrors);
-                    CakeLog::write(implode($this->MsLogTable->validationErrors, '\n'));
                     
                     $errores++;
+                    continue;
                 }
             } else {
                 $existente++;

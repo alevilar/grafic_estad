@@ -1,7 +1,7 @@
 <?php
 echo $this->Form->create('LogMstation', array(
     'type' => 'get',
-    'class' => 'form'
+    'class' => 'form',
     ));
 ?>
 <div class="well">
@@ -42,7 +42,9 @@ echo $this->Form->create('LogMstation', array(
     </div>
     <div class="span2">
         <?php
-        echo $this->Form->input('site_id', array('empty'=>'Seleccione', 'label' => 'Sitio'));
+        if (!empty($sites)) {
+            echo $this->Form->input('site_id', array('label' => 'Sitio', 'multiple' => true));
+        }
         echo $this->Form->hidden('page', array('value'=>1));
         ?>
             <div class="span2">
@@ -54,17 +56,20 @@ echo $this->Form->create('LogMstation', array(
     </div>
     <div class="span2">
         <?php
-        echo $this->Form->input('mstation_id', array('label' => 'MSI', 'type'=>'text', 'required'=>false));
+        echo $this->Form->input('mstation_id', array(
+            'label' => 'MSI <span class="muted small">(Separar por comas para buscar varios al mismo tiempo)</span>', 
+            'type'=>'text', 
+            'required'=>false));
         if (!empty($mimos)) {
-            echo $this->Form->input('mimo_id', array('empty'=>'Seleccione', 'label' => 'Mimo'));
+            echo $this->Form->input('mimo_id', array('label' => 'Mimo', 'multiple' => true));
         }
         ?>
     </div>
     <div class="span2">
         <?php
         if ( !empty($fecs) ) {
-            echo $this->Form->input('dl_fec_id', array('empty'=>'Seleccione', 'options'=> $fecs, 'label' => 'DL FEC'));
-            echo $this->Form->input('ul_fec_id', array('empty'=>'Seleccione', 'options'=> $fecs, 'label' => 'UL FEC'));
+            echo $this->Form->input('dl_fec_id', array( 'multiple' => true, 'options'=> $fecs, 'label' => 'DL FEC'));
+            echo $this->Form->input('ul_fec_id', array( 'multiple' => true, 'options'=> $fecs, 'label' => 'UL FEC'));
         }
         ?>
     </div>

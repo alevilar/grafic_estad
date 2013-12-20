@@ -1,7 +1,7 @@
 /*rules for the plot target div.  These will be cascaded down to all plot elements according to css rules*/
 .jqplot-target {
     position: relative;
-    color: #666666;
+    color: #000000;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size: 1em;
 /*    height: 300px;
@@ -117,12 +117,12 @@
 
 .jqplot-meterGauge-tick {
     font-size: 0.75em;
-    color: #999999;
+    color: #000000;
 }
 
 .jqplot-meterGauge-label {
     font-size: 1em;
-    color: #999999;
+    color: #000000;
 }
 
 table.jqplot-table-legend {
@@ -246,7 +246,7 @@ div.jqplot-bubble-label {
 /*    background: rgba(90%, 90%, 90%, 0.15);*/
     padding-left: 2px;
     padding-right: 2px;
-    color: rgb(20%, 20%, 20%);
+    color: #000000;
 }
 
 div.jqplot-bubble-label.jqplot-bubble-label-highlight {

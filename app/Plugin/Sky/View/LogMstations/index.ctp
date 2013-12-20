@@ -33,11 +33,17 @@
 
 <?php 
 $urlLinda = '';
+
 foreach ($this->params->query as $k=>$d) {
-    $urlLinda .= "$k=$d&";  
+    if ( is_array($d) ){
+        foreach ($d as $v) {
+            $urlLinda .= $k."[]=$v&";  
+        }
+    } else {
+        $urlLinda .= "$k=$d&";  
+    }
 }
 $urlLinda = trim($urlLinda, '&');
-
 $maxReg = Configure::read('Sky.max_reg_export');
 if ($maxReg) {
     $btnLinkText = "  Descargar Planilla Excel ($maxReg registros máximo)";

@@ -1,10 +1,11 @@
 <?php
 
 // Basic
+/*
 CroogoRouter::connect('/', array(
 	'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'promoted'
 ));
-
+*/
 CroogoRouter::connect('/promoted/*', array(
 	'plugin' => 'nodes', 'controller' => 'nodes', 'action' => 'promoted'
 ));
