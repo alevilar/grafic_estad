@@ -26,6 +26,7 @@ echo $this->Html->css('/jqplot/jquery.jqplot.min');
 echo $this->Html->script(array(
     '/jqplot/jquery.jqplot.min',
     '/jqplot/plugins/jqplot.dateAxisRenderer.min',
+    '/jqplot/plugins/jqplot.pointLabels.min',
     '/jqplot/plugins/jqplot.highlighter.min',
     '/jqplot/plugins/jqplot.cursor.min',
 ));
@@ -75,8 +76,9 @@ foreach ( $log_mstations as $k => $v ) {
         var labels = <?php echo json_encode($legend)?>;
         var fechaDesde = '<?php echo date('Y-m-d', strtotime($fechaDesde));?>';
         var fechaHasta = '<?php echo date('Y-m-d', strtotime($fechaHasta));?>';
-        console.debug("desde %o hasta %o", fechaDesde, fechaHasta);
-        console.debug(data);
+        var labels64 = <?php echo json_encode($labels64)?>;
+        var labels16 = <?php echo json_encode($labels16)?>;
+        var labelsqpsk = <?php echo json_encode($labelsqpsk)?>;
         var plot1 = $.jqplot('chart1', data, {
           title: {
             text: 'Max. Cant. de Usuarios según Modulación',
@@ -84,6 +86,17 @@ foreach ( $log_mstations as $k => $v ) {
             fontFamily: "'Trebuchet MS',Arial,Helvetica,sans-serif",
             fontSize: "19.2px",
             textAlign: "center"
+        },
+        seriesDefaults: {
+            showMarker:true, 
+            pointLabels:{ 
+                show:true,
+                location:'s', 
+                ypadding:3,
+                stackedValue: true
+            },
+            renderer: $.jqplot.BarRenderer,
+            rendererOptions:{barMargin: 25}, 
         },
         seriesColors: dataColor,
         highlighter: {
@@ -94,7 +107,7 @@ foreach ( $log_mstations as $k => $v ) {
             show: false
           },
           axes:{
-              xaxis:{
+              xaxis:{                  
                   min: fechaDesde,
                   max: fechaHasta,
                   renderer:$.jqplot.DateAxisRenderer,
@@ -108,7 +121,23 @@ foreach ( $log_mstations as $k => $v ) {
               show: true,
               labels: <?php echo json_encode($legend)?>
           },
-          series:[{lineWidth:4, markerOptions:{style:'square'}}]
+          series:[{            
+            pointLabels:{
+                show: true,
+                labels: labels64
+              }
+            }, {
+                pointLabels:{
+                show: true,
+                labels: labels16
+              }
+            }, {
+                pointLabels:{
+                show: true,
+                labels: labelsqpsk
+              }
+            }
+            ]
         });
     });
 

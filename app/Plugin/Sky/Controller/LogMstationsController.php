@@ -235,7 +235,11 @@ class LogMstationsController extends SkyAppController {
             
             $this->paginate['limit'] = null;
             $log_mstations = $this->LogMstation->find('all', $this->paginate);
-            $nlog = array();
+            $nlog = array(
+                '64QAM' => array(),
+                '16QAM' => array(),
+                'QPSK' => array()
+            );
             foreach ( $log_mstations as $lm ) {
                 $nlog[$lm['DlModulation']['modulation_type_id']][] = array(
                     $lm['MsLogTable']['datetime'],
@@ -303,21 +307,22 @@ class LogMstationsController extends SkyAppController {
                 'group' => 'MsLogTable.datetime',
                 
             ));
-            
             // filtrar los maximos
             $results = array();
+            
             foreach ($all as $aa) {
                 $auxKey = $aa[0]['date'];
+                $auxCant = (int)$aa[0]['cant'];
                 if ( array_key_exists($auxKey, $results) ) {
-                    if ( $results[$auxKey] < $aa[0]['cant']) {
+                    if ( $results[$auxKey]['cant'] < $auxCant) {
                         $results[$auxKey] = array(
-                            'cant' => $aa[0]['cant'],
+                            'cant' => $auxCant,
                             'datetime' =>  $aa['MsLogTable']['datetime'],
                         );
                     }
                 } else {
                     $results[$auxKey] = array(
-                        'cant' => $aa[0]['cant'],
+                        'cant' => $auxCant,
                         'datetime' => $aa['MsLogTable']['datetime']
                     );
                 }
@@ -348,7 +353,10 @@ class LogMstationsController extends SkyAppController {
             
             
             $log_mstations = $this->LogMstation->find('all', $this->paginate);
-            $mdtypes = ClassRegistry::init('Sky.ModulationType')->find('list', array('fields'=>array('id', 'line_color')));
+            $mdtypes = ClassRegistry::init('Sky.ModulationType')->find('list', array(
+                'fields'=> array('id', 'line_color'), 
+                'order' => 'ModulationType.order'
+                ));
             $nlog = $mdtypes;
             foreach ($nlog as &$nnnnl) {
                 $nnnnl = array();
@@ -371,10 +379,20 @@ class LogMstationsController extends SkyAppController {
             foreach($log_mstations as $lllmmm=>$llldata) {
                 $dataColor[] = $mdtypes[$lllmmm];
             }
+            
+            $labels = array();
+            $cantTot = count($log_mstations['16QAM']);
+            $i = -1;
+            while ($i++ < $cantTot-1) {
+                $sumaTot = $log_mstations['16QAM'][$i][1] + $log_mstations['64QAM'][$i][1] + $log_mstations['QPSK'][$i][1];
+                $labels64[$i] = round($log_mstations['64QAM'][$i][1]/$sumaTot*10000)/100 . '%';
+                $labels16[$i] = round($log_mstations['16QAM'][$i][1]/$sumaTot*10000)/100 . '%';
+                $labelsqpsk[$i] = round($log_mstations['QPSK'][$i][1]/$sumaTot*10000)/100 . '%';
+            }
 //            $mimos = $this->LogMstation->Mimo->find('list');
             $datetimes = $this->LogMstation->MsLogTable->Migration->find('list', array('fields' => array('id', 'id'), 'order' => 'id DESC', 'limit'=>'100'));
             $sites = $this->LogMstation->MsLogTable->Site->find('list'); 
             $mimos = $this->LogMstation->Mimo->find('list');
-            $this->set(compact('datetimes','log_mstations', 'sites', 'mimos', 'dataColor', 'fechaDesde', 'fechaHasta'));
+            $this->set(compact('labels64','labels16', 'labelsqpsk', 'datetimes','log_mstations', 'sites', 'mimos', 'dataColor', 'fechaDesde', 'fechaHasta'));
         }
 }

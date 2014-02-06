@@ -13,5 +13,7 @@ class ModulationType extends SkyAppModel {
  */
 	public $displayField = 'id';
         
+        
+        public $order = array('ModulationType.order');
 
 }

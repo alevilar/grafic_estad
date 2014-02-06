@@ -11,6 +11,9 @@ class MigrateShell extends AppShell
     
     public $huboError = false;
     
+    private $folderHistoricosName = '/historicos';
+
+
     /**
      *
      * @var array of DataMigration
@@ -62,7 +65,14 @@ class MigrateShell extends AppShell
         try {
             $tmpDir = Configure::read('Sky.tmpdir');
             if ( !file_exists($tmpDir) ) {
-                throw new Exception('No existe o no se puede leer en '.$tmpDir);
+                if ( !mkdir($tmpDir) ) {
+                    throw new Exception('No existe la carpeta temporal '.$tmpDir);
+                }
+            }
+            if ( !file_exists($tmpDir.$this->folderHistoricosName) ) {
+                if ( !mkdir($tmpDir.'/historicos') ) {
+                    throw new Exception('No existe la carpeta de historicos '.$tmpDir.$this->folderHistoricosName);
+                }
             }
             $this->fp = new FileParser( $tmpDir  );
         } catch (Exception $exc) {
@@ -103,6 +113,7 @@ class MigrateShell extends AppShell
             }
             
             // si paso todo bien elimino este archivo
+            $f->copy($tmpDir.$this->folderHistoricosName."/".$f->name);
             $f->delete();
             
             // inicializo el error para la proxima vuelta
