@@ -176,7 +176,6 @@ class MigrateShell extends AppShell
                         $this->huboError = true;
                         $errorMs++;
                         $this->err($this->MsLogTable->LogMstation->validationErrors);
-                        debug($this->MsLogTable->LogMstation->validationErrors);
                         continue;
                     } else {                            
                         $saveMs++;
@@ -184,9 +183,7 @@ class MigrateShell extends AppShell
 
                 } else {
                     $this->huboError = true;
-                    $this->err($this->MsLogTable->LogMstation->validationErrors);
-                    debug($this->MsLogTable->validationErrors);
-                    
+                    $this->err($this->MsLogTable->validationErrors);
                     $errores++;
                     continue;
                 }

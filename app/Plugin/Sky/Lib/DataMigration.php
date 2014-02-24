@@ -180,8 +180,7 @@ class DataMigration{
     }
     
     
-    private function __buildFor1Row () {
-        
+    private function __buildFor1Row () {        
             $lFields = array(
                 'sector_id' => get_match_pattern(PT_MS_SECTOR_ID, $this->raw),
                 'carrier_id' => get_match_pattern(PT_MS_CARRIER_ID, $this->raw),
@@ -207,7 +206,14 @@ class DataMigration{
                 'dl_traffic_rate' => get_match_pattern(PT_MS_DLTRAFFICRATE, $this->raw),
                 'ul_traffic_rate' => get_match_pattern(PT_MS_ULTRAFFICRATE, $this->raw),
             );
-            $data[] = $lFields;
+            
+            $nfields= array();
+            foreach ($lFields as $fname=>$ff) {
+                if (!empty($ff)) {
+                    $nfields[$fname] = $ff;
+                }
+            }
+            $data[] = $nfields;
             return $data;
     }
     

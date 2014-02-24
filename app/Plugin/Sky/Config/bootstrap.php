@@ -91,13 +91,13 @@ function get_num_of_reports($rawline) {
  * @return null
  */
 function get_match_pattern($pattern, $string, &$matches = null) {
-    
-    if ( preg_match_all($pattern, $string, $matches) ) {  
+    $ret = null;
+    if ( preg_match_all($pattern, $string, $matches) ) { 
         if ( !empty($matches[1]) && !empty($matches[1][0])) {
-                return trim($matches[1][0]);
+                $ret =  trim($matches[1][0]);
         }        
     }
-    return null;
+    return $ret;
 }
 
 
