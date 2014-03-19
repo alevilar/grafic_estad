@@ -147,6 +147,8 @@ class MigrateShell extends AppShell
 
             // realiza algunas verficaciones y tira exception si encuentra algo mal
             $as->checkData();
+            
+            $as->limpiarMACDuplicadas();
                         
             $site_id = $this->_save_data_sitio($as);
             $sector_id = $this->_save_data_sector_de_sitio($as, $site_id);
@@ -157,6 +159,9 @@ class MigrateShell extends AppShell
             $as->msLogTableData['MsLogTable']['sector_id'] = $sector_id;
             $as->msLogTableData['MsLogTable']['carrier_id'] = $carrier_id;
             $as->msLogTableData['MsLogTable']['retcode_id'] = $retcode_id;
+            
+            $as->calcularYCompletarTotales();
+            
             $exists = $this->MsLogTable->find('count', array(
                 'conditions' =>  $as->msLogTableData['MsLogTable'],
                 'recursive'  => -1,

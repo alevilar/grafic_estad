@@ -1,9 +1,34 @@
 <?php
+    echo $this->Html->script('/bootstrap_datetimepicker/js/bootstrap-datetimepicker.min');
+    echo $this->Html->css('/bootstrap_datetimepicker/css/bootstrap-datetimepicker.min');
+ ?>
+
+<?php
 echo $this->Form->create('LogMstation', array(
     'type' => 'get',
     'class' => 'form',
     ));
 ?>
+
+<style>
+    select{
+        width: 100%;
+    }
+    
+    input{
+        width: 100%;
+    }
+    
+    .date input{
+        width: auto;
+    }
+    
+    .bootstrap-datetimepicker-widget{
+        top: 400px;
+    }
+</style>
+
+
 <div class="well">
     <div class="span2">
         <?php
@@ -86,3 +111,18 @@ echo $this->Form->end();
 ?>
 
 <div class="clearfix"></div>
+
+
+
+
+<script type="text/javascript">
+    $('#datetimepicker1').datetimepicker({
+        format: 'yyyy-MM-dd hh:mm:ss',
+        language: 'pt-BR'
+    });
+    
+    $('#datetimepicker2').datetimepicker({
+        format: 'yyyy-MM-dd hh:mm:ss',
+        language: 'pt-BR'
+    });
+</script>

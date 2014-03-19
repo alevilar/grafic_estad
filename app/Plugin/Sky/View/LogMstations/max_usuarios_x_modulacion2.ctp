@@ -23,12 +23,13 @@ echo $this->Html->css('/jqplot/jquery.jqplot.min');
 
 <?php
 echo $this->Html->script(array(
-    '/jqplot/jquery.jqplot',
-    '/jqplot/plugins/jqplot.dateAxisRenderer',
-    '/jqplot/plugins/jqplot.pointLabels.min',
-//        '/jqplot/plugins/jqplot.canvasTextRenderer.min',
-    '/jqplot/plugins/jqplot.highlighter.min',
-    '/jqplot/plugins/jqplot.cursor.min',
+    '/jqplot/jquery.jqplot.min',
+//    '/jqplot/plugins/jqplot.dateAxisRenderer.min',
+    '/jqplot/plugins/jqplot.barRenderer.min',
+    '/jqplot/plugins/jqplot.categoryAxisRenderer.min',
+    '/jqplot/plugins/jqplot.canvasTextRenderer.min',
+    '/jqplot/plugins/jqplot.canvasAxisTickRenderer.min',
+    '/jqplot/plugins/jqplot.pointLabels',
 ));
 ?>
 
@@ -116,31 +117,7 @@ foreach ($log_mstations as $k => $v) {
     $legend[] = $k;
     $vals[] = $v;
 }
-
-
 ?>
-<table class="table">
-    <thead>
-        <tr>
-            <?php
-            foreach ($todasfechas as $f) {
-                echo "<th>".date('d M',strtotime($f))."</th>";
-            }
-            ?>
-            <th></th>
-        </tr>
-    </thead>
-    <tr>
-        <?php
-        foreach ($todasfechas as $f) {
-            echo "<td>&nbsp;";
-            echo array_key_exists($f,$fechas) ? $fechas[$f] : '';
-            echo "</td>";
-        }
-        ?>
-    </tr>
-</table>
-
 
 <div id="chart1" style="height: 600px"></div>
 
@@ -148,11 +125,11 @@ foreach ($log_mstations as $k => $v) {
 <style type="text/css">
    
     #chart1 .jqplot-point-label {
-        font-size: 12px;
+        font-size: 16pt;
     }    
     
     table.jqplot-table-legend, table.jqplot-cursor-legend{
-        margin-top: -105px;
+        margin-top: -95px;
     }
 </style>
 
@@ -160,53 +137,109 @@ foreach ($log_mstations as $k => $v) {
 
     $(document).ready(function() {
         var data = <?php echo json_encode($vals, JSON_NUMERIC_CHECK) ?>;
+        var sumaTotales = <?php echo json_encode($sumasTotales, JSON_NUMERIC_CHECK) ?>;
+        var ticks = <?php echo json_encode($aFechas) ?>;
         var dataColor = <?php echo json_encode($dataColor) ?>;
         var legends = <?php echo json_encode($legend); ?>;
         var fechaDesde = '<?php echo date('Y-m-d', strtotime($fechaDesde)); ?>';
         var fechaHasta = '<?php echo date('Y-m-d', strtotime($fechaHasta)); ?>';
-       
+        var labels64 = <?php echo json_encode($labels['64QAM']) ?>;
+        var labels16 = <?php echo json_encode($labels['16QAM']) ?>;
+        var labelsqpsk = <?php echo json_encode($labels['QPSK']) ?>;
+        data.push(sumaTotales);
+        dataColor.push("#848484");
+        legends.push('Totales');
+        
+        data = [labelsqpsk, labels16, labels64, sumaTotales];
+
         var plot1 = $.jqplot('chart1', data, {
             title: {
                 text: 'Max. Cant. de Usuarios según Modulación',
                 textColor: "rgb(102, 102, 102)",
                 fontFamily: "'Trebuchet MS',Arial,Helvetica,sans-serif",
-                fontSize: "19.2px",
+                fontSize: "26px",
                 textAlign: "center"
             },
-            seriesDefaults: {
-                showMarker:true, 
-                pointLabels:{ 
-                    show:true,
-                    location:'nw', 
-                    ypadding:3,
-                    stackedValue: true
-                },
-                renderer: $.jqplot.BarRenderer,
-                rendererOptions:{barMargin: 25}, 
-            },
+            stackSeries: true,
             seriesColors: dataColor,
-            highlighter: {
-                show: true,
-                sizeAdjust: 7.5
-              },
-              cursor: {
-                show: false
-              },
-            axes:{
-              xaxis:{                  
-                  min: fechaDesde,
-                  max: fechaHasta,
-                  renderer:$.jqplot.DateAxisRenderer,
-                  tickInterval: '1 day',
-                  tickOptions: {
-                        formatString: '%#d&nbsp;%b' //formato de la fecha
-                  }
-              }
-          },
+            seriesDefaults: {
+                fill: true,
+                renderer: $.jqplot.BarRenderer,
+                rendererOptions: {
+                    fillToZero: true,
+                    varyBarColor: true
+                },
+//                rendererOptions:{
+//                    barMargin: 25
+//                }, 
+                pointLabels: {
+                    show: true,
+                    edgeTolerance: 5,
+//                    stackedValue: true,
+                    location: 's',
+//                    ypadding:3
+                }
+            },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    ticks: ticks                    
+                },
+                x2axis: {
+                    renderer: $.jqplot.CategoryAxisRenderer
+                },
+                yaxis: {
+                    autoscale: true,
+                    pad: 0,
+//                    max: 100
+                },
+                y2axis: {
+                    autoscale: true,
+//                    pad: 0
+                }
+            },
             legend: {
                 show: true,
                 labels: legends
-            }
+            },
+            series: [
+                {
+                    pointLabels: {
+                        show: true,
+                        location: 'w',
+                        legend: labelsqpsk,
+                        formatString: function(){return '%s%';}()
+                    }
+                },
+                {
+                    pointLabels: {
+                        show: true,
+                        location: 'w',
+                        legend: labels16,
+                        formatString: function(){return '%s%';}()
+                    }
+                },
+                {
+                    pointLabels: {
+                        show: true,
+                        location: 'w',
+                        legend: labels64,
+                        formatString: function(){return '%s%';}()
+                    }
+                },
+                {
+                    renderer: $.jqplot.LineRenderer,
+                    xaxis: 'xaxis',
+                    yaxis: 'y2axis',
+                    fill: false,
+                    pointLabels: {
+                        show: true,
+                        stackedValue: true,
+                        location: 'ne',
+                        ypadding: 10
+                    }
+                }
+            ]
         });
     });
 

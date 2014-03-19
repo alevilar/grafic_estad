@@ -59,6 +59,7 @@ class DataMigration{
             'datetime' => null,
             'ms_datetime' => null,
             'om_id' => null,
+            'total_ms' => null,
             'comand_number' => null,
             'retcode_id' => null, // mandatory            
         ),
@@ -79,7 +80,7 @@ class DataMigration{
     public $msFields = array(
         'sector_id',
         'carrier_id',
-        'mstation_id',
+        'mstation_id',        
         'status_id',
         'mstation_pwr',
         'dl_cinr',
@@ -101,6 +102,8 @@ class DataMigration{
         'dl_traffic_rate',
         'ul_traffic_rate',
     );
+    
+    
     
     /**
      * Convierte los parametros en un objecto temporal que 
@@ -126,6 +129,81 @@ class DataMigration{
         return true;
     }
     
+    
+    /**
+     * Computa los campos calculados de la tabla MsLogTable
+     */
+    public function calcularYCompletarTotales() {
+        $this->msLogTableData['MsLogTable']['total_ms'] = count($this->msLogTableData['LogMstation']);
+            
+            $sumapsqk = $suma16qam = $suma64qam = 0;
+            $maxRepetidas = array();
+            foreach ( $this->msLogTableData['LogMstation'] as $k=>$lmtemp ) {
+                if ( $lmtemp['dl_fec_id'] == 13 || $lmtemp['dl_fec_id'] == 15 ) {
+                    $sumapsqk++;
+                }
+                if ( $lmtemp['dl_fec_id'] == 19 || $lmtemp['dl_fec_id'] == 20 || $lmtemp['dl_fec_id'] == 21 ) {
+                    $suma64qam++;
+                }
+                if ( $lmtemp['dl_fec_id'] == 16 || $lmtemp['dl_fec_id'] == 17 ) {
+                    $suma16qam++;
+                }
+            }
+            $this->msLogTableData['MsLogTable']['total_ms_qpsk'] = $sumapsqk;
+            $this->msLogTableData['MsLogTable']['total_ms_16qam'] = $suma16qam;
+            $this->msLogTableData['MsLogTable']['total_ms_64qam'] = $suma64qam;
+    }
+    
+    
+    /**
+     * Las MAC duplicadas son las que tienen la misma MAC, pero el resto de 
+     * los campos difieren para la misma muestra
+     */
+    public function limpiarMACDuplicadas()
+    {
+        $maxRepetidas = array();
+        $keysParaUnset = array();
+        $mappedKeys = array();
+        foreach ($this->msLogTableData['LogMstation'] as $k => $lmtemp) {
+            $curMAC = $lmtemp['mstation_id'];
+            if ( !array_key_exists($curMAC, $maxRepetidas) ) {
+                $maxRepetidas[$curMAC] = array();
+                $mappedKeys[$curMAC] = array();
+            }
+            $maxRepetidas[$curMAC][] = $lmtemp;
+            $mappedKeys[$curMAC][] = $k;
+        }
+        
+        
+        foreach ($maxRepetidas as $mac=>$msConEstaMac) {
+            // coloco las keys chequeadas para no tenerlas en cuenta y no borrarlas luego
+            $chequeadas = array();
+            if ( count($msConEstaMac) > 1 ) {
+                foreach ($msConEstaMac as $msk1=>$msd1) {
+                    $duplicada = true; 
+                    foreach ($msConEstaMac as $msk2=>$msd2) {
+                        if ( $msk2!= $msk1 ) {
+                            if ( !in_array($msk1, $chequeadas) ) {
+                                foreach( $this->msFields as $mfield) {
+                                    if ( $msd2[$mfield] != $msd1[$mfield] ) {
+                                        // es clonada, // clonada es que cuando tienen la misma MAC pero diferente el resto
+                                        $duplicada = false;
+                                    }
+                                }
+                                if ( $duplicada ) {
+                                    // eliminar registro del array
+                                    unset( $this->msLogTableData['LogMstation'][$mappedKeys[$mac][$msk2]] );
+                                    unset( $maxRepetidas[$mac][$msk2] );                                
+                                    $chequeadas[] = $msk2;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private function checkCantMs () {
         $cantMs = count($this->getMs());
         $cantResults = $this->getNumberOfResults();
