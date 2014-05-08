@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <link rel="icon" href="<?php echo $this->Html->url('/login/images/icons/favicon.png') ?>">
+        
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <!--[if lte IE 7 ]><html id="ie7" lang="en"> <![endif]-->
             <title><?php echo strip_tags($title_for_layout); ?> &raquo; <?php echo strip_tags(Configure::read('Site.title')); ?></title>

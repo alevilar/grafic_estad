@@ -29,7 +29,7 @@ class CroogoAppController extends Controller {
 		'Auth',
 		'Session',
 		'RequestHandler',
-            'DebugKit.Toolbar'
+                'DebugKit.Toolbar'
 	);
 
 /**

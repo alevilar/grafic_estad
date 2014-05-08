@@ -63,4 +63,18 @@ class Sector extends SkyAppModel {
         public $hasMany = array(
 		'Sky.Carrier',
 	);
+
+
+
+	public function getSite ( $id = null) {
+		if (empty($id)) {
+			$id = $this->id;
+		}
+		$this->contain('Site');
+		$sector = $this->read(null, $id);
+		if (!empty($sector)) {
+			return $sector['Site'];
+		}
+		return false;
+	}        
 }

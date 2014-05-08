@@ -52,4 +52,17 @@ class Carrier extends SkyAppModel {
 	public $belongsTo = array(
 		'Sky.Sector',
 	);
+
+
+	public function getSite ( $carrier_id = null) {
+		if (empty($carrier_id)) {
+			$carrier_id = $this->id;
+		}
+		$this->contain('Sector.Site');
+		$carrier = $this->read(null, $carrier_id);
+		if (!empty($carrier)) {
+			return $carrier['Sector']['Site'];
+		}
+		return false;
+	}
 }

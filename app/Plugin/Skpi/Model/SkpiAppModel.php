@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model');
  * Sky App Model
  *
  */
-class SkyAppModel extends AppModel {
+class SkpiAppModel extends AppModel {
     
     public $tablePrefix = 'sky_';
 

@@ -1,0 +1,15 @@
+{
+	"name": "Skpi",
+	"description": "Sky Kpi Plugin",
+        
+        "author": "Ale Vilar",
+        "authorEmail": "alevilar@gmail.com",
+        "authorUrl": "http://alevilar.com",
+
+        "dependencies": {
+          "plugins": [
+            "Sky"              
+              ]
+        }
+
+}
