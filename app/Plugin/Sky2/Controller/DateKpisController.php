@@ -1,8 +1,8 @@
 <?php
-App::uses('SkpiAppController', 'Skpi.Controller');
+App::uses('SkyAppController', 'Sky.Controller');
 
 
-class DateKpisController extends SkpiAppController {
+class DateKpisController extends SkyAppController {
 	
 
 	public $helpers = array(
@@ -160,6 +160,67 @@ class DateKpisController extends SkpiAppController {
 		$this->set('kpis', $kpis );
 	}
 
+
+	/**
+	*  KPI por sitio
+	**/
+	public function by_kpi ( $fieldName , $dateFrom = null, $dateTo = null) {	
+		
+
+		$this->Prg->commonProcess();
+        $conditions = $this->DateKpi->parseCriteria($this->request->query);
+
+
+        if ( empty( $conditions['DateKpi.date <='] )) {
+			$conditions['DateKpi.date <='] = date('Y-m-d', strtotime('now'));
+		}
+
+		if ( empty( $conditions['DateKpi.date >='] )) {
+			$conditions['DateKpi.date >='] = date('Y-m-d', strtotime('-1 week'));
+		}
+        
+		
+
+		if ( empty($fieldName) ) {			
+			throw new Exception("Se debe especificar un nombre de KPI");		
+		}
+		if ( !array_key_exists($fieldName, $this->DateKpi->kpiFields) ) {
+			throw new Exception("El KPI pasado como prámetro no es válido");		
+		}
+		
+		
+	
+
+		if ( !empty($dateFrom) ) {
+			$conditions['DateKpi.date >='] = date('Y-m-d', strtotime( $dateFrom ));
+		}
+
+		if ( !empty($dateTo) ) {
+			$conditions['DateKpi.date <='] = date('Y-m-d', strtotime( $dateTo ));
+		}
+
+		$kpis = $this->DateKpi->find( 'all', array(
+			'conditions' => $conditions,			
+			'order' => array(
+				'DateKpi.date',
+				'Site.name',
+				),
+			)
+		);
+	
+		if (!empty( $conditions['DateKpi.date <='] )) {
+			$this->request->data['DateKpi']['date_to'] = $conditions['DateKpi.date <='];	
+		}
+
+		if (!empty( $conditions['DateKpi.date >='] )) {
+			$this->request->data['DateKpi']['date_from'] = $conditions['DateKpi.date >='];
+		}
+
+		$this->set('sites_list', $this->DateKpi->Carrier->Sector->Site->find('list') );
+		$this->set('title_for_layout', "Kpi: ". $this->DateKpi->kpiFields[$fieldName]);		
+		$this->set('fieldName', $fieldName );
+		$this->set('kpis', $kpis );
+	}
 
 
 

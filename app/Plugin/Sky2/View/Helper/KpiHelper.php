@@ -23,7 +23,12 @@ class KpiHelper extends AppHelper {
  */
     public function beforeRender($viewFile) {
 
-//     tCellshis->kpiFields = $kpiFields;
+        $kpiFields = $this->_View->viewVars['kpiFields'];       
+        if ( empty($kpiFields) ) {
+            throw new Exception("se debe settear la variable 'kpis' en la vista, desde el controller. Esa variable esta en el model DateKpi");            
+        }
+
+        $this->kpiFields = $kpiFields;
     }
 
 /**
@@ -143,48 +148,19 @@ class KpiHelper extends AppHelper {
         return $list;
     }
 
-    public function thresholdEval($value, $sql_threshold_warning, $sql_threshold_danger){
-        $out = '';
-        if ( !empty($value) ) {
-            if(!empty($sql_threshold_warning)) {
-                // check warning
-                $codeEval = str_replace("?", $value, $sql_threshold_warning);   
-                $codeEval = "return ".$codeEval.";";                
-                $out .= eval($codeEval)?' warning':'';
-            }
-             
-            if(!empty($sql_threshold_danger)) {
-                // check danger
-                $codeEval = str_replace("?", $value, $sql_threshold_danger); 
-                $codeEval = "return ".$codeEval.";";
-                $out .= eval($codeEval)?' danger':'';
-            }
-        }
-        // return value
-        return trim($out);
-    }
 
     /**
     *   Coloca la clase al fondo de la celda segun lo que vino en la funncion de threshold
     **/
-    public function format_bg_class ( $value, $format, $ops = array()) {
-        if (empty($value)){
-            return $value;
-        }
-        $formatVal = $value;
-        if (!empty($format)) {
-            $formatVal = sprintf($format, $value);         
-        }
-        
+    public function format_bg_class ( $fieldName, $value, $ops = array() ) {
+        $className = $this->threshold_class_name($fieldName, $value);
+
+        $formatVal = $this->format( $fieldName, $value );
+
         if (empty($ops['class'])) {
-            $ops['class'] = '';
-        }  else {
-            $className = $ops['class'];
-        }
-        
-        $ops['class'] .= ' kpi-value';
-        
-        
+            $ops['class'] = 'kpi-value';
+        } 
+             
         if ( !empty($className)) {
             $ops['class'] .= " bg-".$className;    
             if ($className == 'danger') {

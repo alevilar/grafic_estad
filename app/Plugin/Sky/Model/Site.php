@@ -43,4 +43,30 @@ class Site extends SkyAppModel {
 	public $hasMany = array(
 		'Sky.Sector'
 	);
+        
+        
+        public function listCarriers( $site_id = null ) {
+            
+            if ( !empty($site_id) ) {
+                $this->id = $site_id;
+            }
+            
+            if ( empty($this->id )) {
+                throw new Exception('Se debe pasar un id de Sitio');
+            }
+            $site = $this->find('first', array(
+                'conditions' => array(
+                    'Site.id'=> $this->id
+                    ),
+                'contain' => 'Sector.Carrier',                
+                ));
+            
+            $carriers = array();
+            foreach ( $site['Sector'] as $sector ){
+                foreach ($sector['Carrier'] as $carrier) {                    
+                    $carriers[] = $carrier['id'];
+                }
+            }
+            return $carriers;
+        }
 }
