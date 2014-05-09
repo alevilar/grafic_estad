@@ -36,8 +36,9 @@ class KpiDataDay extends SkyAppModel
     {
         $conditions = array();
         if (!empty($data['site_id'])) {
+            $carriers = $this->Carrier->Sector->Site->listCarriers($data['site_id']);
             $conditions = array(
-                'Site.id' => $data['site_id'],
+                'KpiDataDay.carrier_id' => $carriers,
             );
         }
         return $conditions;
@@ -46,9 +47,9 @@ class KpiDataDay extends SkyAppModel
     public function filterBySector($data = array())
     {
         if (!empty($data['sector_id'])) {
-            $carriers = $this->KpiDailyValue->Carrier->Sector->Sitio->listCarriers( $data['sector_id'] );
+            $carriers = $this->Carrier->Sector->Site->listCarriers( $data['sector_id'] );
             $conditions = array(
-                'KpiDailyValue.carrier_id' => $carriers,
+                'KpiDataDay.carrier_id' => $carriers,
             );
         }
         return $data;
@@ -78,7 +79,7 @@ class KpiDataDay extends SkyAppModel
     
     
     
-    public function getSumValueForSite( $kpi_id, $days = array(), $siteId = null ) {
+    public function getDayValueForSite( $kpi_id, $days = array(), $siteId = null ) {
         $siteCondition = array();
         if ( !empty($siteId ) ) {
             $siteCondition['conditions']['Site.id']  = $siteId;
@@ -102,6 +103,33 @@ class KpiDataDay extends SkyAppModel
              $sitios = $sitios[0];
         }
         return $sitios;
+    }
+    
+    
+    public function getSumValueForSector( $kpi_id, $days = array(), $sectorId = null ) {
+        $sectorCondition = array();
+        if ( !empty($sectorId ) ) {
+            $sectorCondition['conditions']['Sector.id']  = $sectorId;
+        }
+          
+        if (!is_array($days)) {
+            $days = array($days);
+        }
+        
+        $this->Carrier->Sector->Site->recursive = -1;
+        $sectors = $this->Carrier->Sector->find('all', $sectorCondition);
+        foreach ($sectors as &$s) {
+            $carriers = $this->Carrier->Sector->listCarriers($sectorId);
+            $s['Day'] = array();
+            foreach ( $days as $day ) {
+                $value = $this->KpiDailyValue->getSumBySiteDateKpi($kpi_id, $day, $carriers);
+                $s['Day'][] = $value;
+            }
+        }
+        if (!empty($sectorId)){
+             $sectors = $sectors[0];
+        }
+        return $sectors;
     }
 
 }

@@ -13,13 +13,13 @@
             $siteData = array();
             $siteId = $site['Site']['id'];
             $siteData[] = "<input type='radio' name='selected_site' value='$siteId' id='selected-radio-$siteId'>"
-                        .$site['Site']['name'];
+                        .$this->Html->link($site['Site']['name'],'by_site/'.$site['Site']['id']);
             foreach ( $site['Day'] as $dataDay) {
                     // recolectar los dias para armar en el header
                     
                     $value = '';
-                    if ( !empty($dataDay[0]['sumado'])  ) {
-                        $value = $dataDay[0]['sumado'];
+                    if ( !empty($dataDay[0]['valor'])  ) {
+                        $value = $dataDay[0]['valor'];
                     }
                     
                     if ( !empty($value) && !empty( $kpi['Kpi']['string_format']) ) {
@@ -55,7 +55,6 @@
 
     <div class="span6" id="grafico">
         <div id="graph"></div>
-        <div class="text-center" id="site-link"></div>
     </div>
 
 

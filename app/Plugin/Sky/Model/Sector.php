@@ -77,4 +77,34 @@ class Sector extends SkyAppModel {
 		}
 		return false;
 	}        
+        
+        
+        
+        public function listCarriers( $id = null ) {
+            
+            if ( !empty($id) ) {
+                $this->id = $id;
+            }
+            
+            if ( empty($this->id )) {
+                throw new Exception('Se debe pasar un id de Sector');
+            }
+            $sector = $this->find('first', array(
+                'conditions' => array(
+                    'Sector.id'=> $id
+                    ),
+                'contain' => array(
+                    'Carrier',
+                ),                
+            ));
+            
+            $carriers = array();
+            
+            foreach ($sector['Carrier'] as $carrier) {                    
+                $carriers[] = $carrier['id'];
+            }
+            
+            return $carriers;
+        }
+        
 }

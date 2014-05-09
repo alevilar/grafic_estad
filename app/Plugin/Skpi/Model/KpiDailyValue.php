@@ -18,17 +18,17 @@ class KpiDailyValue extends SkpiAppModel {
      * @param type $day of type date
      * @param type $carriers array of carriers id´s
      */
-    public function getSumBySiteDateKpi($kpiId, $day, $carriers = array() ) {
+    public function getSumBySiteDateKpi($kpiId, $day, $carriers = array() ) {        
         return $this->KpiDataDay->KpiDailyValue->find('first', array(
                         'conditions' => array(
                             'KpiDailyValue.kpi_id' => $kpiId,
                             'KpiDataDay.ml_date' => $day,
-                            'KpiDataDay.carrier_id IN' => $carriers,
+                            'KpiDataDay.carrier_id' => $carriers,
                         ),
                         'contain' => array(
                             'KpiDataDay',
                             'Kpi',
-                        ),         
+                        ),
                         'fields' => array(
                             'AVG(KpiDailyValue.value) as valor',
                             'KpiDataDay.ml_date',

@@ -1,1 +1,0 @@
-<?php echo $this->element('el_graf_mimo'); ?>

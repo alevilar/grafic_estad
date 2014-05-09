@@ -10,11 +10,12 @@ $options = array(
     'class' => 'form',
     );
 
+//$options['action'] = '/by_site';
 if ( !empty($formAction) ) {
     $options['action'] = $formAction;
 }
 
-echo $this->Form->create('DateKpi', $options);
+echo $this->Form->create('KpiDataDay', $options);
 ?>
 
 <style>
@@ -57,22 +58,13 @@ echo $this->Form->create('DateKpi', $options);
             ));
     	?>
     </div>
-    <div class="span2">
-        <?php
-        if (!empty($sites)) {
-            echo $this->Form->input('site_id', array('label' => 'Sitio'));
-        }
-        echo $this->Form->hidden('page', array('value'=>1));
-        ?>
-            
-    </div>
     <div class="span1">
     	<br>     
         <?php
         echo $this->Form->button('Buscar', array('type'=>'submit', 'class'=>'btn btn-primary btn-block'));
         ?>
         
-                <?php //echo $this->Form->input('sector_name', array('label' => 'Sector')); ?>
+        <?php //echo $this->Form->input('sector_name', array('label' => 'Sector')); ?>
     </div>
     <div class="span1">
         <?php //echo $this->Form->input('carrier_name', array('label' => 'Carrier   ')); ?>
