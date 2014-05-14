@@ -1,5 +1,9 @@
 
 ( function ($) {
+        if (!ROTMS) {
+            // si no fue configurado antes, entonces colocarle un valor por defecto
+            ROTMS = 7000;
+        }
 
 	var $radios = $('table.table-kpis input[type=radio]');
         var currRadio = $radios.length-1;
@@ -38,7 +42,7 @@
 
 	function mostrarDeA1Sitio (time) {
                 if (!time){
-                    time = 7000;
+                    time = ROTMS;
                 }
                 clearTimeout(timeout);
 		timeout =  setTimeout( function(){					

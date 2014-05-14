@@ -16,6 +16,37 @@ class KpiDataDay extends SkyAppModel
     public $actsAs = array(
         'Search.Searchable',
     );
+    
+    
+    public $validate = array(
+		'ml_date' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+//				'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				'required' => true,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+                        'validateUnicoConCarrier' => array(
+                                'rule'       => array('validateUnicoConCarrier'),
+                                'on'         => 'create',
+                                'message'    => 'Este valor debe ser único para un carrier determinado'
+                        )
+		),
+		'carrier_id' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				'required' => true,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),		
+	);
+    
+   
 
     /**
      * Filter search fields
@@ -31,6 +62,16 @@ class KpiDataDay extends SkyAppModel
         'date_from' => array('type' => 'query', 'method' => 'filterDateFrom'),
         'date_to' => array('type' => 'query', 'method' => 'filterDateTo'),
     );
+    
+    public function validateUnicoConCarrier () {
+        $count = $this->find('count', array(
+            'conditions' => array(
+                'KpiDataDay.carrier_id' => $this->data['KpiDataDay']['carrier_id'],
+                'KpiDataDay.ml_date' => $this->data['KpiDataDay']['ml_date'],
+            )
+        ));
+        return !$count;
+    }
 
     public function filterBySite($data = array())
     {

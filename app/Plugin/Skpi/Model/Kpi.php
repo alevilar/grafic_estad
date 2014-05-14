@@ -20,7 +20,7 @@ class Kpi extends SkpiAppModel {
  * @var array
  */
 	public $validate = array(
-		'field_name' => array(
+		'col_name' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',

@@ -107,12 +107,13 @@ CakeLog::config('error', array(
 
 
 /**
+ * Genera un array de fechas (Tipo Date) desde-hasta
  * 
- * @param string $desde
- * @param string $hasta
+ * @param string $desde Date Y-m-d
+ * @param string $hasta Date Y-m-d
  * @return array de fechas desde - hasta
  */
-function crear_fechas($desde,$hasta) {
+function crear_fechas( $desde, $hasta) {
      $arr = array();
      $td = strtotime($desde);
      $th = strtotime($hasta);
@@ -130,6 +131,6 @@ function crear_fechas($desde,$hasta) {
          $dcurr = date('Y-m-d', strtotime('1 day',$tcurr));
          $tcurr = strtotime($dcurr);
          
-     }     
+     }
      return $arr;
 }

@@ -60,6 +60,7 @@
 
 <script>
     var WWWROOT = "<?php echo $this->Html->url('/', true);?>";
+    var ROTMS = <?php Configure::read('Sky.msRotacionSitios');?>;
 </script>
 <?php
 
