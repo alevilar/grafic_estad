@@ -118,6 +118,13 @@ echo $this->Blocks->get('script');
                     <div class="breadcrum"><?php echo $this->element('admin/breadcrumb'); ?></div>
 
                     <?php echo $this->Layout->sessionFlash(); ?>
+
+
+                    <?php if ($this->fetch('search')): ?>
+                    <div class="search">
+                        <?php echo $this->fetch('search'); ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
             

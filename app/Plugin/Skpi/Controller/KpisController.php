@@ -105,6 +105,7 @@ class KpisController extends SkpiAppController
 		} else {
 			$options = array('conditions' => array('Kpi.' . $this->Kpi->primaryKey => $id));
 			$this->request->data = $this->Kpi->find('first', $options);
+			$this->set('counters', array($this->Kpi->Counter->find('list')));
 		}
 	}
 
@@ -128,6 +129,18 @@ class KpisController extends SkpiAppController
 		}
 		$this->Session->setFlash(__d('croogo', 'Sky kpi was not deleted'), 'default', array('class' => 'error'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+
+
+
+	public function full_site_view ( $kpi_id, $site_id ) {
+		$kpi = $this->Kpi->read(null, $kpi_id);
+
+		$site = $this->Kpi->DailyValue->DataDay->Carrier->Sector->Site->read(null,$site_id);
+
+		$this->set(compact('kpi', 'site'));
+		
 	}
 
  

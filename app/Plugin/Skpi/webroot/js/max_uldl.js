@@ -1,6 +1,6 @@
 
 ( function ($) {
-        if (!ROTMS) {
+        if ( typeof(ROTMS) == 'undefined' )  {
             // si no fue configurado antes, entonces colocarle un valor por defecto
             ROTMS = 7000;
         }

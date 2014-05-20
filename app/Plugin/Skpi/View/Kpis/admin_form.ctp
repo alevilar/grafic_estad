@@ -56,6 +56,12 @@ echo $this->Form->create('Kpi');
                                         'placeholder' => 'Ej: "? < 45" (OJO: no colocar las comillas)',
                                         'after' => '<br><span class="text-info">Niveles en los que el Threshold da: need-improve. Se utiliza el símbolo de interrogacion como comodín del valor. Usa la funcion eval() de php para eso.</span>',
 				));
+
+				echo $this->Form->input('Counter', array(
+					'label' => 'Contadores que usa este Kpi',
+				));
+
+
 				echo $this->Croogo->adminTabs();
 			?>
 			</div>

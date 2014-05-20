@@ -1,0 +1,1025 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"date",
+				"date_to"
+			],
+			[
+				"kpi",
+				"kpi_id"
+			],
+			[
+				"carri",
+				"carriers"
+			],
+			[
+				"sit",
+				"site"
+			],
+			[
+				"sites",
+				"sites_list"
+			],
+			[
+				"str",
+				"strtolower"
+			],
+			[
+				"sitio",
+				"sitios"
+			],
+			[
+				"btn-",
+				"btn-primary"
+			],
+			[
+				"date_",
+				"date_to"
+			],
+			[
+				"wh",
+				"what"
+			],
+			[
+				"strto",
+				"strtolower"
+			],
+			[
+				"what",
+				"what_id"
+			],
+			[
+				"metrics",
+				"metricsDl"
+			],
+			[
+				"k",
+				"kpi_id"
+			],
+			[
+				"heade",
+				"headers"
+			],
+			[
+				"can",
+				"cantMetricsToday"
+			],
+			[
+				"yaxis",
+				"yaxisLabel"
+			],
+			[
+				"data",
+				"dataDetail"
+			],
+			[
+				"dataU",
+				"dataUl"
+			],
+			[
+				"av",
+				"avg_ul"
+			],
+			[
+				"da",
+				"dataUl"
+			],
+			[
+				"dl",
+				"dl_metrics"
+			],
+			[
+				"strt",
+				"strtotime"
+			],
+			[
+				"is_nu",
+				"is_numeric"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"bol",
+				"bolder"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"cur",
+				"currRadio"
+			],
+			[
+				"chan",
+				"changeRadio"
+			],
+			[
+				"site",
+				"site_id"
+			],
+			[
+				"array_",
+				"array_values"
+			],
+			[
+				"new",
+				"newkpi"
+			],
+			[
+				"field",
+				"fieldName"
+			],
+			[
+				"array",
+				"array_unshift"
+			],
+			[
+				"carr",
+				"carrier_id"
+			],
+			[
+				"sector",
+				"sector_id"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"fie",
+				"fieldNames"
+			],
+			[
+				"array_un",
+				"array_unshift"
+			],
+			[
+				"text-",
+				"text-decoration"
+			],
+			[
+				"r",
+				"rgba()"
+			],
+			[
+				"marg",
+				"margin-top"
+			],
+			[
+				"disab",
+				"disableSubmitBtn"
+			],
+			[
+				"mensa",
+				"mensajePago"
+			],
+			[
+				"model",
+				"modelEvents"
+			],
+			[
+				"ite",
+				"itemsCol"
+			],
+			[
+				"layou",
+				"layoutView"
+			],
+			[
+				"form",
+				"formatMoney"
+			],
+			[
+				"for",
+				"formatMoney"
+			],
+			[
+				"La",
+				"Layout"
+			],
+			[
+				"Item",
+				"ItemView"
+			],
+			[
+				"check",
+				"checked"
+			],
+			[
+				"List",
+				"ListItemView"
+			],
+			[
+				"help",
+				"helpBtn"
+			],
+			[
+				"bor",
+				"border"
+			],
+			[
+				"add",
+				"addRegions"
+			],
+			[
+				"extra",
+				"extraitems"
+			],
+			[
+				"pad",
+				"padding"
+			],
+			[
+				"padd",
+				"padding-bottom"
+			],
+			[
+				"borde",
+				"border-bottom"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"side",
+				"sidepreCols"
+			],
+			[
+				"has",
+				"hassidepost"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/Plugin/Skpi/Controller/DataDaysController.php",
+			"settings":
+			{
+				"buffer_size": 7638,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Plugin/Skpi/View/DataDays/site_kpi_detail.ctp",
+			"settings":
+			{
+				"buffer_size": 892,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Plugin/Skpi/Model/DataDay.php",
+			"settings":
+			{
+				"buffer_size": 8098,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Plugin/Skpi/View/DataDays/view.ctp",
+			"settings":
+			{
+				"buffer_size": 1059,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
+			"settings":
+			{
+				"buffer_size": 1510,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 33.0,
+		"selected_items":
+		[
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 303.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/var/www/skymax_graf/app/Plugin/Skpi/Console/Command/MigrateShell.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/view.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DailyValue.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataCounter.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataDay.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Migration/001_install_kpis_counter.php",
+		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/Layouts/default.ctp",
+		"/var/www/skymax_graf/app/Plugin/Croogo/View/Layouts/default.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/Sector.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/Site.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataCountersController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/Counter.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/sitio_sectores_y_carriers.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/kpis_table.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataMetric.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/by_kpi.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/kpi_site_date_search.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/by_site.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/site_overview.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Schema/schema.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Kpis/full_site_view.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/KpisController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Config/routes.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Counters/admin_form.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Kpis/admin_form.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/SkpiAppModel.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/Kpi.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/CounterKpi.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/HourlyCounter.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/Config/Migration/002_install_kpis.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/KpiDataDaysController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiDailyValue.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/site_daily_kpis.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Config/bootstrap.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataMetrics/graph_raw_counter.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Helper/KpiHelper.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiHourlyCounter.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiCounter.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataMetricsController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/by_site.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/site_overview.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/graphs/kpi_graph.js",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataMetrics/graph_site_kpi.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/monitor.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/kpi_graph.js",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/KpiCountersController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/scroll_interval_to_js.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/data_day_monitor.js",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/css/jcarousel.css",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/kpi_values_x_sitio.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiDataDay.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/index.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/Elements/kpi_site_date_search.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/Config/routes.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/max_uldl_x_sitio.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/Controller/DateKpisController.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/webroot/js/max_uldl.js",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/LogMstations/max_usuarios_x_modulacion.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/Helper/KpiHelper.php",
+		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/webroot/css/style.css",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/DateKpi.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/json/graf_max_uldl_de_sitio.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/graf_max_uldl_de_sitio.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/LogMstations/usuarios_x_modulacion.ctp",
+		"/var/www/skymax_graf/app/Config/bootstrap.php",
+		"/var/www/skymax_graf/app/Config/routes.php",
+		"/var/www/skymax_graf/lib/Cake/Model/Behavior/ContainableBehavior.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/SkyAppModel.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/LogMstation.php",
+		"/var/www/skymax_graf/app/tmp/logs/error.log",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/by_kpi.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/by_site.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/Carrier.php",
+		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/webroot/bootstrap_datepicker/js/bootstrap-datepicker.js",
+		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/webroot/bootstrap_datetimepicker/js/bootstrap-datetimepicker.min.js",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/Helpers/KpiHelper.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/max_trafico_sitio.ctp",
+		"/var/www/paxapos/app/Plugin/Paxapos/webroot/js/precios.js",
+		"/var/www/paxapos/app/View/Themed/PaxaposTheme/Layouts/default.ctp",
+		"/var/www/paxapos/app/View/Themed/PaxaposTheme/Layouts/promoted.ctp",
+		"/var/www/paxapos/app/View/Themed/PaxaposTheme/webroot/css/style.css",
+		"/var/www/paxapos/app/Plugin/Paxapos/webroot/css/paxapos.style.css",
+		"/var/www/paxapos/app/Plugin/Paxapos/webroot/js/precios.min.js",
+		"/var/www/paxapos/app/Plugin/Paxapos/Controller/PurchasesController.php",
+		"/var/www/paxapos/app/View/Themed/PaxaposTheme/Nodes/promoted.ctp",
+		"/var/www/paxapos/app/Plugin/Paxapos/View/Purchases/precios.ctp",
+		"/var/www/paxapos/app/Plugin/Paxapos/webroot/js/precios.data.js",
+		"/var/www/paxapos/app/Plugin/Paxapos/webroot/js/backbone.marionette.js",
+		"/var/www/paxapos/app/Plugin/Wysiwyg/webroot/js/wysiwyg.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/var/www/skymax_graf/app/Plugin/Skpi"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"kpi_data_da",
+			"object_id",
+			"getdayValueForSector",
+			"\n                 ",
+			"getSumValueForSector",
+			"// in app/View/Layouts/default.ctp\n// in app/",
+			"DataMetric",
+			"$this->DataDay",
+			"this",
+			"->DataDay",
+			"carr",
+			"__getDays",
+			"class",
+			"site_id",
+			"date_from",
+			"counterDl",
+			"counterColName",
+			"skpi_counters_kpis",
+			"opsDl",
+			"yaxisLabelDl",
+			"dataDetail",
+			"dataDetailDl",
+			"dataDl",
+			"urlParam",
+			"carrier_dl_avg_rate",
+			"{\n",
+			"Sky",
+			"KpiDailyValue",
+			"sky_",
+			"metricsDl",
+			"t",
+			"dataDl",
+			"sitio_id",
+			"//",
+			"SkpiCounter",
+			"Kpi",
+			"counter",
+			"kpi",
+			" {",
+			"{\n",
+			"kpi",
+			"kpi_id",
+			"counterColName",
+			"    	\n",
+			"kpiColName",
+			"kpi",
+			"Kpi",
+			"kpi_id",
+			"metricsData",
+			"MetricsData",
+			"MetricData",
+			"sky_metrics_datas",
+			"xaxisLabel",
+			"\"#example-section32 #detailContainer\"",
+			"\"#example-section32 #masterContainer\"",
+			"counter_id",
+			"dataDet",
+			"\"#example-section32 #detailContainer\"",
+			"\"#example-section32 #masterContainer\"",
+			"'DataMetric.date_time >=' => $date_from,",
+			"detailContainer1",
+			"data",
+			"1690",
+			"	'/skpi/flot/jquery.flot',\n",
+			"	'/",
+			">\n",
+			"            $",
+			"div",
+			">\n",
+			"site",
+			"Site",
+			"site",
+			"Site",
+			"site",
+			"Site",
+			"site",
+			"Site",
+			"site",
+			"Site",
+			"site",
+			"Site",
+			"site",
+			"Site",
+			"site",
+			"Site",
+			"site",
+			"siteData",
+			"Element",
+			"<?",
+			"this",
+			"consol",
+			"changeRadio",
+			"currRadio",
+			"console",
+			"$this->request->data['DateKpi']['sitio_id']",
+			"filterDatetimeFrom",
+			"darVueltaSiteDate",
+			"darVueltaKpiDate",
+			"arraysPorFieldNames",
+			"contain",
+			"public function threshold",
+			"format",
+			"tCells",
+			"debug",
+			"arraysPorFieldNames",
+			"avg",
+			"field",
+			"success_rate_of_ntwk_re_entry_idle_mode",
+			"icons",
+			"Sitio",
+			"				",
+			"paxapos",
+			"checked: false,",
+			"fiscal",
+			"collectionChange",
+			"__fTotalChange",
+			"console",
+			"refreshAllViews",
+			"change:currency",
+			"CarritoFormConfirmView",
+			"CarritoFormConfirm",
+			"users",
+			"user",
+			"configs",
+			"autocomplete",
+			"validPagename",
+			"admin_rte_example",
+			"Wysiwyg"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"DataCounter",
+			"skpi_",
+			"dataMetric",
+			"DataMetric",
+			"DataMetrics",
+			"domDetailContainerId",
+			"domMasterContainerId",
+			"domDetailContainerId",
+			"domMasterContainerId",
+			"$this->request->data['DateKpi']['site_id']",
+			"private function __threshold",
+			"precio",
+			"abonoprecio",
+			"abono",
+			"promoted-body",
+			"container",
+			"#007995",
+			"#009CCA",
+			"Mintrab",
+			"mintrab",
+			"Mintrab",
+			"mintrab",
+			"Mintrab",
+			"mintrab"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/Plugin/Skpi/Controller/DataDaysController.php",
+					"settings":
+					{
+						"buffer_size": 7638,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4124,
+								4124
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1716.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/Plugin/Skpi/View/DataDays/site_kpi_detail.ctp",
+					"settings":
+					{
+						"buffer_size": 892,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								885,
+								885
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/Plugin/Skpi/Model/DataDay.php",
+					"settings":
+					{
+						"buffer_size": 8098,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7926,
+								7926
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3393.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/Plugin/Skpi/View/DataDays/view.ctp",
+					"settings":
+					{
+						"buffer_size": 1059,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								429,
+								892
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
+					"settings":
+					{
+						"buffer_size": 1510,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								563,
+								563
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"zoomin",
+				"Plugin/Skpi/View/Elements/counter_zooming_view.ctp"
+			],
+			[
+				"skpi/view",
+				"Plugin/Skpi/View/DataDays/view.ctp"
+			],
+			[
+				"dataday",
+				"Plugin/Skpi/Model/DataDay.php"
+			],
+			[
+				"skpi/migra",
+				"Plugin/Skpi/Config/Migration/001_install_kpis_counter.php"
+			],
+			[
+				"view/theme/boo/defaul",
+				"View/Themed/BootstrapTheme/Layouts/default.ctp"
+			],
+			[
+				"default",
+				"Plugin/Croogo/View/Layouts/default.ctp"
+			],
+			[
+				"counter_zooming_view",
+				"Plugin/Skpi/View/Elements/counter_zooming_view.ctp"
+			],
+			[
+				"dailyvalue",
+				"Plugin/Skpi/Model/DailyValue.php"
+			],
+			[
+				"model/sect",
+				"Plugin/Sky/Model/Sector.php"
+			],
+			[
+				"model/site",
+				"Plugin/Sky/Model/Site.php"
+			],
+			[
+				"datacounter",
+				"Plugin/Skpi/Model/DataCounter.php"
+			],
+			[
+				"model/datada",
+				"Plugin/Skpi/Model/DataDay.php"
+			],
+			[
+				"model/data",
+				"Plugin/Skpi/Model/DataDay.php"
+			],
+			[
+				"site_kpi",
+				"Plugin/Skpi/View/DataDays/site_kpi_detail.ctp"
+			],
+			[
+				"kpis_table",
+				"Plugin/Skpi/View/Elements/kpis_table.ctp"
+			],
+			[
+				"sitio_sectores_y_carriers",
+				"Plugin/Skpi/View/Elements/sitio_sectores_y_carriers.ctp"
+			],
+			[
+				"kpi_site_",
+				"Plugin/Skpi/View/Elements/kpi_site_date_search.ctp"
+			],
+			[
+				"sitio_sectores",
+				"Plugin/Skpi/View/Elements/sitio_sectores_y_carriers.ctp"
+			],
+			[
+				"by_site",
+				"Plugin/Skpi/View/DataDays/by_site.ctp"
+			],
+			[
+				"by_",
+				"Plugin/Skpi/View/DataDays/by_kpi.ctp"
+			],
+			[
+				"model/counter",
+				"Plugin/Skpi/Model/Counter.php"
+			],
+			[
+				"counter_zo",
+				"Plugin/Skpi/View/Elements/counter_zooming_view.ctp"
+			],
+			[
+				"datametr",
+				"Plugin/Skpi/Model/DataMetric.php"
+			],
+			[
+				"site_over",
+				"Plugin/Skpi/View/DataDays/site_overview.ctp"
+			],
+			[
+				"datadaycon",
+				"Plugin/Skpi/Controller/DataDaysController.php"
+			],
+			[
+				"skpi/site",
+				"Plugin/Skpi/View/DataDays/site_overview.ctp"
+			],
+			[
+				"kpidatadayscontroller",
+				"Skpi/Controller/KpiDataDaysController.php"
+			],
+			[
+				"skpi/kpi/form",
+				"Skpi/View/Kpis/admin_form.ctp"
+			],
+			[
+				"skpi/appmodel",
+				"Skpi/Model/SkpiAppModel.php"
+			],
+			[
+				"counter",
+				"Skpi/Model/Counter.php"
+			],
+			[
+				"skpi/view/count",
+				"Skpi/View/Counters/admin_form.ctp"
+			],
+			[
+				"kpiscontro",
+				"Skpi/Controller/KpisController.php"
+			],
+			[
+				"counterkp",
+				"Skpi/Model/CounterKpi.php"
+			],
+			[
+				"datadaysc",
+				"Skpi/Controller/KpiDataDaysController.php"
+			],
+			[
+				"kpi_values_x_sitio",
+				"Skpi/View/KpiDataDays/kpi_values_x_sitio.ctp"
+			],
+			[
+				"graph",
+				"Skpi/webroot/js/graphs/kpi_graph.js"
+			],
+			[
+				"kpi_grap",
+				"Skpi/webroot/js/graphs/kpi_graph.js"
+			],
+			[
+				"graph_raw_counter",
+				"Skpi/View/DataMetrics/graph_raw_counter.ctp"
+			],
+			[
+				"kpimetr",
+				"Skpi/Controller/DataMetricsController.php"
+			],
+			[
+				"datame",
+				"Skpi/Controller/DataMetricsController.php"
+			],
+			[
+				"skpi/migr",
+				"Skpi/Config/Migration/001_install_kpis_counter.php"
+			],
+			[
+				"skpi/help",
+				"Skpi/View/Helper/KpiHelper.php"
+			],
+			[
+				"by",
+				"Skpi/View/KpiDataDays/by_site.ctp"
+			],
+			[
+				"skpi/she",
+				"Skpi/Console/Command/MigrateShell.php"
+			],
+			[
+				"skpi/conf/mig",
+				"Skpi/Config/Migration/001_install_kpis_counter.php"
+			],
+			[
+				"skpi/confmi",
+				"Skpi/Config/Migration/001_install_kpis_counter.php"
+			],
+			[
+				"skpi/confibo",
+				"Skpi/Config/bootstrap.php"
+			],
+			[
+				"skpi/config/mi",
+				"Skpi/Config/Migration/001_install_kpis_counter.php"
+			],
+			[
+				"routes",
+				"Skpi/Config/routes.php"
+			],
+			[
+				"skpiindex",
+				"Skpi/View/KpiDataDays/index.ctp"
+			],
+			[
+				"skpiroutes",
+				"Skpi/Config/routes.php"
+			],
+			[
+				"skpi/controller",
+				"Skpi/Controller/KpiDataDaysController.php"
+			],
+			[
+				"site_date",
+				"Sky/View/Elements/kpi_site_date_search.ctp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 286.0,
+	"status_bar_visible": true
+}

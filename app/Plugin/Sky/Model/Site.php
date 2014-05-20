@@ -45,7 +45,7 @@ class Site extends SkyAppModel {
 	);
         
         
-        public function listCarriers( $site_id = null ) {
+        public function listCarriers( $site_id = null, $fieldname = 'id' ) {
             
             if ( !empty($site_id) ) {
                 $this->id = $site_id;
@@ -64,7 +64,7 @@ class Site extends SkyAppModel {
             $carriers = array();
             foreach ( $site['Sector'] as $sector ){
                 foreach ($sector['Carrier'] as $carrier) {                    
-                    $carriers[] = $carrier['id'];
+                    $carriers[] = $carrier[$fieldname];
                 }
             }
             return $carriers;

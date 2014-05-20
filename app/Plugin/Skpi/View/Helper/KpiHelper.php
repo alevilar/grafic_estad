@@ -173,6 +173,7 @@ class KpiHelper extends AppHelper {
         }
         $formatVal = $value;
         if (!empty($format)) {
+            $value = round($value, 4);
             $formatVal = sprintf($format, $value);         
         }
         

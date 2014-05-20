@@ -80,7 +80,7 @@ class Sector extends SkyAppModel {
         
         
         
-        public function listCarriers( $id = null ) {
+        public function listCarriers( $id = null, $fieldName = 'id' ) {
             
             if ( !empty($id) ) {
                 $this->id = $id;
@@ -101,7 +101,7 @@ class Sector extends SkyAppModel {
             $carriers = array();
             
             foreach ($sector['Carrier'] as $carrier) {                    
-                $carriers[] = $carrier['id'];
+                $carriers[] = $carrier[$fieldName];
             }
             
             return $carriers;

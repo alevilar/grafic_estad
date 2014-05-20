@@ -1,7 +1,7 @@
 <?php
 App::uses('SkpiAppModel', 'Skpi.Model');
 /**
- * KpiCounter Model
+ * Counter Model
  *
  * @property Sector $Sector
  */
@@ -53,7 +53,25 @@ class Kpi extends SkpiAppModel {
 	);
         
 
-    public $hasMany = array('Skpi.KpiDailyValue');
+    public $hasMany = array(
+        'Skpi.DailyValue',
+        'Skpi.CounterKpi',
+        );
+
+
+
+    /**
+    *	Son los contadores que este KPI usa para hacer los calculos
+    **/
+    public $hasAndBelongsToMany = array(
+        'Counter' =>
+            array(
+                'className' => 'Skpi.Counter',
+                'foreignKey' => 'kpi_id',
+                'associationForeignKey' => 'counter_id',
+                'joinTable' => 'skpi_counters_kpis',
+            )
+        );
     
     
     /**

@@ -15,7 +15,7 @@ if ( !empty($formAction) ) {
     $options['action'] = $formAction;
 }
 
-echo $this->Form->create('KpiDataDay', $options);
+echo $this->Form->create('DataDay', $options);
 ?>
 
 <style>

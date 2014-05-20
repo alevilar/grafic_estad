@@ -8,7 +8,7 @@ App::uses('AppModel', 'Model');
  */
 class SkpiAppModel extends AppModel {
     
-    public $tablePrefix = 'sky_';
+    public $tablePrefix = 'skpi_';
 
 
     public function filterDatetimeFrom($data = array())

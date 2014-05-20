@@ -1,23 +1,24 @@
 <?php
 
 /**
- * @property MetricsData $MetricsData Metrics Data Model
- * @property KpiCounter $KpiCounter Model
+ * @property DataCounter $DataCounter Metrics Data Model
+ * @property Counter $Counter Model
  * @property Kpi $Kpi 
- * @property KpiHourlyCounter $KpiHourlyCounter
- * @property KpiDataDay $KpiDataDay
- * @property KpiDailyValue $KpiDailyValue
+ * @property HourlyCounter $HourlyCounter
+ * @property DataDay $DataDay
+ * @property DailyValue $DailyValue
  */
 class MigrateShell extends AppShell
 {
 
     public $uses = array(
-        'Skpi.MetricsData',
-        'Skpi.KpiCounter', 
+        'Skpi.DataCounter',
+        'Skpi.Counter', 
         'Skpi.Kpi', 
-        'Skpi.KpiHourlyCounter',
-        'Skpi.KpiDataDay',
-        'Skpi.KpiDailyValue',
+        'Skpi.HourlyCounter',
+        'Skpi.DataDay',
+        'Skpi.DailyValue',
+        'Sky.Carrier',
         );   
     
     
@@ -58,12 +59,12 @@ class MigrateShell extends AppShell
     {    
         
         
-        $lastDay = $this->KpiDataDay->find('first', array(
+        $lastDay = $this->DataDay->find('first', array(
                 'fields' => array(
-                    'KpiDataDay.ml_date',
+                    'DataDay.ml_date',
                 ),
                 'order' => array(
-                    'KpiDataDay.ml_date DESC' 
+                    'DataDay.ml_date DESC' 
                 )
         ));
         
@@ -71,22 +72,43 @@ class MigrateShell extends AppShell
             // primera vez que corre el script
             $dateFrom = '2014-01-01';
         } else {
-            $dateFrom = $lastDay['KpiDataDay']['ml_date'];
+            $dateFrom = $lastDay['DataDay']['ml_date'];
         }
         
-        $cantMetrics = $this->MetricsData->find('count', array(
+        $dateToday = date('Y-m-d');
+
+        $cantMetrics = $this->DataCounter->find('count', array(
             'conditions' => array(
-                    'DATE(date_time) >' => $dateFrom
+                    'DATE(date_time) >' => $dateFrom,
+                    'DATE(date_time) <' => $dateToday
             ),
         ));
-        $this->out("Hay $cantMetrics metricas desde la última migración: $dateFrom");
         
         
-        if ( $cantMetrics ) {
+        $cantMetricsToday = $this->DataCounter->find('count', array(
+            'conditions' => array(
+                    'DATE(date_time)' => $dateToday,
+            ),
+        ));
+
+        $totMetricas = $cantMetrics + $cantMetricsToday;
+        
+        $this->out("Hay $totMetricas metricas desde la última migración: $dateFrom");
+
+        
+        
+        if ( $totMetricas ) {
             $this->__calculateKpisDesde( $dateFrom );
-        } else {
-            $this->out("\nNada que migrar, terminando....\n\n\n");
+        } 
+
+        if ( $cantMetricsToday ) {
+            $this->__calculateKpisDelDia( $dateToday );
+            $this->out("\nActualizando datos de HOY");
         }
+
+        if ( !$totMetricas ) {
+            $this->out("\nNada que migrar, terminando....\n\n\n");
+        }        
         
     }
     
@@ -111,7 +133,7 @@ class MigrateShell extends AppShell
         ));
         
         // Ejecutar Transaccion
-        $this->KpiDailyValue->getDataSource()->begin();
+        $this->DailyValue->getDataSource()->begin();
         
         // inicializar valores de errores para procesar al final
         $saveErrors = array();
@@ -131,41 +153,44 @@ class MigrateShell extends AppShell
             $fd = $k['Kpi']['sql_formula'];
 
             // buscar los datos a migrar de la tabla de metricas
-            $metricsData = $this->MetricsData->find('all', array(
+            $dataMetric = $this->DataCounter->find('all', array(
                 'fields' => array(
                       $fd." as val",  
                       'DATE(date_time) as ml_datetime',
-                      'object_id',
+                      'objectno',
                 ),
                 'conditions' => $conds,
             ));
             
-            $this->out("El KPI $kpiName tiene ".count($metricsData)." registros por migrar");
+            $this->out("El KPI $kpiName tiene ".count($dataMetric)." registros por migrar");
             
             // por cada dato a migrar
-            foreach ( $metricsData as $md ) {
+            foreach ( $dataMetric as $md ) {
                 // setear el valor del calculo del KPI
                 $value = $md[0]['val'];
 
+                $carrier = $this->Carrier->findByObjectno($md['DataCounter']['objectno']);
                 // tiene que ser un valor numerico, si viene NULL u otra cosa, no lo tengo en cuenta
                 if ( !is_null($value) ) {
                     
-                    $dataDay = $this->KpiDataDay->find('first', array(
+
+
+                    $dataDay = $this->DataDay->find('first', array(
                         'recursive' => -1,
                         'conditions' => array(
-                            'KpiDataDay.ml_date'    => $md[0]['ml_datetime'],
-                            'KpiDataDay.carrier_id' => 1, // HARDCODEADOOOOOOOOOOO
+                            'DataDay.ml_date'    => $md[0]['ml_datetime'],
+                            'DataDay.carrier_id' => $carrier['Carrier']['id'], 
                         ),
                     ));
                     
                     if ( empty($dataDay) ) {
                         // si no existia previamente crear nueva fecha
-                        $this->KpiDataDay->create();
-                        $dataDay['KpiDataDay'] = array(
+                        $this->DataDay->create();
+                        $dataDay['DataDay'] = array(
                             'ml_date' => $md[0]['ml_datetime'],
-                            'carrier_id' => 1, // HARDCODEADOOOOOOOOOOO
+                            'carrier_id' => $carrier['Carrier']['id'],
                         );
-                        $dataDay['KpiDailyValue'] = array(
+                        $dataDay['DailyValue'] = array(
                             'kpi_id' => $k['Kpi']['id'],
                             'value'  => $value,
                         );
@@ -173,30 +198,30 @@ class MigrateShell extends AppShell
                         // si existia hay que sobreescribir los datos
                         
                         // ahora ver si existe el kpi para esa fecha
-                        $kdv = $this->KpiDailyValue->find('first', array(
+                        $kdv = $this->DailyValue->find('first', array(
                             'conditions' => array(
-                                'KpiDailyValue.kpi_data_day_id' => $dataDay['KpiDataDay']['id'],
-                                'KpiDailyValue.kpi_id' => $k['Kpi']['id'],
+                                'DailyValue.data_day_id' => $dataDay['DataDay']['id'],
+                                'DailyValue.kpi_id' => $k['Kpi']['id'],
                             )
                         ));
                         if ( !empty($kdv) ) {
                             // existe el KPI entonces sobreescribo
-                            $dataDay['KpiDailyValue'] = $kdv['KpiDailyValue'];                            
+                            $dataDay['DailyValue'] = $kdv['DailyValue'];                            
                         } else {
                             // no existe, entonces crear uno nuevo
-                            $this->KpiDailyValue->create();
-                            $dataDay['KpiDailyValue']['kpi_id'] = $k['Kpi']['id'];
+                            $this->DailyValue->create();
+                            $dataDay['DailyValue']['kpi_id'] = $k['Kpi']['id'];
                             
                         }       
                         // modificar el valor, aunque existiese o sea nuevo
-                        $dataDay['KpiDailyValue']['value'] = $value;
+                        $dataDay['DailyValue']['value'] = $value;
                     }
                     
                     
-                    if ( !$this->KpiDailyValue->saveAssociated( $dataDay ) ) {
+                    if ( !$this->DailyValue->saveAssociated( $dataDay ) ) {
                         debug($dataDay);
-                        debug( $this->KpiDataDay->validationErrors );
-                        debug( $this->KpiDailyValue->validationErrors );die;
+                        debug( $this->DataDay->validationErrors );
+                        debug( $this->DailyValue->validationErrors );die;
                         $saveErrors[] = $dataDay;
                     }
                     
@@ -208,12 +233,12 @@ class MigrateShell extends AppShell
         
         if ( count($saveErrors) ) {
             // Hay error
-            $this->KpiDailyValue->getDataSource()->rollback();            
+            $this->DailyValue->getDataSource()->rollback();            
             throw new Exception('Nada fue guardado, hubo algun error al querer guardar el ' . count($saveErrors).' en KPI´s ');
         } else {
             // Commit Changes
             $this->out("<success>Se guardaron todos los registros correctamente</success>");
-            $this->KpiDailyValue->getDataSource()->commit();
+            $this->DailyValue->getDataSource()->commit();
         }
     }
     
