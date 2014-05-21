@@ -21,8 +21,8 @@
             echo $this->Html->css(array(
                 '/bootstrap/css/bootstrap.min',
                 '/bootstrap/css/bootstrap-responsive.min',
-                "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css",
-                "http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css",
+                "bootstrap-combined.no-icons.min.css",
+                "font-awesome.css",
                 'style',
             ));
 
@@ -30,7 +30,7 @@
 
 
 
-            echo $this->Layout->js();
+            
             echo $this->Html->script(array(
                 '/croogo/js/html5',
                 'jquery-1.10.1.min',
@@ -49,10 +49,12 @@
                     //		'/croogo/js/choose',
                     //	'/croogo/js/croogo-bootstrap.js',
             ));
+
+            echo $this->Layout->js();
             ?>
 
             
-                <?php echo $this->fetch('head'); ?>
+            <?php echo $this->fetch('head'); ?>
 
             
 
@@ -62,15 +64,17 @@
 
             <link rel="shortcut icon" href="images/favicon.ico"  />
 
-<?php
-echo $this->Html->script(array(
-    //	'jquery-1.10.1.min',
-    '/bootstrap/js/bootstrap.min',
-));
+            <?php
+            echo $this->Html->script(array(
+                //	'jquery-1.10.1.min',
+                '/bootstrap/js/bootstrap.min',
+            ));
 
-echo $this->Blocks->get('css');
-echo $this->Blocks->get('script');
-?>
+            echo $this->Blocks->get('css');
+            echo $this->Blocks->get('script');
+            echo $this->fetch('css');
+            echo $this->fetch('script');
+            ?>
 
     </head>
 

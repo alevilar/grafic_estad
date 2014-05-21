@@ -28,7 +28,7 @@ class DataCountersController extends SkpiAppController
 
 		$counterColName = $counter['Counter']['col_name'];
 
-		$metrics = $this->DataMetric->getDataForSiteCounter($site_id, $counterColName, $date_from, $date_to);
+		$metrics = $this->DataMetric->getDataCounter('site', $site_id, $counterColName, $date_from, $date_to);
 
 		$this->set(compact('metrics', 'counter'));		
 	}

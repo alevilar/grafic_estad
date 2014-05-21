@@ -6,15 +6,70 @@
 **/
 function create_zomming_plot ( domMasterContainerId, domDetailContainerId, data, options ) {
 
+	if ( !$(domDetailContainerId).length ) {
+		throw "Aun no esta cargado el contenedor detail";
+	}
+
+	if ( !$(domMasterContainerId).length ) {
+		throw "Aun no esta cargado el contenedor master";
+	}
+
+	var axisLabel = '';
 	function colocarAxisLabel() {
 		if (options && options.hasOwnProperty('yaxisLabel')) {
-			$("#detail_graph .flot-y-axis").prepend("<span class='axis-y-label'>"+options.yaxisLabel+"</span>")
+			axisLabel = options.yaxisLabel;
+			$(".flot-y-axis", domDetailContainerId).prepend("<span class='axis-y-label'>"+options.yaxisLabel+"</span>");
+			$(".flot-y-axis", domMasterContainerId).css({visibility:'hidden'});
 		}	
 	}
 
+		
+	var tooltip = $('<div class="skytooltip">').appendTo($('body'));
+	tooltip.hide();	
+	
+	 
+	$(domDetailContainerId).on('plothover', function ( event, pos, item ) {
+		
+	    var ofsh, ofsw;
+	    
 
-    var detailOptions = {            
-             series: {
+	   if (item) {
+			
+//	 		$( ".selector" ).tooltip({ content: "Awesome title!" });
+ // + item.series.label
+ 			  var date = new Date(item.series.data[item.dataIndex][0]);
+ 			
+ 			  var format = '';
+ 			  if ( options.yaxisLabel ) {
+ 			  	format = options.yaxisLabel;
+ 			  }
+		      var content = item.series.data[item.dataIndex][1] + " "+ format + ", " + date.toLocaleString();
+
+		      var wd = tooltip.width() / 2;
+
+		      // $(domDetailContainerId).tooltip('show');
+		      tooltip.css({
+		      	top: (item.pageY-40) + 'px',
+		      	left: (item.pageX - wd) + 'px',
+		      })
+				.text(content)
+		      	.show('fade');
+	 
+	   } else {
+	   	tooltip.hide();
+	   }
+
+	});
+
+
+
+    var detailOptions = {   
+    		grid: {
+			    hoverable: true,
+			    clickable: true,
+			    mouseActiveRadius: 30  //specifies how far the mouse can activate an item
+			},         
+            series: {
                 lines: { 
                 	show: true, 
                 	lineWidth: 3
@@ -33,9 +88,12 @@ function create_zomming_plot ( domMasterContainerId, domDetailContainerId, data,
 
     var dataDetail = data;
  
-    
  
-    var plotDetail = $.plot($(domDetailContainerId),
+ 	if ( $(domDetailContainerId).length == 0 ) {
+ 		return;
+ 	}
+ 
+    var plotDetail = $.plot( $(domDetailContainerId),
         dataDetail,
         detailOptions
     );
@@ -61,12 +119,16 @@ function create_zomming_plot ( domMasterContainerId, domDetailContainerId, data,
     	color: dataDetail[0].color,
     	data: dataDetail[0].data
     }];
-    console.debug(dataDetail);
+    
     var plotMaster = $.plot($(domMasterContainerId),
         dataMain,
         masterOptions
     );
  
+
+ 	
+
+
     $(domDetailContainerId).bind("plotselected", function (event, ranges) {        
         plotDetail = $.plot($(domDetailContainerId), dataDetail,
                       $.extend(true, {}, detailOptions, {

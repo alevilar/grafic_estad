@@ -41,6 +41,7 @@ public $migration = array(
          'value' => array('type' => 'float', 'null' => false),
          'ml_datetime' => array('type' => 'datetime', 'null' => true, 'default' => null),
          'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
          'indexes' => array(
           'PRIMARY' => array('column' => 'id', 'unique' => 1)
           )
@@ -50,6 +51,7 @@ public $migration = array(
          'kpi_id' => array('type' => 'integer', 'null' => false, 'default' => null),
          'counter_id' => array('type' => 'integer', 'null' => false, 'default' => null),
          'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
          'indexes' => array(
           'PRIMARY' => array('column' => 'id', 'unique' => 1)
           )
@@ -64,6 +66,7 @@ public $migration = array(
             'sql_threshold_danger' => array('type' => 'string', 'length' => 64, 'null' => true, 'default' => null),
             'color' => array('type' => 'string', 'length' => 8, 'null' => true, 'default' => null),
             'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+            'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
             'indexes' => array(
               'PRIMARY' => array('column' => 'id', 'unique' => 1)
               )
@@ -76,6 +79,7 @@ public $migration = array(
     'graph' => array('type' => 'boolean', 'null' => false, 'default' => true),
     'color' => array('type' => 'string', 'length' => 8, 'null' => true, 'default' => null),
     'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+    'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
     'indexes' => array(
       'PRIMARY' => array('column' => 'id', 'unique' => 1)
       )
@@ -85,6 +89,7 @@ public $migration = array(
  'carrier_id' => array('type' => 'integer', 'null' => false, 'default' => null),
  'ml_date' => array('type' => 'date', 'null' => true, 'default' => null),
  'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+ 'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
  'indexes' => array(
   'PRIMARY' => array('column' => 'id', 'unique' => 1)
   )
@@ -95,6 +100,7 @@ public $migration = array(
  'kpi_id' => array('type' => 'string', 'length' => 64,'null' => false, 'default' => null),
  'value' => array('type' => 'float', 'null' => false),
  'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+ 'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
  'indexes' => array(
   'PRIMARY' => array('column' => 'id', 'unique' => 1)
   )

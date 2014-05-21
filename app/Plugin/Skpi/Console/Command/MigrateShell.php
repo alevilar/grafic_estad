@@ -53,24 +53,63 @@ class MigrateShell extends AppShell
          
         
     }
+
+
+    /**
+ * Display help/options
+ */
+    public function getOptionParser() {
+        $parser = parent::getOptionParser();
+        $parser->description(__d('sky', 'Sky KPI Migration'))           
+            ->addSubCommand('start', array(
+                'help' => __d('sky', 'Inicia migración desde la última fecha que se hizo hasta ahora'),
+                'parser' => array(
+                        // 'description' => 'Inicia migración desde la última fecha que se hizo hasta ahora',
+                        'options' => array(
+                            'force' => array(
+                                'short' => 'f',
+                                'boolean' => true,
+                                'help' => __('Fuerza para que se actualicen todos los datos, sin importar cuando fue la última actualización')
+                            )
+                        )
+                    )
+                )
+            )
+            ->addSubcommand('day', array(
+                    'help' => 'Migrar o actualizar una fecha puntual (formato: YYYY-MM-DD)',
+                    'parser' => array(
+                        'description' => 'Migrar o actualizar una fecha puntual (formato: YYYY-MM-DD)',
+                        'arguments' => array(
+                            'fecha' => array(
+                                'required' => true,
+                                'help' => 'Fecha puntual que se desea migrar o actualizar formato: YYYY-MM-DD',
+                            ),
+                        ),
+                    ),
+            ));
+        return $parser;
+    }
+
     
 
-    public function main()
+    public function start()
     {    
         
-        
-        $lastDay = $this->DataDay->find('first', array(
-                'fields' => array(
-                    'DataDay.ml_date',
-                ),
-                'order' => array(
-                    'DataDay.ml_date DESC' 
-                )
-        ));
-        
+        if ( !$this->params['force'] ) {
+            $lastDay = $this->DataDay->find('first', array(
+                    'fields' => array(
+                        'DataDay.ml_date',
+                    ),
+                    'order' => array(
+                        'DataDay.ml_date DESC' 
+                    )
+            ));
+        }
         if ( empty($lastDay) ) {
             // primera vez que corre el script
             $dateFrom = '2014-01-01';
+        } elseif ( $lastDay == date('Y-m-d')) {
+            $dateFrom = date('Y-m-d', strtotime('-1 day'));
         } else {
             $dateFrom = $lastDay['DataDay']['ml_date'];
         }
@@ -159,21 +198,20 @@ class MigrateShell extends AppShell
                       'DATE(date_time) as ml_datetime',
                       'objectno',
                 ),
+                'group' => array('objectno', 'ml_datetime'),
                 'conditions' => $conds,
             ));
-            
             $this->out("El KPI $kpiName tiene ".count($dataMetric)." registros por migrar");
             
             // por cada dato a migrar
             foreach ( $dataMetric as $md ) {
                 // setear el valor del calculo del KPI
-                $value = $md[0]['val'];
-
+                $value = $md[0]['val'];                
+                $this->Carrier->recursive = -1;
                 $carrier = $this->Carrier->findByObjectno($md['DataCounter']['objectno']);
+
                 // tiene que ser un valor numerico, si viene NULL u otra cosa, no lo tengo en cuenta
                 if ( !is_null($value) ) {
-                    
-
 
                     $dataDay = $this->DataDay->find('first', array(
                         'recursive' => -1,
@@ -221,7 +259,7 @@ class MigrateShell extends AppShell
                     if ( !$this->DailyValue->saveAssociated( $dataDay ) ) {
                         debug($dataDay);
                         debug( $this->DataDay->validationErrors );
-                        debug( $this->DailyValue->validationErrors );die;
+                        debug( $this->DailyValue->validationErrors );
                         $saveErrors[] = $dataDay;
                     }
                     

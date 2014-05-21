@@ -1,0 +1,30 @@
+.counter-graph{
+	margin: 5px 0px;
+}
+
+.counter-detail{
+	margin-top: 30px;
+	height: 250px;
+}
+
+
+.counter-master{
+	height: 100px;
+}
+
+.axis-y-label{
+	position: absolute;
+	top: -20px;
+	font-weight: bolder;
+}
+
+.skytooltip{
+	background: #5c5c5c;
+	color: white;
+	border: 1px solid black;
+	position: absolute;	
+	z-index: 999;
+	font-size: 0.9em;
+	padding: 3px 6px;
+	opacity: 0.9;
+}

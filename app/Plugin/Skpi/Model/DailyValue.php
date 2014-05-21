@@ -55,7 +55,7 @@ class DailyValue extends SkpiAppModel {
      * @param type $carriers array of carriers id´s
      */
     public function getSumBySiteDateKpi($kpiId, $day, $carriers = array() ) {        
-        return $this->DataDay->DailyValue->find('first', array(
+        $dd = $this->DataDay->DailyValue->find('first', array(
                         'conditions' => array(
                             'DailyValue.kpi_id' => $kpiId,
                             'DataDay.ml_date' => $day,
@@ -71,6 +71,8 @@ class DailyValue extends SkpiAppModel {
                             'Kpi.*',
                         ),
                     ));
+
+        return $dd;
     }
     
 }

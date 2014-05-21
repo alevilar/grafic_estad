@@ -8,9 +8,8 @@ if (!empty($this->request->data['DataDay']['date_from'])) {
 }
 ?>
 
-<h2 style="float: left; margin-right: 10px;"><?php echo $title_for_layout ?></h2>
 
-<div class="btn-toolbar pull-right text-small">
+<div class="btn-toolbar text-small">
     <?php
     $classSite = '';
     if ( $this->request->params['pass'][0] == 'site' && $this->request->params['pass'][1] == $site['Site']['id'] ) {

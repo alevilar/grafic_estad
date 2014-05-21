@@ -1,34 +1,9 @@
 <?php
-
-echo $this->Html->script(array(
-
-    '/jqplot/jquery.jqplot',
-    '/jqplot/plugins/jqplot.dateAxisRenderer.min',
-    '/jqplot/plugins/jqplot.pointLabels.min',
-    //'/jqplot/plugins/jqplot.highlighter.min',
-    '/jqplot/plugins/jqplot.cursor.min',
-
-
-    '/skpi/flot/jquery.flot',
-    '/skpi/flot/jquery.flot.time',
-    '/skpi/flot/jquery.flot.selection',
-	'/skpi/js/graphs/kpi_graph',
-
-
-), true);
-
-
-echo $this->Html->css('/jqplot/jquery.jqplot.min', true);
+$rand = rand();
 ?>
-
-<!--[if lt IE 9]>
-<?php echo $this->Html->script('/jqplot/excanvas.min'); ?>
-<![endif]-->
-
-
 <div>
-	<div id="detail_graph_<?= $counter['Counter']['id']?>" style="height: 250px"></div>
-	<div id="master_graph_<?= $counter['Counter']['id']?>" style="height: 100px"></div>
+	<div id="detail_graph_<?= $rand.$counter['Counter']['id']?>" class="counter-graph counter-detail"></div>
+	<div id="master_graph_<?= $rand.$counter['Counter']['id']?>" class="counter-graph counter-master"></div>
 </div>
 
 
@@ -43,19 +18,9 @@ echo $this->Html->css('/jqplot/jquery.jqplot.min', true);
         ];
 
     var yaxisLabel = "<?= sprintf($counter['Counter']['string_format'], '')?>";
-    var ops = {
-    	'yaxisLabel' : yaxisLabel
-    }
+    var ops = {'yaxisLabel' : yaxisLabel}
 
 	$( function() {
-		create_zomming_plot("#master_graph_<?= $counter['Counter']['id']?>", "#detail_graph_<?= $counter['Counter']['id']?>", dataDetail, ops);	
+		create_zomming_plot("#master_graph_<?= $rand.$counter['Counter']['id']?>", "#detail_graph_<?= $rand.$counter['Counter']['id']?>", dataDetail, ops);	
 	});
 </script>
-
-<style>
-	.axis-y-label{
-		position: absolute;
-		top: -20px;
-		font-weight: bolder;
-	}
-</style>

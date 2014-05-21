@@ -122,19 +122,31 @@ class DataDay extends SkpiAppModel
     }
     
     
-    
-    public function getDayValueForSite( $kpi_id, $days = array(), $siteId = null ) {
-        $siteCondition = array();
-        if ( !empty($siteId ) ) {
-            $siteCondition['conditions']['Site.id']  = $siteId;
+    /**
+    *
+    *   Devuelve un array de sitios para un KPI dado y para un rango de fechas
+    *   Se le puede pasar un array de condiciones que será utilizado en la busqueda de Sitio.
+    *   También se puede pasar directamente un ID como condicion de búsqueda, en ese caso pasa como ID de Sitio
+    *   
+    *   
+    *   @param $integer kpi_id
+    *   @param array $days array de fechas
+    *   @param array $siteConditions array de condiciones. Si se pasa un numero es tenido en cuenta como el id del sitio
+    *                                               
+    *
+    **/
+    public function site_list_get_day_value_for_kpi( $kpi_id, $days = array(), $conditions = array() ) {        
+        if ( is_numeric($conditions) ) {
+            $ops['conditions']['Site.id']  = $conditions;
+        } else {
+            $ops['conditions']  = $conditions;
         }
           
         if (!is_array($days)) {
             $days = array($days);
         }
-        
         $this->Carrier->Sector->Site->recursive = -1;
-        $sitios = $this->Carrier->Sector->Site->find('all', $siteCondition);
+        $sitios = $this->Carrier->Sector->Site->find('all', $ops);
         foreach ($sitios as &$s) {
             $carriers = $this->Carrier->Sector->Site->listCarriers($s['Site']['id']);
             $s['Day'] = array();
@@ -143,17 +155,20 @@ class DataDay extends SkpiAppModel
                 $s['Day'][] = $value;
             }
         }
-        if ( !empty($siteId) ) {
-             $sitios = $sitios[0];
+
+        if ( is_numeric($conditions) ) {
+            $sitios = $sitios[0];
         }
+
         return $sitios;
     }
     
     
-    public function getDayValueForSector( $kpi_id, $days = array(), $sectorId = null ) {
-        $sectorCondition = array();
-        if ( !empty($sectorId ) ) {
-            $sectorCondition['conditions']['Sector.id']  = $sectorId;
+    public function sector_list_get_day_value_for_kpi( $kpi_id, $days = array(), $conditions = null ) {
+        if ( !empty($conditions ) && is_numeric($conditions) ) {
+            $ops['conditions']['Sector.id']  = $conditions;
+        } else {
+            $ops['conditions']  = $conditions;
         }
           
         if (!is_array($days)) {
@@ -161,61 +176,95 @@ class DataDay extends SkpiAppModel
         }
         
         $this->Carrier->Sector->Site->recursive = -1;
-        $sectors = $this->Carrier->Sector->find('all', $sectorCondition);
+        $sectors = $this->Carrier->Sector->find('all', $ops);
         foreach ($sectors as &$s) {
-            $carriers = $this->Carrier->Sector->listCarriers($sectorId);
+            $carriers = $this->Carrier->Sector->listCarriers($s['Sector']['id']);
             $s['Day'] = array();
             foreach ( $days as $day ) {
                 $value = $this->DailyValue->getSumBySiteDateKpi($kpi_id, $day, $carriers);
                 $s['Day'][] = $value;
             }
         }
-        if (!empty($sectorId)){
-             $sectors = $sectors[0];
+
+        if ( is_numeric($conditions) ) {
+            $sectors = $sectors[0];
         }
+
         return $sectors;
+    }
+
+
+    public function carrier_list_get_day_value_for_kpi( $kpi_id, $days, $conditions ) {
+        if ( !empty($conditions ) && is_numeric($conditions) ) {
+            $ops['conditions']['Carrier.id']  = $conditions;
+        } else {
+            $ops['conditions']  = $conditions;
+        }
+          
+        if (!is_array($days)) {
+            $days = array($days);
+        }
+
+        $this->Carrier->recursive = -1;
+        $carriers = $this->Carrier->find('all', $ops);
+
+        foreach ($carriers as &$c) {            
+            $c['Day'] = array();
+            foreach ( $days as $day ) {
+                $value = $this->DailyValue->getSumBySiteDateKpi($kpi_id, $day, $c['Carrier']['id']);
+                $c['Day'][] = $value;
+            }
+        }
+
+        if ( is_numeric($conditions) ) {
+            $carriers = $carriers[0];
+        }
+
+        return $carriers;
+    }
+
+    public function generic_get_day_value_for_kpi( $what = 'site', $what_id, $days, $conditions ) {
+        $fn = $what.'_list_get_day_value_for_kpi';
+        return $this->{$fn}( $what_id, $days, $conditions );
+    }
+
+
+    public function generic_all_kpis_per_day_value ( $what = 'site', $what_id, $kpis, $days) {        
+        $kpiValues = array();
+        foreach($kpis as $k) {            
+            $allValues = array();
+            foreach($days as $day) { 
+                $siteData = $this->generic_get_day_value_for_kpi($what, $k['Kpi']['id'], $day, $what_id );
+                // index CERO porque siempre va a ser 1 dia que estoy recorriendo
+                $allValues[] = $siteData['Day'][0];
+            }
+            $k['Day'] = $allValues;
+            $kpiValues[] = $k;
+        }
+        
+        return $kpiValues;   
     }
 
 
 
     public function site_get_data_value ($site_id, $kpis, $days) {
-        $kpiValues = array();        
-        foreach($kpis as $k) {
-            $kpiValues = $k;
-            $allValues = array();
-            foreach($days as $day) {
-                $siteData = $this->getDayValueForSite( $k['Kpi']['id'], $day, $site_id );
-                // index CERO porque siempre va a ser 1 dia que estoy recorriendo
-                $allValues[] = $siteData['Day'][0];
-            }
-            $kpiValues[] = array('Day' => $allValues);
-        }
-        $this->Carrier->Sector->Site->contain(array('Sector.Carrier'));
-        $site = $this->Carrier->Sector->Site->read(null, $site_id);
+        $kpiValues = $this->generic_all_kpis_per_day_value('site', $site_id, $kpis, $days);
+        $site = $this->Carrier->Sector->Site->readCarrier( $site_id);
         $site['KpiValue'] = $kpiValues;
+
         return $site;
     }
 
 
     public function sector_get_data_value ( $sector_id, $kpis, $days) {
-        $sector_id = $what_id;
         $this->Carrier->Sector->contain(array('Site'));
         $sector = $this->Carrier->Sector->read(null, $sector_id);
         $site_id = $sector['Site']['id'];
 
-        foreach($kpis as &$k) {
-            $k['Day'] = array();
-            foreach($days as $day) {
-                 $siteData = $this->getDayValueForSector( $k['Kpi']['id'], $day, $sector_id );
+        $kpiValues = $this->generic_all_kpis_per_day_value('sector', $sector_id, $kpis, $days);
 
-                 // index CERO porque siempre va a ser 1 dia que estoy recorriendo
-                 $k['Day'][] = $siteData['Day'][0];
-            }
-        }
-
-        $this->Carrier->Sector->Site->contain(array('Sector.Carrier'));
-        $site = $this->Carrier->Sector->Site->read(null, $site_id);
-        $site['KpiValue'] = $kpis;
+        $site = $this->Carrier->Sector->Site->readCarrier( $site_id);
+        $site['KpiValue'] = $kpiValues;
         return $site;
     }
 
@@ -224,21 +273,13 @@ class DataDay extends SkpiAppModel
         $this->Carrier->contain(array('Sector.Site'));
         $c = $this->Carrier->read(null, $carrier_id);
         $site_id = $c['Sector']['Site']['id'];
-        $carriers = $c['Carrier']['id'];
 
-
-        foreach($kpis as &$k) {
-            $k['Day'] = array();
-            foreach($days as $day) {
-                $value = $this->DailyValue->getSumBySiteDateKpi( $k['Kpi']['id'], $day, $carriers );
-                $k['Day'][] = $value;                
-            }
-        }
+        $kpiValues = $this->generic_all_kpis_per_day_value('carrier', $carrier_id, $kpis, $days);
 
         // populate all site data needed
         $this->Carrier->Sector->Site->contain(array('Sector.Carrier'));
         $site = $this->Carrier->Sector->Site->read(null, $site_id);
-        $site['KpiValue'] = $kpis;
+        $site['KpiValue'] = $kpiValues;
         return $site;
     }
 
@@ -247,10 +288,9 @@ class DataDay extends SkpiAppModel
     *   @param string $what site, sector or carrier
     *
     **/
-    public function getDataValueGeneric ( $what, $what_id, $days, $conditions) {
+    public function generic_get_data_value ( $what, $what_id, $days, $conditions) {
 
         $kpis = $this->DailyValue->Kpi->find('all', array('recursive'=>-1));
-
         $fn = $what."_get_data_value";
         return $this->{$fn}($what_id, $kpis, $days);
 

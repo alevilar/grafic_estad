@@ -1,34 +1,36 @@
 <?php
 
-echo $this->Html->script(array(
+if ( $this->layout != 'ajax' ) {
+    echo $this->Html->script(array(
 
-    '/jqplot/jquery.jqplot',
-    '/jqplot/plugins/jqplot.dateAxisRenderer.min',
-    '/jqplot/plugins/jqplot.pointLabels.min',
-    //'/jqplot/plugins/jqplot.highlighter.min',
-    '/jqplot/plugins/jqplot.cursor.min',
-
-
-    '/skpi/flot/jquery.flot',
-    '/skpi/flot/jquery.flot.time',
-    '/skpi/flot/jquery.flot.selection',
-    '/skpi/js/graphs/kpi_graph',
+        '/jqplot/jquery.jqplot',
+        '/jqplot/plugins/jqplot.dateAxisRenderer.min',
+        '/jqplot/plugins/jqplot.pointLabels.min',
+        //'/jqplot/plugins/jqplot.highlighter.min',
+        '/jqplot/plugins/jqplot.cursor.min',
 
 
-), true);
+        '/skpi/flot/jquery.flot',
+        '/skpi/flot/jquery.flot.time',
+        '/skpi/flot/jquery.flot.selection',
+        '/skpi/js/graphs/kpi_graph',
+    ));
 
 
-echo $this->Html->css('/jqplot/jquery.jqplot.min', true);
+    echo $this->Html->css('/jqplot/jquery.jqplot.min');
+    ?>
 
+    <!--[if lt IE 9]>
+    <?php echo $this->Html->script('/jqplot/excanvas.min'); ?>
+    <![endif]-->
+<?php
+}
+
+$random = rand();
 ?>
 
-<!--[if lt IE 9]>
-<?php echo $this->Html->script('/jqplot/excanvas.min'); ?>
-<![endif]-->
-
-
-<div id="detail_graph_<?= $counter['Counter']['id']?>" style="height: 250px"></div>
-<div id="master_graph_<?= $counter['Counter']['id']?>" style="height: 100px"></div>
+<div id="detail_graph_<?= $random.$counter['Counter']['id']?>" class="counter-graph counter-detail"></div>
+<div id="master_graph_<?= $random.$counter['Counter']['id']?>" class="counter-graph counter-master"></div>
 
 
 <script type="text/javascript">
@@ -48,8 +50,12 @@ echo $this->Html->css('/jqplot/jquery.jqplot.min', true);
         }
 
         $( function() {
-            create_zomming_plot("#master_graph_<?= $counter['Counter']['id']?>", "#detail_graph_<?= $counter['Counter']['id']?>", dataDetail, ops);   
-        });    
+            create_zomming_plot(
+                "#master_graph_<?= $random.$counter['Counter']['id']?>", 
+                "#detail_graph_<?= $random.$counter['Counter']['id']?>", 
+                dataDetail, 
+                ops);
+        });            
     })();
     
 </script>

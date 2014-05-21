@@ -4,12 +4,52 @@
 		"selected_items":
 		[
 			[
-				"date",
-				"date_to"
+				"Obe",
+				"objectnos"
+			],
+			[
+				"marg",
+				"margin-top"
+			],
+			[
+				"margi",
+				"margin"
+			],
+			[
+				"site",
+				"site_id"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"con",
+				"container"
+			],
+			[
+				"all",
+				"allValues"
 			],
 			[
 				"kpi",
 				"kpi_id"
+			],
+			[
+				"si",
+				"site_id"
+			],
+			[
+				"Kpi",
+				"KpiValue"
+			],
+			[
+				"sec",
+				"seck"
+			],
+			[
+				"date",
+				"date_to"
 			],
 			[
 				"carri",
@@ -124,10 +164,6 @@
 				"changeRadio"
 			],
 			[
-				"site",
-				"site_id"
-			],
-			[
 				"array_",
 				"array_values"
 			],
@@ -170,10 +206,6 @@
 			[
 				"r",
 				"rgba()"
-			],
-			[
-				"marg",
-				"margin-top"
 			],
 			[
 				"disab",
@@ -240,10 +272,6 @@
 				"padding"
 			],
 			[
-				"padd",
-				"padding-bottom"
-			],
-			[
 				"borde",
 				"border-bottom"
 			],
@@ -264,18 +292,36 @@
 	"buffers":
 	[
 		{
-			"file": "app/Plugin/Skpi/Controller/DataDaysController.php",
+			"file": "app/Plugin/Sky/Model/Site.php",
 			"settings":
 			{
-				"buffer_size": 7638,
+				"buffer_size": 1901,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Plugin/Skpi/View/DataDays/site_kpi_detail.ctp",
+			"file": "app/Plugin/Skpi/Controller/DataDaysController.php",
 			"settings":
 			{
-				"buffer_size": 892,
+				"buffer_size": 6805,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 155 files for \"getDataForSiteCounter\" (case sensitive)\n\n/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataCountersController.php:\n   29  		$counterColName = $counter['Counter']['col_name'];\n   30  \n   31: 		$metrics = $this->DataMetric->getDataForSiteCounter($site_id, $counterColName, $date_from, $date_to);\n   32  \n   33  		$this->set(compact('metrics', 'counter'));		\n\n/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php:\n  111          $counters = array();\n  112          foreach ($kpi['Counter'] as $counter) {\n  113:             $counters[] = $DataCounter->getDataForSiteCounter($site_id, $counter['id'], $graph_date_from, $graph_date_to);    \n  114          }\n  115  \n\n2 matches across 2 files\n",
+			"settings":
+			{
+				"buffer_size": 732,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "app/Plugin/Skpi/Controller/DataCountersController.php",
+			"settings":
+			{
+				"buffer_size": 955,
 				"line_ending": "Unix"
 			}
 		},
@@ -283,23 +329,15 @@
 			"file": "app/Plugin/Skpi/Model/DataDay.php",
 			"settings":
 			{
-				"buffer_size": 8098,
+				"buffer_size": 9494,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Plugin/Skpi/View/DataDays/view.ctp",
+			"file": "app/Plugin/Skpi/Model/DataCounter.php",
 			"settings":
 			{
-				"buffer_size": 1059,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
-			"settings":
-			{
-				"buffer_size": 1510,
+				"buffer_size": 2375,
 				"line_ending": "Unix"
 			}
 		}
@@ -328,26 +366,41 @@
 	},
 	"file_history":
 	[
-		"/var/www/skymax_graf/app/Plugin/Skpi/Console/Command/MigrateShell.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/view.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DailyValue.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataCounter.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataDay.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Migration/001_install_kpis_counter.php",
-		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/Layouts/default.ctp",
-		"/var/www/skymax_graf/app/Plugin/Croogo/View/Layouts/default.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/Carrier.php",
 		"/var/www/skymax_graf/app/Plugin/Sky/Model/Sector.php",
-		"/var/www/skymax_graf/app/Plugin/Sky/Model/Site.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataCountersController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/monitor.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/css/graphs.css",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataCounters/graph_raw_counter.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/graphs/kpi_graph.js",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/view.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/site_kpi_detail.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Config/bootstrap.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/Counter.php",
+		"/var/www/skymax_graf/app/Plugin/Users/Console/Command/UsersShell.php",
+		"/var/www/skymax_graf/app/Plugin/Croogo/Console/Command/Task/UpgradeTask.php",
+		"/var/www/skymax_graf/app/Plugin/Croogo/Console/Command/CroogoShell.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Migration/001_install_kpis_counter.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Console/Command/MigrateShell.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataDay.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/Model/Site.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataCounter.php",
+		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/Layouts/default.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/data_day_monitor.js",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/jquery.jcarousel.js",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/css/jcarousel.css",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/sitio_sectores_y_carriers.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/jquery.jcarousel.min.js",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/scroll_interval_to_js.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DailyValue.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/kpis_table.ctp",
+		"/var/www/skymax_graf/app/Plugin/Croogo/View/Layouts/default.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataCountersController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataMetric.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/by_kpi.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/kpi_site_date_search.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/by_site.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/site_overview.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Schema/schema.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Kpis/full_site_view.ctp",
@@ -363,7 +416,6 @@
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/KpiDataDaysController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiDailyValue.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/site_daily_kpis.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Config/bootstrap.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataMetrics/graph_raw_counter.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Helper/KpiHelper.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiHourlyCounter.php",
@@ -371,14 +423,10 @@
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataMetricsController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/by_site.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/site_overview.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/graphs/kpi_graph.js",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataMetrics/graph_site_kpi.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/monitor.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/kpi_graph.js",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/KpiCountersController.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/scroll_interval_to_js.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/data_day_monitor.js",
-		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/css/jcarousel.css",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/kpi_values_x_sitio.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiDataDay.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/index.ctp",
@@ -402,7 +450,6 @@
 		"/var/www/skymax_graf/app/tmp/logs/error.log",
 		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/by_kpi.ctp",
 		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/by_site.ctp",
-		"/var/www/skymax_graf/app/Plugin/Sky/Model/Carrier.php",
 		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/webroot/bootstrap_datepicker/js/bootstrap-datepicker.js",
 		"/var/www/skymax_graf/app/View/Themed/BootstrapTheme/webroot/bootstrap_datetimepicker/js/bootstrap-datetimepicker.min.js",
 		"/var/www/skymax_graf/app/Plugin/Sky/View/Helpers/KpiHelper.php",
@@ -437,6 +484,45 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"What",
+			"getDataForSiteCounter",
+			"Site",
+			"_list_get_day_value_for_kpi",
+			"generic_all_kpis_per_day_value",
+			"_get_data_value",
+			"create_zomming_plot",
+			"master_graph_",
+			"graph_raw_counter",
+			"detail_graph",
+			"__calculateKpisgetMetricConds",
+			"__calculateKpisDesde",
+			"site_id",
+			"_list_get_day_value_for_kpi",
+			"console",
+			"jcarousel-title-controls",
+			"_trigger",
+			"trigger",
+			"target",
+			"targetin",
+			"id=",
+			"_list_get_day_value_for_kpi",
+			"generic_all_kpis_per_day_value",
+			"_get_data_value",
+			"kpisValues",
+			"k",
+			"_list_get_day_value_for_kpi",
+			"_get_day_value_for_kpi",
+			"siteData",
+			"conditions",
+			"get_day_value",
+			"siteId",
+			"get_day_value",
+			"get_data_value",
+			"site_get_data_value",
+			"getDayValueForCarrier",
+			"getDayValueForSector",
+			"DayValueForSite",
+			"sec",
 			"kpi_data_da",
 			"object_id",
 			"getdayValueForSector",
@@ -525,46 +611,7 @@
 			"site",
 			"siteData",
 			"Element",
-			"<?",
-			"this",
-			"consol",
-			"changeRadio",
-			"currRadio",
-			"console",
-			"$this->request->data['DateKpi']['sitio_id']",
-			"filterDatetimeFrom",
-			"darVueltaSiteDate",
-			"darVueltaKpiDate",
-			"arraysPorFieldNames",
-			"contain",
-			"public function threshold",
-			"format",
-			"tCells",
-			"debug",
-			"arraysPorFieldNames",
-			"avg",
-			"field",
-			"success_rate_of_ntwk_re_entry_idle_mode",
-			"icons",
-			"Sitio",
-			"				",
-			"paxapos",
-			"checked: false,",
-			"fiscal",
-			"collectionChange",
-			"__fTotalChange",
-			"console",
-			"refreshAllViews",
-			"change:currency",
-			"CarritoFormConfirmView",
-			"CarritoFormConfirm",
-			"users",
-			"user",
-			"configs",
-			"autocomplete",
-			"validPagename",
-			"admin_rte_example",
-			"Wysiwyg"
+			"<?"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -572,6 +619,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"sector_get_day_value",
 			"DataCounter",
 			"skpi_",
 			"dataMetric",
@@ -606,23 +654,23 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/Plugin/Skpi/Controller/DataDaysController.php",
+					"file": "app/Plugin/Sky/Model/Site.php",
 					"settings":
 					{
-						"buffer_size": 7638,
+						"buffer_size": 1901,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4124,
-								4124
+								824,
+								824
 							]
 						],
 						"settings":
@@ -632,32 +680,79 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1716.0,
+						"translation.y": 635.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/Plugin/Skpi/View/DataDays/site_kpi_detail.ctp",
+					"file": "app/Plugin/Skpi/Controller/DataDaysController.php",
 					"settings":
 					{
-						"buffer_size": 892,
+						"buffer_size": 6805,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								885,
-								885
+								3168,
+								3168
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1713.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 732,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										249,
+										270
+									],
+									[
+										594,
+										615
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								599,
+								599
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -666,54 +761,25 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "app/Plugin/Skpi/Model/DataDay.php",
+					"buffer": 3,
+					"file": "app/Plugin/Skpi/Controller/DataCountersController.php",
 					"settings":
 					{
-						"buffer_size": 8098,
+						"buffer_size": 955,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7926,
-								7926
+								797,
+								797
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3393.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/Plugin/Skpi/View/DataDays/view.ctp",
-					"settings":
-					{
-						"buffer_size": 1059,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								429,
-								892
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -723,28 +789,54 @@
 				},
 				{
 					"buffer": 4,
-					"file": "app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
+					"file": "app/Plugin/Skpi/Model/DataDay.php",
 					"settings":
 					{
-						"buffer_size": 1510,
+						"buffer_size": 9494,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								563,
-								563
+								5682,
+								5682
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2811.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/Plugin/Skpi/Model/DataCounter.php",
+					"settings":
+					{
+						"buffer_size": 2375,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1783,
+								1783
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 913.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -794,20 +886,112 @@
 		"selected_items":
 		[
 			[
-				"zoomin",
+				"carrier",
+				"Plugin/Sky/Model/Carrier.php"
+			],
+			[
+				"sector",
+				"Plugin/Sky/Model/Sector.php"
+			],
+			[
+				"datacounte",
+				"Plugin/Skpi/Model/DataCounter.php"
+			],
+			[
+				"datada",
+				"Plugin/Skpi/Model/DataDay.php"
+			],
+			[
+				"model/site",
+				"Plugin/Sky/Model/Site.php"
+			],
+			[
+				"skpi/boo",
+				"Plugin/Skpi/Config/bootstrap.php"
+			],
+			[
+				"site_",
+				"Plugin/Skpi/View/DataDays/site_kpi_detail.ctp"
+			],
+			[
+				"counter_zooming_view",
 				"Plugin/Skpi/View/Elements/counter_zooming_view.ctp"
 			],
 			[
-				"skpi/view",
+				"skpi/view/view",
 				"Plugin/Skpi/View/DataDays/view.ctp"
+			],
+			[
+				"monito",
+				"Plugin/Skpi/View/DataDays/monitor.ctp"
+			],
+			[
+				"skpi/migra",
+				"Plugin/Skpi/Config/Migration/001_install_kpis_counter.php"
+			],
+			[
+				"upgrade",
+				"Plugin/Croogo/Console/Command/Task/UpgradeTask.php"
+			],
+			[
+				"shell",
+				"Plugin/Croogo/Console/Command/CroogoShell.php"
+			],
+			[
+				"skpi/migrat",
+				"Plugin/Skpi/Console/Command/MigrateShell.php"
+			],
+			[
+				"site",
+				"Plugin/Sky/Model/Site.php"
+			],
+			[
+				"datacount",
+				"Plugin/Skpi/Model/DataCounter.php"
 			],
 			[
 				"dataday",
 				"Plugin/Skpi/Model/DataDay.php"
 			],
 			[
-				"skpi/migra",
-				"Plugin/Skpi/Config/Migration/001_install_kpis_counter.php"
+				"site_kpi",
+				"Plugin/Skpi/View/DataDays/site_kpi_detail.ctp"
+			],
+			[
+				"datadaycon",
+				"Plugin/Skpi/Controller/DataDaysController.php"
+			],
+			[
+				"sitio_sectores_y_carriers",
+				"Plugin/Skpi/View/Elements/sitio_sectores_y_carriers.ctp"
+			],
+			[
+				"jcarousel",
+				"Plugin/Skpi/webroot/js/jquery.jcarousel.min.js"
+			],
+			[
+				"data_day_monitor",
+				"Plugin/Skpi/webroot/js/data_day_monitor.js"
+			],
+			[
+				"scroll_interval_to_js",
+				"Plugin/Skpi/View/Elements/scroll_interval_to_js.ctp"
+			],
+			[
+				"dailyvalue",
+				"Plugin/Skpi/Model/DailyValue.php"
+			],
+			[
+				"kpis_table",
+				"Plugin/Skpi/View/Elements/kpis_table.ctp"
+			],
+			[
+				"zoomin",
+				"Plugin/Skpi/View/Elements/counter_zooming_view.ctp"
+			],
+			[
+				"skpi/view",
+				"Plugin/Skpi/View/DataDays/view.ctp"
 			],
 			[
 				"view/theme/boo/defaul",
@@ -818,20 +1002,8 @@
 				"Plugin/Croogo/View/Layouts/default.ctp"
 			],
 			[
-				"counter_zooming_view",
-				"Plugin/Skpi/View/Elements/counter_zooming_view.ctp"
-			],
-			[
-				"dailyvalue",
-				"Plugin/Skpi/Model/DailyValue.php"
-			],
-			[
 				"model/sect",
 				"Plugin/Sky/Model/Sector.php"
-			],
-			[
-				"model/site",
-				"Plugin/Sky/Model/Site.php"
 			],
 			[
 				"datacounter",
@@ -844,18 +1016,6 @@
 			[
 				"model/data",
 				"Plugin/Skpi/Model/DataDay.php"
-			],
-			[
-				"site_kpi",
-				"Plugin/Skpi/View/DataDays/site_kpi_detail.ctp"
-			],
-			[
-				"kpis_table",
-				"Plugin/Skpi/View/Elements/kpis_table.ctp"
-			],
-			[
-				"sitio_sectores_y_carriers",
-				"Plugin/Skpi/View/Elements/sitio_sectores_y_carriers.ctp"
 			],
 			[
 				"kpi_site_",
@@ -888,10 +1048,6 @@
 			[
 				"site_over",
 				"Plugin/Skpi/View/DataDays/site_overview.ctp"
-			],
-			[
-				"datadaycon",
-				"Plugin/Skpi/Controller/DataDaysController.php"
 			],
 			[
 				"skpi/site",

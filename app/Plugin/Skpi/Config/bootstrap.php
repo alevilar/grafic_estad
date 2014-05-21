@@ -4,7 +4,7 @@
 define('SK_KPI_MAX_DL_ID', 1);
 define('SK_KPI_MAX_UL_ID', 2);
 
-define('SK_COUNTER_DL_AVG', 13);
+define('SK_COUNTER_DL_AVG', 30);
 define('SK_COUNTER_UL_AVG', 31);
 
 

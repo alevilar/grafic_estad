@@ -19,7 +19,7 @@ $headers[] = "AVG";
 
 
 $cels = array();
-foreach ($kpis as $k) {
+foreach ($kpis['KpiValue'] as $k) {
     $row = array();
     $row[] = $this->Html->link($k['Kpi']['name'], array(
         'controller' => 'data_days',

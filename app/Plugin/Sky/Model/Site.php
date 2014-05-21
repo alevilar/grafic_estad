@@ -69,4 +69,12 @@ class Site extends SkyAppModel {
             }
             return $carriers;
         }
+
+        public function readCarrier( $site_id = null ){
+            if ( empty($site_id) ) {
+                $site_id = $this->id;
+            }
+            $this->contain(array('Sector.Carrier'));
+            return $this->read(null, $site_id);
+        }
 }

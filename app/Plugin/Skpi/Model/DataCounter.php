@@ -8,12 +8,19 @@ App::uses('AppModel', 'Model');
 class DataCounter extends AppModel {
     
     public $useDbConfig = 'migration_db';
-    
 
-    public function getDataForSiteCounter ( $site_id, $counterId, $date_from, $date_to) {
 
-        $Counter = ClassRegistry::init('Skpi.Counter');
+    public function getDataCounter ($what, $what_id, $counterId, $date_from, $date_to ) {
+
+		$fn = $what.'_get_objectnos';
+    	$objectnos = $this->{$fn}( $what_id, $counterId, $date_from, $date_to );    	
+
+
+    	$Counter = ClassRegistry::init('Skpi.Counter');
         $Counter->recursive = -1;
+
+
+        
 
         // Get Counter DL
         $Counter->id = $counterId;
@@ -22,7 +29,7 @@ class DataCounter extends AppModel {
 
 		$data_metrics = $this->find('all', array(
 			'conditions' => array(
-				'DataCounter.objectno' => array(17,18,19,20,21,22,23,24), // Hardcodedo como si fuese un sitio
+				'DataCounter.objectno' => $objectnos, // Hardcodedo como si fuese un sitio
 				'DataCounter.date_time >=' => $date_from,
 				'DataCounter.date_time <=' => $date_to,
 				),
@@ -50,6 +57,33 @@ class DataCounter extends AppModel {
 			'DataCounter' => $metrics,
 			);
 		return $metrics;
+
+    }
+    
+
+    public function carrier_get_objectnos (  $carrier_id, $counterId, $date_from, $date_to ) {
+    	$Carrier = ClassRegistry::init('Skpi.Carrier');
+    	$Carrier->recursive = -1;
+    	$carr = $Carrier->read(null, $carrier_id);
+    	return $carr['Carrier']['objectno'];
+    }
+
+
+    public function sector_get_objectnos (  $sector_id, $counterId, $date_from, $date_to ) {
+    	$Sector = ClassRegistry::init('Skpi.Sector');
+        $Sector->recursive = -1;
+        $objectnos = $Sector->listCarriers($sector_id, 'objectno');
+
+		return $objectnos;      
+    }
+
+
+    public function site_get_objectnos ( $site_id, $counterId, $date_from, $date_to) {
+    	$Site = ClassRegistry::init('Skpi.Site');
+        $Site->recursive = -1;
+        $objectnos = $Site->listCarriers($site_id, 'objectno');
+
+		return $objectnos;        
     }
     
     

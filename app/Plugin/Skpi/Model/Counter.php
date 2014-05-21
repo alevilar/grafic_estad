@@ -9,7 +9,7 @@ class Counter extends SkpiAppModel {
 
     public $useDbConfig = 'migration_db';
     
-    // public $useTable = 'metrics_counters';
+     // public $useTable = 'metrics_counters';
         
     public $hasMany = array('Skpi.HourlyCounter');
 
