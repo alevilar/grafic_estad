@@ -74,5 +74,31 @@ class SiteMaximsDailyValue extends SkpiAppModel {
 				'order' => array('SiteMaximsDailyValue.ml_datetime ASC')
 				));
 	}
+
+
+
+	public function filterDateFrom($data = array())
+    {
+        $conditions = array();
+        if (!empty($data['date_from'])) {
+            $conditions = array(
+                $this->name . '.ml_datetime >=' => $data['date_from'],
+            );
+        }
+        return $conditions;
+    }
+
+    public function filterDateTo($data = array())
+    {
+        $conditions = array();
+        if (!empty($data['date_to'])) {
+            $conditions = array(
+                $this->name . '.ml_datetime <=' => $data['date_to'],
+            );
+        }
+        return $conditions;
+    }
+    
+
 }
 

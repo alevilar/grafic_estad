@@ -41,7 +41,7 @@ echo $this->Form->create( $modelName , $options);
 
 
 <div class="search-form">
-    <div class="span2">
+    <div class="span4">
         <?php        
         echo $this->Form->input('date_from', array(          
             'label' => array(
@@ -58,7 +58,7 @@ echo $this->Form->create( $modelName , $options);
             ));              
         ?>
     </div>
-    <div class="span2">
+    <div class="span4 offset1">
     	<?php
     	 echo $this->Form->input('date_to', array( 
             'label' => 'Hasta',
@@ -68,7 +68,7 @@ echo $this->Form->create( $modelName , $options);
             ));
     	?>
     </div>
-    <div class="span1">
+    <div class="span2 offset1">
     	<br>     
         <?php
         echo $this->Form->button('Buscar', array(
@@ -77,13 +77,7 @@ echo $this->Form->create( $modelName , $options);
         ?>
         
         <?php //echo $this->Form->input('sector_name', array('label' => 'Sector')); ?>
-    </div>
-    <div class="span1">
-        <?php //echo $this->Form->input('carrier_name', array('label' => 'Carrier   ')); ?>
-    </div>
-    <div class="span2 offset1">   
-    	
-    </div>
+    </div>    
     <div class="clearfix"></div>
 </div>    
 <?php

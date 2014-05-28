@@ -82,6 +82,8 @@ class SiteMaximsDailyValuesController extends SkpiAppController {
     }
 
 	public function monitor ( $date_from = null, $date_to = null ) {
+        $this->layout = 'clean';
+        $this->set('title_for_layout', 'Máximo tráfico por Radiobase');
 		$this->Prg->commonProcess();
         $conditions = $this->SiteMaximsDailyValue->parseCriteria($this->request->query);
         $busqueda = false;

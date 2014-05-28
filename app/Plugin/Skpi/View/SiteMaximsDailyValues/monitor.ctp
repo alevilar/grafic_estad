@@ -1,8 +1,9 @@
-<?php echo $this->Element('kpi_site_date_search', array('modelName' => 'SiteMaximsDailyValue')); ?>
+<?php 
 
-
-<div class="clearfix"></div>
-
+$this->start('search');
+echo $this->Element('kpi_site_date_search', array('modelName' => 'SiteMaximsDailyValue')); 
+$this->end();
+?>
 
 <div>
 

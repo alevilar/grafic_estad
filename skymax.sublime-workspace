@@ -348,19 +348,15 @@
 			}
 		},
 		{
-			"file": "app/Plugin/Skpi/Console/Command/MigrateShell.php",
+			"contents": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        \n            <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n            <!--[if lte IE 7 ]><html id=\"ie7\" lang=\"en\"> <![endif]-->\n            <title><?php echo strip_tags($title_for_layout); ?> &raquo; <?php echo strip_tags(Configure::read('Site.title')); ?></title>\n\n            <?php\n            echo $this->Meta->meta();\n            echo $this->Layout->feed();\n            echo $this->Layout->js();\n\n            echo $this->Html->css(array(\n                //	'/croogo/css/croogo-bootstrap',\n                //	'/croogo/css/croogo-bootstrap-responsive',\n                '/croogo/css/thickbox',\n            ));\n\n\n            echo $this->Html->css(array(\n                '/bootstrap/css/bootstrap.min',\n                '/bootstrap/css/bootstrap-responsive.min',\n                \"bootstrap-combined.no-icons.min.css\",\n                \"font-awesome.css\",\n                'style',\n            ));\n\n            \n\n\n\n            \n            echo $this->Html->script(array(\n                '/croogo/js/html5',\n                'jquery-1.10.1.min',\n                //'/croogo/js/jquery/jquery.min',\n                '/croogo/js/jquery/jquery-ui.min',\n                '/croogo/js/jquery/jquery.slug',\n                '/croogo/js/jquery/jquery.cookie',\n                '/croogo/js/jquery/jquery.hoverIntent.minified',\n                '/croogo/js/jquery/superfish',\n                '/croogo/js/jquery/supersubs',\n                '/croogo/js/jquery/jquery.tipsy',\n                '/croogo/js/jquery/jquery.elastic-1.6.1.js',\n                '/croogo/js/jquery/thickbox-compressed',\n                '/croogo/js/underscore-min',\n                    //		'/croogo/js/admin',\n                    //		'/croogo/js/choose',\n                    //	'/croogo/js/croogo-bootstrap.js',\n            ));\n\n            echo $this->Layout->js();\n            ?>\n\n            \n            <?php echo $this->fetch('head'); ?>\n\n            \n\n\n        <!--[if IE 7]><?php echo $this->Html->css('ie7'); ?><![endif]-->\n        <!--[if IE]><?php echo $this->Html->css('iefix'); ?><![endif]-->\n\n            <link rel=\"shortcut icon\" href=\"images/favicon.ico\"  />\n\n            <?php\n            echo $this->Html->script(array(\n                //	'jquery-1.10.1.min',\n                '/bootstrap/js/bootstrap.min',\n            ));\n\n            echo $this->Blocks->get('css');\n            echo $this->Blocks->get('script');\n            echo $this->fetch('css');\n            echo $this->fetch('script');\n            ?>\n\n    </head>\n\n    <body>\n\n\n        <!-- Navbar\n            ================================================== -->\n        <div class=\"navbar\">\n\n            <div class=\"header\">\n                <div class=\"container-fluid\">\n                    <div class=\"row-fluid\">\n                        <div class=\"span3\" class=\"img-logo\">\n                        <?php\n                        $logoImg = $this->Html->image('logo.png');\n                        echo $this->Html->link($logoImg, '/', array('escape' => false, 'class' => 'brand', 'alt' => Configure::read('Site.title')));\n                        ?>\n                        </div>\n                        <div class=\"span6\">\n                            <h1><?php echo Configure::read('Site.title'); ?></h1>\n                        </div>\n\n                        <div class=\"span3\">\n                        <?php echo $this->element('user_login_head'); ?>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <?php  \n                echo $this->Menus->menu('main', array(\n                                    'selected' => 'active',\n                                    'dropdownClass' => 'nav',\n                                    'dropdown' => true, \n                                    'element' => 'menu'));\n            ?>\n            <?php //echo $this->element('navbar'); ?>\n        </div>\n\n        <div id=\"main-container\">\n            <div class=\"container-fluid\">\n                <div class=\"row-fluid\">\n                    <?php echo $this->fetch('featured'); ?>\n\n                    <div class=\"breadcrum\"><?php echo $this->element('admin/breadcrumb'); ?></div>\n\n                    <?php echo $this->Layout->sessionFlash(); ?>\n\n\n                    <?php if ($this->fetch('search')): ?>\n                    <div class=\"search\">\n                        <?php echo $this->fetch('search'); ?>\n                    </div>\n                    <?php endif; ?>\n                </div>\n            </div>\n            \n            <div class=\"container-fluid content-wrapper\">\n                <div class=\"row-fluid\">\n                    <?php\n                    $blockRight = $this->Regions->blocks('right');\n                    if (!empty($blockRight)) {                        \n                    ?>\n                        <div id=\"content-body\" class=\"span8\">\n                            <?php echo $this->fetch('content'); ?>\n                            <?php echo $this->fetch('body_content'); ?>\n                        </div>\n\n                        <div id=\"sidebar\" class=\"span4\">\n                            <?php echo $this->Regions->blocks('right'); ?>\n                        </div>\n                    <?php\n                    } else {\n                        echo $this->fetch('content');\n                        echo $this->fetch('body_content');\n                    }\n                    ?>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"clearfix\"></div>\n\n        <div id=\"footer\">\n            <div class=\"row_fluid\">\n                <p>© 2012-2013 All rights reserved.</p>\n            </div>    \n        </div><!--end of footer -->\n\n        </div><!-- end of wrapper -->\n\n<?php\necho $this->Blocks->get('scriptBottom');\necho $this->Js->writeBuffer();\n?>\n\n    </body>\n</html>\n",
+			"file": "app/View/Themed/SkyTheme/Layouts/clean.ctp",
+			"file_size": 9,
+			"file_write_time": 1401291720000000,
 			"settings":
 			{
-				"buffer_size": 15878,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Plugin/Skpi/View/SiteMaximsDailyValues/monitor.ctp",
-			"settings":
-			{
-				"buffer_size": 3627,
-				"line_ending": "Unix"
+				"buffer_size": 6021,
+				"line_ending": "Unix",
+				"name": "clean.ctp"
 			}
 		}
 	],
@@ -388,19 +384,20 @@
 	},
 	"file_history":
 	[
+		"/var/www/skymax_graf/app/View/Themed/SkyTheme/webroot/theme.json",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Console/Command/MigrateShell.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/SiteMaximsDailyValues/monitor.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataDay.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/SkpiAppModel.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/kpi_site_date_search.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/SiteMaximsDailyValue.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/max_uldl.js",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/SiteMaximsDailyValuesController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/SiteMaximsDailyValues/graph_jplot.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/SiteMaximsDailyValues/monitor.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/SkpiAppModel.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/graphs/kpi_graph.js",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataDay.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataCountersController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/SiteMaximsDailyValues/json/graph_jplot.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Console/Command/MigrateShell.php",
 		"/var/www/skymax_graf/app/Config/bootstrap.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Migration/001_install_kpis_counter.php",
 		"/var/www/skymax_graf/app/Plugin/Sky/webroot/js/max_uldl.js",
@@ -529,6 +526,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"ml_datetime",
 			"__get_maxim_for_site_n_day",
 			"__get_sites_maxims_for_day",
 			"get_sites_maxims_for_day",
@@ -655,8 +653,7 @@
 			"->DataDay",
 			"carr",
 			"__getDays",
-			"class",
-			"site_id"
+			"class"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -699,7 +696,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -732,56 +729,27 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/Plugin/Skpi/Console/Command/MigrateShell.php",
+					"file": "app/View/Themed/SkyTheme/Layouts/clean.ctp",
 					"settings":
 					{
-						"buffer_size": 15878,
+						"buffer_size": 6021,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10612,
-								10612
+								5888,
+								5888
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"auto_name": "clean.ctp",
+							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 5385.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/Plugin/Skpi/View/SiteMaximsDailyValues/monitor.ctp",
-					"settings":
-					{
-						"buffer_size": 3627,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1365,
-								1365
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.y": 2709.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -831,6 +799,18 @@
 		"selected_items":
 		[
 			[
+				"skpim",
+				"Plugin/Skpi/Model/SkpiAppModel.php"
+			],
+			[
+				"datadaycon",
+				"Plugin/Skpi/Controller/DataDaysController.php"
+			],
+			[
+				"dataday",
+				"Plugin/Skpi/Model/DataDay.php"
+			],
+			[
 				"monitor",
 				"Plugin/Skpi/View/SiteMaximsDailyValues/monitor.ctp"
 			],
@@ -857,10 +837,6 @@
 			[
 				"sitemaximdail",
 				"Plugin/Skpi/Model/SiteMaximsDailyValue.php"
-			],
-			[
-				"dataday",
-				"Plugin/Skpi/Model/DataDay.php"
 			],
 			[
 				"datacon",
@@ -1041,10 +1017,6 @@
 			[
 				"site_kpi",
 				"Plugin/Skpi/View/DataDays/site_kpi_detail.ctp"
-			],
-			[
-				"datadaycon",
-				"Plugin/Skpi/Controller/DataDaysController.php"
 			],
 			[
 				"sitio_sectores_y_carriers",
