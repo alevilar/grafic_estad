@@ -42,7 +42,7 @@ class SkpiAppModel extends AppModel {
         $conditions = array();
         if (!empty($data['date_from'])) {
             $conditions = array(
-                $this->name . '.ml_datetime >=' => $data['date_from'],
+                $this->name . '.ml_date >=' => $data['date_from'],
             );
         }
         return $conditions;
@@ -53,7 +53,7 @@ class SkpiAppModel extends AppModel {
         $conditions = array();
         if (!empty($data['date_to'])) {
             $conditions = array(
-                $this->name . '.ml_datetime <=' => $data['date_to'],
+                $this->name . '.ml_date <=' => $data['date_to'],
             );
         }
         return $conditions;

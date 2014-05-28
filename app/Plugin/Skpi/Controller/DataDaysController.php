@@ -218,7 +218,7 @@ class DataDaysController extends SkpiAppController
         
         $sites_list = $this->DataDay->Carrier->Sector->Site->find('list');
 
-        
+        debug($conditions);
         $days = $this->__getDays($conditions, $date_from, $date_to, array(
                 'defaultDateFrom' => date('Y-m-d', strtotime('-3 day'))
             ));
