@@ -3,24 +3,11 @@ echo $this->Html->css('/skpi/css/graphs');
 
 ?>
 
+  <h1 class="text-center">Detalles del KPI <i>"<?= $kpi['Kpi']['name'] ?>"</i></h1>
 <div>
-    <div class="span6">
-      <h3 class="text-center">Contadores relacionados con el KPI: <?= $kpi['Kpi']['name'] ?></h3>
-     <?php 
-     foreach ($counters as $c) {
-        echo $this->element(
-            'counter_zooming_view', array(
-                'counter'=>$c['Counter'], 
-                'metrics' => $c['DataCounter']
-                )
-            );
-     }
-     ?>
-     </div>
-
       <div class="span6">
 
-        <h3 class="text-center">Detalles del Sitio <?= $site['Site']['name'] ?></h3>
+        <h3 class="text-center">Viendo datos del Sitio <?= $site['Site']['name'] ?></h3>
         <?php
 
 
@@ -77,7 +64,7 @@ echo $this->Html->css('/skpi/css/graphs');
 
         ?>
 
-
+        <h4>Tabla de KPI´s</h4>
         <table class="table table-bordered table-condensed table-kpis table-hover">
         <?php
 
@@ -90,6 +77,31 @@ echo $this->Html->css('/skpi/css/graphs');
 
         
     </div>
+
+
+
+
+    <div class="span6">
+      <div class="well" style="margin-left: 10%">
+          <h4 class="text-center">Detalle del úlimo mes de los Contadores relacionados</h4>
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Puede hacer zoom arrastrando y soltando un intervalo dentro del gráfico</div>
+
+
+         <?php 
+         foreach ($counters as $c) {
+            echo $this->element(
+                'counter_zooming_view', array(
+                    'counter'=>$c['Counter'], 
+                    'metrics' => $c['DataCounter']
+                    )
+                );
+         }
+         ?>
+      </div>
+     </div>
+
 
     
 </div>

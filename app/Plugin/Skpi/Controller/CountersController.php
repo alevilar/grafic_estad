@@ -56,6 +56,8 @@ class CountersController extends SkpiAppController {
 				$this->Session->setFlash(__d('croogo', 'The sky kpi could not be saved. Please, try again.'), 'default', array('class' => 'error'));
 			}
 		}
+
+		$this->set('kpis', $this->Counter->Kpi->find('list'));
 	}
 
 /**
@@ -80,6 +82,7 @@ class CountersController extends SkpiAppController {
 			$options = array('conditions' => array('Counter.' . $this->Counter->primaryKey => $id));
 			$this->request->data = $this->Counter->find('first', $options);
 		}
+		$this->set('kpis', $this->Counter->Kpi->find('list'));
 	}
 
 /**

@@ -42,18 +42,11 @@ echo $this->Form->create('Counter');
 					'label' => 'Formato',
                                         'after' => '<br><span class="text-info">Formato de la función sprintf()</span>',
                                         'placeholder' => 'Ej: "%s\%" para introducir un símbolo de porcentaje % al final del valor del KPI'
-				));
-				echo $this->Form->input('graph', array(
-					'legend' => 'Mostrar en Gráfico',
-                                        'type' => 'radio',
-                                        'options' => array(
-                                               0 => 'No',
-                                               1 => 'Si'
-                                        )
-				));
+				));				
 
 				echo $this->Form->input('Kpi', array(
 					'label' => 'Kpi´s que usan este contador',
+					'options' => $kpis
 				));
 				
 				echo $this->Croogo->adminTabs();

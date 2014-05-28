@@ -9,7 +9,7 @@
         var currRadio = $radios.length-1;
         var timeout;
         
-        function changeRadio ( index ) {
+    function changeRadio ( index ) {
 		if ( index ) {			
 			currRadio = index;			
 		} else {
@@ -20,6 +20,9 @@
 			currRadio++;	
 		}
 		
+		var currRadioEl = $($radios[currRadio])[0];
+		currRadioEl.scrollIntoView( false );
+
 		$($radios[currRadio]).prop('checked', true);
 		$($radios[currRadio]).change();
 		$($radios[currRadio]).parents('tr').siblings('.active').removeClass('active');
@@ -27,15 +30,16 @@
 	}
 
 	$radios.on('change', function ( ev ) {
+		var url = $(ev.target).data('url');
 
-		var url = WWWROOT + 'skpi/kpi_data_days/graf_max_uldl_de_sitio/' + ev.target.value;
-
-		$.getJSON( url, function ( retObj) {
+		$.getJSON( url, function ( retObj ) {
 			$('#graph').html("");
-                        if (retObj && retObj.kpis && retObj.kpis[0].length) {
-                            createGraph('graph', retObj.kpis, retObj.title_for_layout);
-                        }
-                        mostrarDeA1Sitio();
+            if (retObj && retObj.kpis && retObj.kpis[0].length) {
+                createGraph('graph', retObj.kpis, retObj.title_for_layout);
+            }
+            // $('#site-link').html("");
+            $('#site-link').html(retObj.sitio_link);
+            mostrarDeA1Sitio();
 		});
 	});
 

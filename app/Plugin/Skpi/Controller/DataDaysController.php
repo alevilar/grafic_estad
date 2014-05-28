@@ -119,6 +119,90 @@ class DataDaysController extends SkpiAppController
 
 
 
+
+    public function graf_max_uldl_de_sitio ( $site_id ) {
+        $this->Prg->commonProcess();
+        $conditions = $this->DataDay->parseCriteria($this->request->query);
+
+        if ( !empty($conditions['Site.id'])) {
+                $site_id = $conditions['Site.id'];
+        }
+
+        if ( empty( $conditions['DateKpi.date <='] )) {
+            $conditions['DateKpi.date <='] = date('Y-m-d', strtotime('now'));
+        }
+
+        if ( empty( $conditions['DateKpi.date >='] )) {
+            $conditions['DateKpi.date >='] = date('Y-m-d', strtotime('-1 week'));
+        }
+
+
+        $conditions['Site.id'] = $site_id;
+        $conditions['DateKpi.date >='] = date('Y-m-d', strtotime('-1 week'));
+        $conditions['DateKpi.date <='] = date('Y-m-d', strtotime('now'));
+    
+
+        if ( !empty($dateFrom) ) {
+            $conditions['DateKpi.date >='] = date('Y-m-d', strtotime( $dateFrom ));
+        }
+
+        if ( !empty($dateTo) ) {
+            $conditions['DateKpi.date <='] = date('Y-m-d', strtotime( $dateTo ));
+        }
+
+        $kpis = $this->DateKpi->find( 'all', array(
+            'conditions' => $conditions,            
+            'order' => array(
+                'DateKpi.date'
+                ),
+            )
+        );
+
+        if (!empty( $conditions['DateKpi.date <='] )) {
+            $this->request->data['DateKpi']['date_to'] = $conditions['DateKpi.date <='];    
+        }
+
+        if (!empty( $conditions['DateKpi.date >='] )) {
+            $this->request->data['DateKpi']['date_from'] = $conditions['DateKpi.date >='];
+        }
+    
+        $this->DateKpi->Carrier->Sector->Site->contain( array('Sector.Carrier') );
+        $site = $this->DateKpi->Carrier->Sector->Site->read(null , $site_id);
+        $this->set('title_for_layout', $site['Site']['name']);
+
+        $this->set('sites', $this->DateKpi->Carrier->Sector->Site->find('list') );
+
+
+        $newKpisBySite = array();
+        foreach ( $kpis as $k ) {           
+            $site_id = $k['Carrier']['Sector']['site_id'];
+            $newKpisBySite[$site_id][] = $k;
+        }
+        $mosNewKpiDl = array();
+        $mosNewKpiUl = array();
+        foreach ($newKpisBySite as $site=>$nk) {
+            foreach ($nk as $byDay) {               
+                $mosNewKpiDl[] = array(
+                    $byDay['DateKpi']['date'],
+                    $byDay['DateKpi']['max_dl'],
+                    );
+                $mosNewKpiUl[] = array(
+                    $byDay['DateKpi']['date'],
+                    $byDay['DateKpi']['max_ul'],
+                    );  
+            }           
+        }       
+        
+        $this->set('sitio', $site );
+        $this->request->data['DateKpi']['site_id'] = $site_id;
+        $this->set('kpis', array(array_values($mosNewKpiDl), array_values($mosNewKpiUl)));
+    //  $this->set('_serialize', array('kpis', 'sitio', 'title_for_layout'));
+    }
+
+
+
+
+
     /**
     *
     *
@@ -131,16 +215,13 @@ class DataDaysController extends SkpiAppController
         $this->Prg->commonProcess();
         $conditions = $this->DataDay->parseCriteria($this->request->query);
 
-
-        if ( empty($date_from) ) {
-            $date_from = date('Y-m-d', strtotime('-3 day'));
-        }
-
         
         $sites_list = $this->DataDay->Carrier->Sector->Site->find('list');
 
         
-        $days = $this->__getDays($conditions, $date_from, $date_to);
+        $days = $this->__getDays($conditions, $date_from, $date_to, array(
+                'defaultDateFrom' => date('Y-m-d', strtotime('-3 day'))
+            ));
 
         
         // get values
@@ -152,7 +233,6 @@ class DataDaysController extends SkpiAppController
         $this->set( compact( 'sites_list', 'site', 'kpiValues' ) );
         $this->set('title_for_layout', "Sitio: " . $site['Site']['name']);
 
-        // para calcular los graficos
         $graph_date_from = date('Y-m-d', strtotime('-1 month'));
         $graph_date_to = date('Y-m-d');
 
@@ -161,6 +241,10 @@ class DataDaysController extends SkpiAppController
         // set        
         $metricsDl = $DataCounter->getDataCounter($what, $what_id, SK_COUNTER_DL_AVG, $graph_date_from, $graph_date_to);
         $metricsUl = $DataCounter->getDataCounter($what, $what_id, SK_COUNTER_UL_AVG, $graph_date_from, $graph_date_to);
+
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+        }
 
         $this->set(compact('metricsDl','metricsUl'));
 
@@ -185,37 +269,53 @@ class DataDaysController extends SkpiAppController
     *   @param array $conditions son los que vienen luego del Search Plugin
     *   @param string $dateFrom formato fecha "Y-m-d"
     *   @param string $dateTo formato fecha "Y-m-d"
+    *   @param array $ops opciones adicionales puede llevar como opcion
+    *                       'defaultDateFrom'
+    *                       'defaultDateTo'
     *   @return array find('all') de fechas del model DataDay
     */  
-    private function __getDays($conditions,  $dateFrom = null, $dateTo = null){
-        if (empty($conditions['DataDay.ml_date <=']) && !empty($dateTo)) {
-            $conditions['DataDay.ml_date <='] = $dateTo;
+    private function __getDays($conditions,  $dateFrom = null, $dateTo = null, $ops = array()){
+
+        $model = $this->modelClass;
+        $defaultDateTo = date('Y-m-d', strtotime('now'));
+        $defaultDateFrom = date('Y-m-d', strtotime('-1 week'));
+
+        if ( !empty ($ops['defaultDateTo']) ) {
+            $defaultDateTo = $ops['defaultDateTo'];
         }
 
-        if ( empty($conditions['DataDay.ml_date >=']) && !empty($dateFrom)) {
-            $conditions['DataDay.ml_date >='] = $dateFrom;
+        if ( !empty ($ops['defaultDateFrom']) ) {
+            $defaultDateFrom = $ops['defaultDateFrom'];
+        }
+
+        if (empty($conditions[$model.'.ml_date <=']) && !empty($dateTo)) {
+            $conditions[$model.'.ml_date <='] = $dateTo;
+        }
+
+        if ( empty($conditions[$model.'.ml_date >=']) && !empty($dateFrom)) {
+            $conditions[$model.'.ml_date >='] = $dateFrom;
         }
         
-        if (empty($conditions['DataDay.ml_date <='])) {
-            $conditions['DataDay.ml_date <='] = date('Y-m-d', strtotime('now'));
+        if (empty($conditions[$model.'.ml_date <='])) {
+            $conditions[$model.'.ml_date <='] = $defaultDateTo;
         }
 
-        if (empty($conditions['DataDay.ml_date >='])) {
-            $conditions['DataDay.ml_date >='] = date('Y-m-d', strtotime('-1 week'));
+        if (empty($conditions[$model.'.ml_date >='])) {
+            $conditions[$model.'.ml_date >='] = $defaultDateFrom;
         }      
         
-        $days = $this->DataDay->find('list', array(
+        $days = $this->{$model}->find('list', array(
                 'conditions' => $conditions,
-                'group' => 'DataDay.ml_date',
+                'group' => $model.'.ml_date',
                 'fields' => array('ml_date', 'ml_date')
         ));
         
-        if (!empty($conditions['DataDay.ml_date <='])) {
-            $this->request->data['DataDay']['date_to'] = $conditions['DataDay.ml_date <='];
+        if (!empty($conditions[$model.'.ml_date <='])) {
+            $this->request->data[$model.'']['date_to'] = $conditions[$model.'.ml_date <='];
         }
 
-        if (!empty($conditions['DataDay.ml_date >='])) {
-            $this->request->data['DataDay']['date_from'] = $conditions['DataDay.ml_date >='];
+        if (!empty($conditions[$model.'.ml_date >='])) {
+            $this->request->data[$model.'']['date_from'] = $conditions[$model.'.ml_date >='];
         }
         $this->set('days', $days);
         

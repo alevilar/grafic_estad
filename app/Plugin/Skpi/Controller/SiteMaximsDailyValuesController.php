@@ -1,0 +1,134 @@
+<?php
+
+App::uses('SkpiAppController', 'Skpi.Controller');
+/**
+ * KpiCounters Controller
+ *
+ * @property Counter $Counter
+ * @property PaginatorComponent $Paginator
+ */
+class SiteMaximsDailyValuesController extends SkpiAppController {
+
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array(
+		'Paginator',
+        'RequestHandler',
+        'Search.Prg',
+    );
+
+
+	/**
+    *
+    *
+    *       Recoge los valores que vienen desde el formulario, parametros o paginador
+    *       y busca el rango en el model DataDay
+    *       Con el objetivo de poder agrupar los distintos medios en los que vienen esos datos
+    *   
+    *   @param array $conditions son los que vienen luego del Search Plugin
+    *   @param string $dateFrom formato fecha "Y-m-d"
+    *   @param string $dateTo formato fecha "Y-m-d"
+    *   @param array $ops opciones adicionales puede llevar como opcion
+    *                       'defaultDateFrom'
+    *                       'defaultDateTo'
+    *   @return array find('all') de fechas del model DataDay
+    */  
+    private function __getDays($conditions,  $dateFrom = null, $dateTo = null, $ops = array()){
+
+        $model = $this->modelClass;
+        $defaultDateTo = date('Y-m-d', strtotime('now'));
+        $defaultDateFrom = date('Y-m-d', strtotime('-1 week'));
+
+        if ( !empty ($ops['defaultDateTo']) ) {
+            $defaultDateTo = $ops['defaultDateTo'];
+        }
+
+        if ( !empty ($ops['defaultDateFrom']) ) {
+            $defaultDateFrom = $ops['defaultDateFrom'];
+        }
+
+        if (empty($conditions[$model.'.ml_datetime <=']) && !empty($dateTo)) {
+            $conditions[$model.'.ml_datetime <='] = $dateTo;
+        }
+
+        if ( empty($conditions[$model.'.ml_datetime >=']) && !empty($dateFrom)) {
+            $conditions[$model.'.ml_datetime >='] = $dateFrom;
+        }
+        
+        if (empty($conditions[$model.'.ml_datetime <='])) {
+            $conditions[$model.'.ml_datetime <='] = $defaultDateTo;
+        }
+
+        if (empty($conditions[$model.'.ml_datetime >='])) {
+            $conditions[$model.'.ml_datetime >='] = $defaultDateFrom;
+        }      
+        
+        
+        if (!empty($conditions[$model.'.ml_datetime <='])) {
+            $this->request->data[$model.'']['date_to'] = $conditions[$model.'.ml_datetime <='];
+        }
+
+        if (!empty($conditions[$model.'.ml_datetime >='])) {
+            $this->request->data[$model.'']['date_from'] = $conditions[$model.'.ml_datetime >='];
+        }
+        
+        return array(
+				$conditions[$model.'.ml_datetime >='],
+				$conditions[$model.'.ml_datetime <='],
+        	);
+    }
+
+	public function monitor ( $date_from = null, $date_to = null ) {
+		$this->Prg->commonProcess();
+        $conditions = $this->SiteMaximsDailyValue->parseCriteria($this->request->query);
+        $busqueda = false;
+        if (!empty($conditions)) {
+            $busqueda = true;
+        }        
+        $days = $this->__getDays($conditions, $date_from, $date_to, array(
+        		'defaultDateFrom' =>   date('Y-m-d', strtotime('-3 day')),
+        		'defaultDateTo' =>   date('Y-m-d'),
+        	));
+
+		$sitesMaxims = $this->SiteMaximsDailyValue->getSitesValues($days[0], $days[1]);
+
+		$sites = $this->SiteMaximsDailyValue->Site->find('list');
+
+		$this->set(compact('sitesMaxims', 'sites', 'busqueda'));
+	}
+
+
+	public function by_site ( $site_id, $date_from = null, $date_to = null ) {
+		$site = $this->SiteMaximsDailyValue->getSiteValue($site_id, $date_from, $date_to);
+	}
+
+
+	public function graph_jplot ( $site_id, $date_from = null, $date_to = null) {
+        $this->Prg->commonProcess();
+        $conditions = $this->SiteMaximsDailyValue->parseCriteria($this->request->query);
+
+        $days = $this->__getDays($conditions, $date_from, $date_to, array(
+                'defaultDateFrom' =>   date('Y-m-d', strtotime('-1 week')),
+                'defaultDateTo' =>   date('Y-m-d'),
+            ));		
+
+		$site = $this->SiteMaximsDailyValue->Site->read(null, $site_id);
+		$siteVals = $this->SiteMaximsDailyValue->getSiteValue($site_id, $days[0], $days[1]);
+
+
+		$metricsDl = $metricsUl = array();
+		foreach ($siteVals as $data) {
+			$metricsDl[] = array($data['SiteMaximsDailyValue']['ml_datetime'], $data['SiteMaximsDailyValue']['dl_value']);
+			$metricsUl[] = array($data['SiteMaximsDailyValue']['ml_datetime'], $data['SiteMaximsDailyValue']['ul_value']);
+		}
+
+
+		$this->set('title_for_layout', "Trafico para ".$site['Site']['name']);
+		$this->set(compact('metricsUl', 'metricsDl', 'site'));		
+	}
+
+
+}

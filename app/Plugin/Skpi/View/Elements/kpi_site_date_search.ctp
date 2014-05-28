@@ -1,33 +1,36 @@
 <?php
     echo $this->Html->script('/bootstrap_datepicker/js/bootstrap-datepicker');
     echo $this->Html->css('/bootstrap_datepicker/css/datepicker');
- ?>
 
-<?php
+
 
 $options = array(
     'type' => 'get',
     'class' => 'form',
     );
 
+if ( empty($modelName) ) {
+    $modelName = 'DataDay';
+}
+
 //$options['action'] = '/by_site';
 if ( !empty($formAction) ) {
     $options['action'] = $formAction;
 }
 
-echo $this->Form->create('DataDay', $options);
+echo $this->Form->create( $modelName , $options);
 ?>
 
 <style>
-    select{
+    .search-form select{
         width: 100%;
     }
     
-    input{
+    .search-form input{
         width: 100%;
     }
     
-    .date input{
+    .search-form .date input{
         width: auto;
     }
     
@@ -37,14 +40,21 @@ echo $this->Form->create('DataDay', $options);
 </style>
 
 
-<div class="well">
+<div class="search-form">
     <div class="span2">
         <?php        
         echo $this->Form->input('date_from', array(          
-            'label' => 'Desde',
+            'label' => array(
+                    'text' => 'Desde',
+                    'class' => 'control-label'
+                ),
             'id' => 'datetimepicker1', 
             'data-date-format' => 'yyyy-mm-dd',
-            'placeholder' => 'Seleccionar fecha "desde"',            
+            'placeholder' => 'Seleccionar fecha "desde"',
+            'class' => 'controls',
+            'div' => array(
+                'class' => 'control-group'
+                )
             ));              
         ?>
     </div>
@@ -61,7 +71,9 @@ echo $this->Form->create('DataDay', $options);
     <div class="span1">
     	<br>     
         <?php
-        echo $this->Form->button('Buscar', array('type'=>'submit', 'class'=>'btn btn-primary btn-block'));
+        echo $this->Form->button('Buscar', array(
+            'type'=>'submit', 
+            'class'=>'btn btn-primary'));
         ?>
         
         <?php //echo $this->Form->input('sector_name', array('label' => 'Sector')); ?>

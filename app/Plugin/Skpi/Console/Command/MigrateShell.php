@@ -19,6 +19,7 @@ class MigrateShell extends AppShell
         'Skpi.DataDay',
         'Skpi.DailyValue',
         'Sky.Carrier',
+        'Skpi.SiteMaximsDailyValue',
         );   
     
     
@@ -133,14 +134,18 @@ class MigrateShell extends AppShell
         $totMetricas = $cantMetrics + $cantMetricsToday;
         
         $this->out("Hay $totMetricas metricas desde la última migración: $dateFrom");
-
         
         
         if ( $totMetricas ) {
+            $this->out("\n*-*-*-*-*-*-Iniciando actualizacion de Maximos Traficos DL y UL");
+            $this->__saveMaximsFromDate( $dateFrom );
+            $this->out("\n*-*-*-*-*-*-Iniciando migracion de calculos KPI");
             $this->__calculateKpisDesde( $dateFrom );
+            
         } 
 
         if ( $cantMetricsToday ) {
+            $this->__saveMaximsOfDate( $dateToday );
             $this->__calculateKpisDelDia( $dateToday );
             $this->out("\nActualizando datos de HOY");
         }
@@ -177,9 +182,30 @@ class MigrateShell extends AppShell
         // inicializar valores de errores para procesar al final
         $saveErrors = array();
         
-        // recorrer cada KPI para ir buscando su valor y guardar
-        foreach ($kpis as $k) {
-            // setar nombre del KPI
+        try {
+            // recorrer cada KPI para ir buscando su valor y guardar
+            foreach ($kpis as $k) {
+                $this->__saveKpi($k, $conds);
+            }
+        } catch (Exception $e) {
+            // Hay error
+            $this->DailyValue->getDataSource()->rollback(); 
+            $this->out("<error>".$e->getMessage()."</error>");
+        }
+
+        // Commit Changes
+        $this->out("<success>Se guardaron todos los registros correctamente</success>");
+        $this->DailyValue->getDataSource()->commit();       
+    }
+
+
+    /**
+     * @param $k Kpi Model array
+     * @param $conds array conditiones de busqueda para el modelo DataCounter
+     */
+    private function __saveKpi ( $k, $conds ) {
+
+        // setar nombre del KPI
             $kpiName = $k['Kpi']['name'];
             
             if ( empty( $k['Kpi']['sql_formula'] ) ) {
@@ -189,24 +215,145 @@ class MigrateShell extends AppShell
             }
             
             // poner la formula como field del SQL statement
-            $fd = $k['Kpi']['sql_formula'];
+            if ( substr( $k['Kpi']['sql_formula'], 0, 3 ) === "fn:" ) {
+                // la formula es una funcion
+                $fname = substr($k['Kpi']['sql_formula'], 3);
+                if ( !method_exists($this, $fname) ) {
+                    throw new Exception('No existe la funcion '.$fname);
+                }
 
-            // buscar los datos a migrar de la tabla de metricas
-            $dataMetric = $this->DataCounter->find('all', array(
-                'fields' => array(
-                      $fd." as val",  
-                      'DATE(date_time) as ml_datetime',
-                      'objectno',
-                ),
-                'group' => array('objectno', 'ml_datetime'),
-                'conditions' => $conds,
-            ));
+                $dataMetric = call_user_func_array(array($this, $fname), array($conds));
+            } else {
+                $fd = $k['Kpi']['sql_formula'];  
+                // buscar los datos a migrar de la tabla de metricas
+                $dataMetric = $this->DataCounter->find('all', array(
+                    'fields' => array(
+                          $fd." as val",  
+                          'DATE(date_time) as ml_datetime',
+                          'objectno',
+                    ),
+                    'group' => array('objectno', 'ml_datetime'),
+                    'conditions' => $conds,
+                ));  
+            }
+
+
+            
             $this->out("El KPI $kpiName tiene ".count($dataMetric)." registros por migrar");
             
             // por cada dato a migrar
             foreach ( $dataMetric as $md ) {
-                // setear el valor del calculo del KPI
-                $value = $md[0]['val'];                
+                $this->__saveDataCount($k, $md);
+            }
+    }
+
+
+    public function __saveMaximsGenericByDay ( $day ) {        
+        $sts = $this->__get_sites_maxims_for_day ( $day );
+
+        if (empty($sts)) {
+            return -1;
+        }
+        $smdvs = array();
+        foreach ( $sts as $s ) {
+            $newSmdv = array('SiteMaximsDailyValue' => array(
+                    'site_id' => $s['Site']['id'],
+                    'ml_datetime' => $s['DataCounter']['date_time'],
+                    'dl_value' => $s[0]['dl_val'],
+                    'ul_value' => $s[0]['ul_val'],
+                ));
+
+
+            // verificar, porque si ya existe lo tengo que actualizar
+            $siteValue = $this->SiteMaximsDailyValue->find('first', array(
+                'conditions' => array(
+                    'DATE(SiteMaximsDailyValue.ml_datetime)' => date('Y-m-d', strtotime( $s['DataCounter']['date_time'])),
+                    'SiteMaximsDailyValue.site_id' => $s['Site']['id'],
+                    )
+            ));
+            if ( !empty($siteValue) ) {
+                $newSmdv['SiteMaximsDailyValue']['id'] = $siteValue['SiteMaximsDailyValue']['id'];
+            }
+
+
+            $smdvs[] = $newSmdv;
+        }        
+        if ( !$this->SiteMaximsDailyValue->saveAll($smdvs) ) {
+            $this->log(print_r($this->SiteMaximsDailyValue->validationErrors, true));
+            throw new Exception("Error al guardar SiteMaximsDailyValue");
+        }
+    }
+
+    public function __saveMaximsOfDate ( $date ) {
+       
+        $this->__saveMaximsGenericByDay( $date);
+    }
+
+    public function __saveMaximsFromDate ( $date ) {
+        $days = crear_fechas($date, 'now');
+        foreach ($days as $day ) {
+            $this->__saveMaximsGenericByDay( $day);
+        }
+    }
+
+
+    public function __get_sites_maxims_for_day ( $date ) {
+        $sites = $this->Carrier->Sector->Site->find('list');
+        $nsites = array();
+        foreach ( $sites as $sId=>$sName ) {
+
+            $dvals = $this->__get_maxim_for_site_n_day($sId, $date);            
+
+            if (!empty($dvals)) {                
+                $dvals['Site']['id'] = $sId;
+                $dvals['Site']['name'] = $sName;
+                $nsites[] = $dvals;
+            }
+        }
+        return $nsites;
+    }
+
+
+    public function __get_maxim_for_site_n_day ( $site_id, $day ) {
+        $objectnos = $this->Carrier->Sector->Site->listCarriers( $site_id, 'objectno' );
+        $conds = array(
+            'objectno' => $objectnos,
+            'DATE(date_time)' => $day,
+            );
+
+
+        // buscar los datos a migrar de la tabla de metricas
+        $this->Counter->id = SK_COUNTER_UL_AVG;
+        $colnameUl = $this->Counter->field('col_name');
+
+        $this->Counter->id = SK_COUNTER_DL_AVG;
+        $colnameDl = $this->Counter->field('col_name');
+
+        $db = $this->DataCounter->getDataSource();
+        $data = $this->DataCounter->find('first', array(
+                'fields' => array(
+                      "(SUM(DataCounter.$colnameDl) + SUM(DataCounter.$colnameUl/1000)) as val",
+                      "SUM(DataCounter.$colnameDl) as dl_val",
+                      "SUM(DataCounter.$colnameUl/1000) as ul_val",
+                      'DataCounter.date_time as date_time', // SHOW DATETIME
+                ),
+                'conditions' => $conds,
+                'order'      => array('val DESC'),
+                'group' => array('DataCounter.date_time'),
+            ));
+        return $data;
+    }
+
+
+    /**
+     *  
+     *  @param $k Kpi Model array
+     *  @param $md Metric Data DataCount Model Array
+     */
+    private function __saveDataCount ( $k, $md ) {
+        // setear el valor del calculo del KPI
+                $value = $md[0]['val'];           
+                $kpiName = $k['Kpi']['name'];
                 $this->Carrier->recursive = -1;
                 $carrier = $this->Carrier->findByObjectno($md['DataCounter']['objectno']);
 
@@ -257,27 +404,17 @@ class MigrateShell extends AppShell
                     
                     
                     if ( !$this->DailyValue->saveAssociated( $dataDay ) ) {
-                        debug($dataDay);
-                        debug( $this->DataDay->validationErrors );
-                        debug( $this->DailyValue->validationErrors );
                         $saveErrors[] = $dataDay;
+
+                        $this->log("--------- Error al migrar DailyValue --------");
+                        $this->log(print_r($dataDay));
+                        $this->log(print_r($this->DataDay->validationErrors, true));
+                        $this->log(print_r($this->DailyValue->validationErrors, true));
+                        throw new Exception('Error al guardar DailyValue');
                     }
-                    
                 } else {
                     $this->out("<warning>$kpiName retornó un valor que es null. No se guardará valor para este KPI.</warning>");
                 }
-            }
-        }
-        
-        if ( count($saveErrors) ) {
-            // Hay error
-            $this->DailyValue->getDataSource()->rollback();            
-            throw new Exception('Nada fue guardado, hubo algun error al querer guardar el ' . count($saveErrors).' en KPI´s ');
-        } else {
-            // Commit Changes
-            $this->out("<success>Se guardaron todos los registros correctamente</success>");
-            $this->DailyValue->getDataSource()->commit();
-        }
     }
     
      private function __calculateKpisDelDia ( $date ) {

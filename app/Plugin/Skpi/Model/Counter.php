@@ -7,19 +7,15 @@ App::uses('SkpiAppModel', 'Skpi.Model');
  */
 class Counter extends SkpiAppModel {
 
-    public $useDbConfig = 'migration_db';
-    
-     // public $useTable = 'metrics_counters';
         
     public $hasMany = array('Skpi.HourlyCounter');
-
-    public $tablePrefix = '';
 
     public $hasAndBelongsToMany = array(
         'Kpi' =>
             array(
                 'className' => 'Skpi.Kpi',
                 'foreignKey' => 'counter_id',
+                'joinTable' => 'skpi_counters_kpis',
                 'associationForeignKey' => 'kpi_id',
             )
         );

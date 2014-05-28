@@ -1,5 +1,5 @@
 <?php
-class Install5801KpiCounter extends CakeMigration {
+class Install61KpiCounter extends CakeMigration {
 
 /**
  * Migration description
@@ -20,17 +20,27 @@ public $migration = array(
     'drop_table' => array(
 
             // Este lo tengo que activar solo cuando realize la migracion final en produccion
-            //	'skpi_date_kpis',        
+            	// 'skpi_date_kpis',        
 
 
         'skpi_hourly_counters',
         'skpi_counters_kpis',
-        'skpi_counters',
+        // 'skpi_counters',
         'skpi_kpis',
         'skpi_data_days',
         'skpi_daily_values',
+        'skpi_site_maxims_daily_values',
 
         ),
+
+    // 'create_field' => array(
+    //         'skpi_counters' => array(
+    //             'string_format' => array('type' => 'string', 'length' => 64,'null' => false, 'default' => ''),
+    //             'color' => array('type' => 'string', 'length' => 8, 'null' => true, 'default' => null),                
+    //             'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+    //             'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
+    //         ),
+    //     ),
 
     'create_table' => array(
 
@@ -71,50 +81,57 @@ public $migration = array(
               'PRIMARY' => array('column' => 'id', 'unique' => 1)
               )
             ),
-'skpi_counters' => array(
-    'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-    'col_name' => array('type' => 'string', 'length' => 64,'null' => false, 'default' => null, 'unique'=>1),
-    'name' => array('type' => 'string', 'length' => 64, 'null' => false, 'default' => null),
-    'string_format' => array('type' => 'string', 'length' => 64,'null' => false, 'default' => ''),
-    'graph' => array('type' => 'boolean', 'null' => false, 'default' => true),
-    'color' => array('type' => 'string', 'length' => 8, 'null' => true, 'default' => null),
-    'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-    'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
-    'indexes' => array(
-      'PRIMARY' => array('column' => 'id', 'unique' => 1)
-      )
+        
+        'skpi_data_days' => array(
+         'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+         'carrier_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+         'ml_date' => array('type' => 'date', 'null' => true, 'default' => null),
+         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'indexes' => array(
+          'PRIMARY' => array('column' => 'id', 'unique' => 1)
+          )
+         ), 
+        'skpi_daily_values' => array(
+         'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+         'data_day_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+         'kpi_id' => array('type' => 'string', 'length' => 64,'null' => false, 'default' => null),
+         'value' => array('type' => 'float', 'null' => false),
+         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'indexes' => array(
+          'PRIMARY' => array('column' => 'id', 'unique' => 1)
+          )
+         ),
+
+        'skpi_site_maxims_daily_values' => array(
+         'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+         'ml_datetime' => array('type' => 'datetime', 'null' => false, 'default' => null),
+         'site_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+         'dl_value' => array('type' => 'float', 'null' => false),
+         'ul_value' => array('type' => 'float', 'null' => false),
+         'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
+         'indexes' => array(
+          'PRIMARY' => array('column' => 'id', 'unique' => 1)
+          )
+         ),
     ),
-'skpi_data_days' => array(
- 'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
- 'carrier_id' => array('type' => 'integer', 'null' => false, 'default' => null),
- 'ml_date' => array('type' => 'date', 'null' => true, 'default' => null),
- 'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
- 'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
- 'indexes' => array(
-  'PRIMARY' => array('column' => 'id', 'unique' => 1)
-  )
- ), 
-'skpi_daily_values' => array(
- 'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
- 'data_day_id' => array('type' => 'integer', 'null' => false, 'default' => null),
- 'kpi_id' => array('type' => 'string', 'length' => 64,'null' => false, 'default' => null),
- 'value' => array('type' => 'float', 'null' => false),
- 'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
- 'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
- 'indexes' => array(
-  'PRIMARY' => array('column' => 'id', 'unique' => 1)
-  )
- ),
-),
 
 ),
 'down' => array(
+    'drop_field' => array(
+            'skpi_counters' => array(
+                'string_format',
+                'color',
+            ),
+    ),
    'drop_table' => array(
-    'skpi_counters',
-    'skpi_kpis',
-    'skpi_date_kpis',
-    'skpi_data_counters',
-    )
+        'skpi_counters',
+        'skpi_kpis',
+        'skpi_date_kpis',
+        'skpi_data_counters',
+        )
    )
 );
 
@@ -126,9 +143,10 @@ public function after($direction) {
             array(
                 'Kpi' =>  array(
                     'col_name'    => 'carrier_dl_avg_rate',                        
-                    'name'  => 'Máximo tráfico DL',
+                    'name'  => 'DL Avg Rate',
                     'string_format' => '%s Mbit/s',
                     'sql_formula' => 'AVG(carrier_dl_avg_rate)',
+                    'color' => '#333399',
                     ),
                 'Counter' => array(
                     array('Counter' => array('id' => 30)), 
@@ -138,9 +156,10 @@ public function after($direction) {
             array(
                 'Kpi' =>  array(
                     'col_name'    => 'carrier_ul_avg_rate',
-                    'name'  => 'Máximo tráfico UL',
+                    'name'  => 'UL Avg Rate',
                     'string_format' => '%s kbit/s',
                     'sql_formula' => 'AVG(carrier_ul_avg_rate)',
+                    'color' => '#006600',
                     ),
                 'Counter' => array(
                     array('Counter' => array('id' => 31)), 
@@ -156,7 +175,8 @@ public function after($direction) {
                     'string_format' => '%.4G%%',
                     'sql_threshold_warning' => '? >= 70 && ? < 80',
                     'sql_threshold_danger' => '? < 70',
-                    'sql_formula' => 'AVG(init_net_entr_succ_rate)'
+                    'sql_formula' => 'AVG(init_net_entr_succ_rate)',
+                    'color' => '#0099CC',
                     ),
                 'Counter' => array(
                     array('Counter' => array('id' => 56)),  
@@ -170,7 +190,8 @@ public function after($direction) {
                     'string_format' => '%.4G%%',
                     'sql_threshold_warning' => '? >= 85 && ? < 95',
                     'sql_threshold_danger' => '? < 85',
-                    'sql_formula' => 'AVG(succ_rate_of_net_re_entry_in_idle_mode)'
+                    'sql_formula' => 'AVG(succ_rate_of_net_re_entry_in_idle_mode)',
+                    'color' => '#CC33FF',
                     ),
                 'Counter' => array(
                     array('Counter' => array('id' => 2)),  
@@ -197,6 +218,7 @@ public function after($direction) {
                             'string_format' => '%.4G%%',
                             'sql_threshold_warning' => '? > 2 && ? <= 5',
                             'sql_threshold_danger' => '? > 5',
+                            'color' => '#CC3399',
                             'sql_formula' => '
                             (
                               SUM(times_of_dereg_due_to_air_lnk_failure) 
@@ -210,19 +232,19 @@ public function after($direction) {
                               + SUM(times_of_dereg_on_src_bs_side_aft_succ_hdover)
                               + SUM(times_of_dereg_due_to_ms_pwroff)
                               )',
-),
-'Counter' => array(
-                                array('Counter' => array('id' => 3) ), // times_of_dereg_due_to_air_lnk_failure
-                                array('Counter' => array('id' => 4)), // times_of_dereg_due_to_hdover_failure
-                                array('Counter' => array('id' => 5)), // nr_of_users_at_end_of_measur_period
-                                array('Counter' => array('id' => 6)), // times_of_ms_diconn_from_net
-                                array('Counter' => array('id' => 7)), // times_of_dereg_init_by_ms
-                                array('Counter' => array('id' => 8)), // times_of_dereg_init_by_gw
-                                array('Counter' => array('id' => 9)), //  times_of_dereg_due_to_om
-                                array('Counter' => array('id' => 10)), //times_of_dereg_on_src_bs_side_aft_succ_hdover
-                                array('Counter' => array('id' => 11)), // times_of_dereg_due_to_ms_pwroff
-                                ),
-),
+                        ),
+                        'Counter' => array(
+                            array('Counter' => array('id' => 3) ), // times_of_dereg_due_to_air_lnk_failure
+                            array('Counter' => array('id' => 4)), // times_of_dereg_due_to_hdover_failure
+                            array('Counter' => array('id' => 5)), // nr_of_users_at_end_of_measur_period
+                            array('Counter' => array('id' => 6)), // times_of_ms_diconn_from_net
+                            array('Counter' => array('id' => 7)), // times_of_dereg_init_by_ms
+                            array('Counter' => array('id' => 8)), // times_of_dereg_init_by_gw
+                            array('Counter' => array('id' => 9)), //  times_of_dereg_due_to_om
+                            array('Counter' => array('id' => 10)), //times_of_dereg_on_src_bs_side_aft_succ_hdover
+                            array('Counter' => array('id' => 11)), // times_of_dereg_due_to_ms_pwroff
+                            ),
+                        ),
 
                     /**
                      * Network Disconnection Ratio = 
@@ -244,6 +266,7 @@ public function after($direction) {
                             'string_format' => '%.4G%%',
                             'sql_threshold_warning' => '? > 3 && ? <= 6',
                             'sql_threshold_danger' => '? > 6',
+                            'color' => '#00503B',
                             'sql_formula' => '
                             (
                               SUM(nr_of_users_at_end_of_msrmt_period) 
@@ -267,35 +290,37 @@ public function after($direction) {
                                     array('Counter' => array('id' => 10) ), //times_of_dereg_on_src_bs_side_aft_succ_hdover
                                     array('Counter' => array('id' => 11) ), // times_of_dereg_due_to_ms_pwroff
                                     ),
-),
+                            ),
 
 
-array(
-    'Kpi' =>  array(                        
-        'col_name'    => 'carrier_dl_be_avg_traffic_rate',
-        'name'  => 'Carrier DL BE Average Traffic Rate (All Day)',
-        'string_format' => '%s Mbps',
-        'sql_formula' => 'AVG(carrier_dl_be_avg_traffic_rate)'
-        ),                        
-    'Counter' => array(
-        array('Counter' => array('id' => 13)), 
-        ),
-    ),
+                            array(
+                                'Kpi' =>  array(                        
+                                    'col_name'    => 'carrier_dl_be_avg_traffic_rate',
+                                    'name'  => 'Carrier DL BE Average Traffic Rate (All Day)',
+                                    'string_format' => '%s Mbps',
+                                    'sql_formula' => 'AVG(carrier_dl_be_avg_traffic_rate)',
+                                    'color' => '#5C7A00',
+                                    ),                        
+                                'Counter' => array(
+                                    array('Counter' => array('id' => 13)), 
+                                    ),
+                                ),
 
 
-array(
-    'Kpi' =>  array(
-        'col_name'    => 'avg_net_entry_dly_of_usrs_on_carrier',
-        'name'  => 'Average Network Entry Delay of Users',
-        'string_format' => '%s ms',
-        'sql_threshold_warning' => '? > 3000 && ? <= 10000',
-        'sql_threshold_danger' => '? > 10000',
-        'sql_formula' => 'AVG(avg_net_entry_dly_of_usrs_on_carrier)'
-        ),
-    'Counter' => array(                            
-        array('Counter' => array('id' => 14) ), 
-        ),
-    ),
+                        array(
+                            'Kpi' =>  array(
+                                'col_name'    => 'avg_net_entry_dly_of_usrs_on_carrier',
+                                'name'  => 'Average Network Entry Delay of Users',
+                                'string_format' => '%s ms',
+                                'sql_threshold_warning' => '? > 3000 && ? <= 10000',
+                                'sql_threshold_danger' => '? > 10000',
+                                'sql_formula' => 'AVG(avg_net_entry_dly_of_usrs_on_carrier)',
+                                'color' => '#990033',
+                                ),
+                            'Counter' => array(                            
+                                array('Counter' => array('id' => 14) ), 
+                                ),
+                            ),
 
 
 
@@ -328,6 +353,7 @@ array(
                               + SUM(nr_of_ul_harq_subbrts_succ_retr_at_4th_time)                            
                               ) 
                                 * 100',
+                            'color' => '#996600',
                         ),
                         'Counter' => array(
                                     array('Counter' => array('id' => 15) ), // nr_of_ul_harq_subbrts_fail_to_be_rec_fin
@@ -371,6 +397,7 @@ array(
                               + SUM(4th_retr_dl_harq_subbrst_of_snd_succ_mimo_b)   
                               ) 
                                 * 100',
+                            'color' => '#666633',
                         ),
                         'Counter' => array(
                                     array('Counter' => array('id' => 26) ), // dl_harq_subbrts_nr_of_sndng_failure_mimo_b
@@ -383,45 +410,47 @@ array(
                         ),
 
 
-array(
-    'Kpi' =>  array(
-        'col_name'    => 'avg_ul_slot_coding_effi',
-        'string_format' => '%s%%',
-        'name'  => 'Average UL Slot Coding Efficiency',
-        'string_format' => '%.4G%%',
-        'sql_formula' => 'AVG(avg_ul_slot_coding_effi)',
-        ),
-    'Counter' => array(
-                                array('Counter' => array('id' => 27)),   //avg_ul_slot_coding_effi                              
+                        array(
+                            'Kpi' =>  array(
+                                'col_name'    => 'avg_ul_slot_coding_effi',
+                                'string_format' => '%s%%',
+                                'name'  => 'Average UL Slot Coding Efficiency',
+                                'string_format' => '%.4G%%',
+                                'sql_formula' => 'AVG(avg_ul_slot_coding_effi)',
+                                'color' => '#FF3300',
                                 ),
-    ),
+                            'Counter' => array(
+                                                        array('Counter' => array('id' => 27)),   //avg_ul_slot_coding_effi                              
+                                                        ),
+                            ),
 
 
 
-array(
-    'Kpi' =>  array(
-        'col_name'    => 'avg_dl_slot_coding_effi',
-        'name'  => 'Average DL Slot Coding Efficiency',
-        'string_format' => '%s bpsc',
-        'sql_formula' => 'AVG(avg_dl_slot_coding_effi)',
-        ),
-    'Counter' => array(
-                                array('Counter' => array('id' => 28)), // avg_dl_slot_coding_effi
+                            array(
+                                'Kpi' =>  array(
+                                    'col_name'    => 'avg_dl_slot_coding_effi',
+                                    'name'  => 'Average DL Slot Coding Efficiency',
+                                    'string_format' => '%s bpsc',
+                                    'sql_formula' => 'AVG(avg_dl_slot_coding_effi)',
+                                    ),
+                                'Counter' => array(
+                                                            array('Counter' => array('id' => 28)), // avg_dl_slot_coding_effi
+                                                            ),
                                 ),
-    ),
 
 
-array(
-    'Kpi' =>  array(
-        'col_name'    => 'nr_of_activ_users_wasn9770',
-        'name'  => 'Number of Activated Users (WASN9770)',
-        'string_format' => '%d',
-        'sql_formula' => 'MAX(nr_of_activ_users_wasn9770)',
-        ),
-    'Counter' => array(
-                                array('Counter' => array('id' => 29) ),    // nr_of_activ_users_wasn9770                            
-                                ),
-    ),
+                    array(
+                        'Kpi' =>  array(
+                            'col_name'    => 'nr_of_activ_users_wasn9770',
+                            'name'  => 'Number of Activated Users (WASN9770)',
+                            'string_format' => '%d',
+                            'sql_formula' => 'MAX(nr_of_activ_users_wasn9770)',
+                            'color' => '#2929CC',
+                            ),
+                        'Counter' => array(
+                                                    array('Counter' => array('id' => 29) ),    // nr_of_activ_users_wasn9770                            
+                                                    ),
+                        ),
 
 
 
@@ -459,6 +488,7 @@ array(
                                 - SUM(nr_of_net_entry_fails_due_to_inter_freq_assig_cd_by_no_acc_perm)
                                 ) 
                                 * 100',
+                            'color' => '#FF0066',
 ),
 'Counter' => array(
                                     array('Counter' => array('id' => 90) ), // times_of_succ_regis_for_init_net_entry
@@ -498,6 +528,7 @@ array(
                                 - SUM(nr_of_net_entry_fails_due_to_inter_freq_assig_cd_by_no_acc_perm)
                                 ) 
                                 * 100',
+                            'color' => '#999900',
                         ),	
                         'Counter' => array(
                                 array('Counter' => array('id' => 98) ), // nr_of_basic_capability_negot_req
@@ -526,6 +557,7 @@ foreach ( $kpiFields as $data ) {
 
     $Kpi->create();              
     if ( !$Kpi->save($data)) {
+        $this->log(print_r($Kpi->validationErrors, true));
         throw new CakeException('No se pudo guardar');
     } else {
                             // $lastId = $Kpi->lastInsertedId();

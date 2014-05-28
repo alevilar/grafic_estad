@@ -27,6 +27,9 @@ function create_zomming_plot ( domMasterContainerId, domDetailContainerId, data,
 	var tooltip = $('<div class="skytooltip">').appendTo($('body'));
 	tooltip.hide();	
 	
+	$(domDetailContainerId).on('plotchangeview', function(){
+		$('.skytooltip').remove();
+	});
 	 
 	$(domDetailContainerId).on('plothover', function ( event, pos, item ) {
 		
@@ -147,6 +150,15 @@ function create_zomming_plot ( domMasterContainerId, domDetailContainerId, data,
 }
 
 
+
+
+/**
+*
+*	Crea un grafico jPlot
+*	@param string domContainerId jQuery DOM Sel. String
+*	@param array data jPlot Data array
+*	@title string Titulo del grafico
+**/
 function createGraph ( domContainerId, data, title ) {
 		if (typeof(title) == 'undefined') {
 			title = '';
