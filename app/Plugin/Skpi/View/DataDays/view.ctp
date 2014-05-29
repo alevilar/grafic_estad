@@ -23,6 +23,12 @@ $this->start('script');
     <!--[if lt IE 9]>
     <?php echo $this->Html->script('/jqplot/excanvas.min'); ?>
     <![endif]-->
+
+    <style type="text/css">
+        .btn-descargar-xls{
+            float: right;
+        }
+    </style>
 <?php
 $this->end();
 ?>
@@ -44,10 +50,9 @@ $this->end();
         }
         ?>
 
-
+        <?php echo $this->element('btn_descargar_excel'); ?>
         <h4>Tabla de KPI´s</h4>
-        <?php
-
+       <?php
         // KPI´s TABLE
         echo $this->element('kpis_table', array(
                 'days' => $days,
@@ -55,8 +60,6 @@ $this->end();
                 'site_id' => $site['Site']['id']
             ));
 
-
-        
 
         ?>
 

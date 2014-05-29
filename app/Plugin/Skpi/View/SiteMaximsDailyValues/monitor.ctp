@@ -1,3 +1,45 @@
+
+<style type="text/css">
+    .graph-wrapper .graph-fixed{
+        position: fixed; 
+        top: 200px; 
+        width: 50%;
+    }
+
+    .jqplot-table-legend{
+        top: -35px!important;
+        right: 23px!important;   
+    }
+
+
+    .table-kpis td{
+        text-align: center;
+
+    }
+
+    .table-kpis input{
+        text-align: left;
+        float: left;
+    }
+
+    .controls{
+        position: absolute;    
+        left: 48%;
+        margin-top: -46px;    
+    }
+
+    .controls button{
+        width: 50px;
+    }
+
+    .btn-descargar-xls{
+        position: absolute; 
+        margin-left: 80px; 
+        margin-top: 2px;
+    }
+</style>
+
+
 <?php 
 
 $this->start('search');
@@ -5,106 +47,67 @@ echo $this->Element('kpi_site_date_search', array('modelName' => 'SiteMaximsDail
 $this->end();
 ?>
 
+
+
+<div class="controls text-center">
+    <div class="controls-wrap">
+        <button class="play btn btn-primary">►</button>
+        <button class="pause btn  btn-success">▐ ▌</button>
+    </div>
+</div>
+
 <div>
 
-<?php 
-        $cells = array();
-        $dataDays = array();
-        foreach ( $sitesMaxims as $siteId => $k ) {  
-            $url = array(
-                'controller' => 'SiteMaximsDailyValues',
-                'action' => 'graph_jplot',
-                $siteId,
-                );
-            if ( !empty($busqueda) ) {
-                $url[] = $this->request->data['SiteMaximsDailyValue']['date_from'];
-                if (!empty($this->request->data['SiteMaximsDailyValue']['date_to'])) 
-                    $url[] = $this->request->data['SiteMaximsDailyValue']['date_to'];
-            }
-            $url = $this->Html->url($url,true);
-
-            $imp = "<input type='radio' name='selected_site' value='$siteId' id='selected-radio-$siteId' data-url='$url'>";
-            $row = array( $imp . $sites[$siteId] );
-
-            // recorrer los valores y seguir armando el array para la fila
-            // por cada dia
-            foreach ($k as $day ) {
-                $dd = date('Y-m-d', strtotime($day['SiteMaximsDailyValue']['ml_datetime']));
-                $dataDays[$dd] = $dd;
-                $row[] = sprintf("<b>%g</b> Mbps",$day['SiteMaximsDailyValue']['dl_value']);
-                $row[] = sprintf("<b>%.0f</b> Mbps",$day['SiteMaximsDailyValue']['ul_value']);
-            }
-            $cells[] = $row;
-        }
-?>
+    <?php
+    $spanTable = 'span6';
+    $spanGraph = 'span6 graph-wrapper';
+    if ( count($days) > 5 ) {
+        $spanTable = 'span12';
+        $spanGraph = 'span12';
+    }
+    ?>
     
 
-    <div class="span6">
-        <table class="table table-bordered table-condensed table-kpis table-hover">
+    <div class="<?= $spanGraph?>" id="grafico">
 
-        <thead>
-        <?php
-                $days = array_values($dataDays);
-
-                $header2= array();
-                $days = array();
-                foreach( $dataDays as $date) {
-                    $header2[] = 'DL';
-                    $header2[] = 'UL';
-                    $date = date('Y-m-d', strtotime($date));
-                    if ( $date  == date('Y-m-d', strtotime('now') ))  {
-                        $days[] = 'Hoy(parcial)';
-                    } else {
-                        $days[] = $date;
-                    }
-                }        
-                ?>
-                <tr>
-                    <th>&nbsp;</th>
-                <?php
-                foreach ( $days as $date) {
-                    echo "<th colspan='2'>$date</th>";
-                }
-                ?>
-                </tr>
-
-                <?php
-
-                array_unshift( $header2, 'Sitio');
-                echo $this->Html->tableHeaders( $header2 );      
-
-                
-        ?>
-        </thead>
-
-
-        <?php
-            echo $this->Kpi->tCells( $cells );
-        ?>
-        </table>
-    </div>
-
-
-    <div class="span6" id="grafico">
-        <div  style="position: fixed; bottom: 50px; width: 50%">
+        <div class="alert alert-info text-center">Los valores estan expresados en <i>Mbps</i></div>
+        
+        <div class="graph-fixed">
             <div id="graph"></div>
             <br>
             <div class="text-center" id="site-link"></div>
         </div>
     </div>
+
+
+
+    <div class="<?= $spanTable?>">
+        <?php 
+        echo $this->element('btn_descargar_excel');
+        
+        echo $this->element('table_max_traf_x_sitio');
+        ?>
+    </div>
+
 </div>
+
+
+
+<?php $this->start('scriptBottom'); ?>
 
 <?= $this->element('scroll_interval_to_js'); ?>
 
 <script>
-     var WWWROOT = "<?php echo $this->Html->url('/', true);?>";
+    var ROTMS = scrollInterval;
+    var WWWROOT = "<?php echo $this->Html->url('/', true);?>";
 </script>
+
 
 
 <?php
 
 echo $this->Html->script('/skpi/js/graphs/kpi_graph');
-echo $this->Html->script('/skpi/js/max_uldl');
+echo $this->Html->script('/skpi/js/site_maxims_daily_values.monitor');
 echo $this->Html->css('/jqplot/jquery.jqplot.min');
 ?>
 
@@ -118,7 +121,11 @@ echo $this->Html->script(array(
     '/jqplot/jquery.jqplot',
     '/jqplot/plugins/jqplot.dateAxisRenderer.min',
     '/jqplot/plugins/jqplot.pointLabels.min',
+    '/jqplot/plugins/jqplot.canvasTextRenderer.min',
+    '/jqplot/plugins/jqplot.canvasAxisTickRenderer.min',
     //'/jqplot/plugins/jqplot.highlighter.min',
     '/jqplot/plugins/jqplot.cursor.min',
 ));
 ?>
+
+<?php $this->end() ?>

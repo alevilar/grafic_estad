@@ -36,6 +36,7 @@ class DataDaysController extends SkpiAppController
     */  
     public function monitor( )
     {
+        $this->layout = 'clean';
         $this->set('sites', $this->DataDay->Carrier->Sector->Site->find('list'));
         $this->set('title_for_layout', "Monitor de Estado");
     }
@@ -115,88 +116,6 @@ class DataDaysController extends SkpiAppController
 
         $this->set(compact('counters'));
         
-    }
-
-
-
-
-    public function graf_max_uldl_de_sitio ( $site_id ) {
-        $this->Prg->commonProcess();
-        $conditions = $this->DataDay->parseCriteria($this->request->query);
-
-        if ( !empty($conditions['Site.id'])) {
-                $site_id = $conditions['Site.id'];
-        }
-
-        if ( empty( $conditions['DateKpi.date <='] )) {
-            $conditions['DateKpi.date <='] = date('Y-m-d', strtotime('now'));
-        }
-
-        if ( empty( $conditions['DateKpi.date >='] )) {
-            $conditions['DateKpi.date >='] = date('Y-m-d', strtotime('-1 week'));
-        }
-
-
-        $conditions['Site.id'] = $site_id;
-        $conditions['DateKpi.date >='] = date('Y-m-d', strtotime('-1 week'));
-        $conditions['DateKpi.date <='] = date('Y-m-d', strtotime('now'));
-    
-
-        if ( !empty($dateFrom) ) {
-            $conditions['DateKpi.date >='] = date('Y-m-d', strtotime( $dateFrom ));
-        }
-
-        if ( !empty($dateTo) ) {
-            $conditions['DateKpi.date <='] = date('Y-m-d', strtotime( $dateTo ));
-        }
-
-        $kpis = $this->DateKpi->find( 'all', array(
-            'conditions' => $conditions,            
-            'order' => array(
-                'DateKpi.date'
-                ),
-            )
-        );
-
-        if (!empty( $conditions['DateKpi.date <='] )) {
-            $this->request->data['DateKpi']['date_to'] = $conditions['DateKpi.date <='];    
-        }
-
-        if (!empty( $conditions['DateKpi.date >='] )) {
-            $this->request->data['DateKpi']['date_from'] = $conditions['DateKpi.date >='];
-        }
-    
-        $this->DateKpi->Carrier->Sector->Site->contain( array('Sector.Carrier') );
-        $site = $this->DateKpi->Carrier->Sector->Site->read(null , $site_id);
-        $this->set('title_for_layout', $site['Site']['name']);
-
-        $this->set('sites', $this->DateKpi->Carrier->Sector->Site->find('list') );
-
-
-        $newKpisBySite = array();
-        foreach ( $kpis as $k ) {           
-            $site_id = $k['Carrier']['Sector']['site_id'];
-            $newKpisBySite[$site_id][] = $k;
-        }
-        $mosNewKpiDl = array();
-        $mosNewKpiUl = array();
-        foreach ($newKpisBySite as $site=>$nk) {
-            foreach ($nk as $byDay) {               
-                $mosNewKpiDl[] = array(
-                    $byDay['DateKpi']['date'],
-                    $byDay['DateKpi']['max_dl'],
-                    );
-                $mosNewKpiUl[] = array(
-                    $byDay['DateKpi']['date'],
-                    $byDay['DateKpi']['max_ul'],
-                    );  
-            }           
-        }       
-        
-        $this->set('sitio', $site );
-        $this->request->data['DateKpi']['site_id'] = $site_id;
-        $this->set('kpis', array(array_values($mosNewKpiDl), array_values($mosNewKpiUl)));
-    //  $this->set('_serialize', array('kpis', 'sitio', 'title_for_layout'));
     }
 
 

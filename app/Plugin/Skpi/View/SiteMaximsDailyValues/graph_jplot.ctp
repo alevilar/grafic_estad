@@ -56,7 +56,7 @@ echo $this->Html->script(array(
 ?>
 
 <script>
-     var kpis = <?php echo json_encode(array( $metricsDl, $metricsUl ), JSON_NUMERIC_CHECK)?>;
+     var kpis = <?php echo json_encode(array( $metricsDl, $metricsUl  ), JSON_NUMERIC_CHECK)?>;
      
      createGraph('graph', kpis, "<?php echo $title_for_layout?>");
 </script>

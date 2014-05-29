@@ -82,7 +82,9 @@ class SiteMaximsDailyValuesController extends SkpiAppController {
     }
 
 	public function monitor ( $date_from = null, $date_to = null ) {
-        $this->layout = 'clean';
+        if ( empty($this->request->params['ext']) || $this->request->params['ext'] != 'xls') {
+            $this->layout = 'clean';
+        }
         $this->set('title_for_layout', 'Máximo tráfico por Radiobase');
 		$this->Prg->commonProcess();
         $conditions = $this->SiteMaximsDailyValue->parseCriteria($this->request->query);
@@ -98,14 +100,11 @@ class SiteMaximsDailyValuesController extends SkpiAppController {
 		$sitesMaxims = $this->SiteMaximsDailyValue->getSitesValues($days[0], $days[1]);
 
 		$sites = $this->SiteMaximsDailyValue->Site->find('list');
-
-		$this->set(compact('sitesMaxims', 'sites', 'busqueda'));
+        $days = array_values(crear_fechas($days[0], $days[1]));
+		$this->set(compact('sitesMaxims', 'sites', 'busqueda', 'days'));
 	}
 
 
-	public function by_site ( $site_id, $date_from = null, $date_to = null ) {
-		$site = $this->SiteMaximsDailyValue->getSiteValue($site_id, $date_from, $date_to);
-	}
 
 
 	public function graph_jplot ( $site_id, $date_from = null, $date_to = null) {

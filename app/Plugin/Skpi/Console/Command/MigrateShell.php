@@ -237,10 +237,6 @@ class MigrateShell extends AppShell
                 ));  
             }
 
-
-            
-            $this->out("El KPI $kpiName tiene ".count($dataMetric)." registros por migrar");
-            
             // por cada dato a migrar
             foreach ( $dataMetric as $md ) {
                 $this->__saveDataCount($k, $md);

@@ -55,19 +55,19 @@ class SiteMaximsDailyValue extends SkpiAppModel {
 
 		// set default value for date from
 		$conds = array(
-				'SiteMaximsDailyValue.ml_datetime >=' => date('Y-m-d', strtotime('-3 day') ),
-				'SiteMaximsDailyValue.ml_datetime <=' => date('Y-m-d'),
+				'DATE(SiteMaximsDailyValue.ml_datetime) >=' => date('Y-m-d', strtotime('-3 day') ),
+				'DATE(SiteMaximsDailyValue.ml_datetime) <=' => date('Y-m-d'),
 				'SiteMaximsDailyValue.site_id' => $site_id,
 			);
-
+		
 		if ( !empty($date_from) ) {
-			$conds['SiteMaximsDailyValue.ml_datetime >='] = $date_from;
+			$conds['DATE(SiteMaximsDailyValue.ml_datetime) >='] = $date_from;
 		}
 
 
 		// set default value for date  to
 		if ( !empty($date_to) ) {
-			$conds['SiteMaximsDailyValue.ml_datetime <='] = $date_to;			
+			$conds['DATE(SiteMaximsDailyValue.ml_datetime) <='] = $date_to;			
 		}
 		return $this->find('all', array(
 				'conditions' => $conds,

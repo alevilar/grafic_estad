@@ -46,7 +46,7 @@ function create_zomming_plot ( domMasterContainerId, domDetailContainerId, data,
  			  if ( options.yaxisLabel ) {
  			  	format = options.yaxisLabel;
  			  }
-		      var content = item.series.data[item.dataIndex][1] + " "+ format + ", " + date.toLocaleString();
+		      var content = item.series.data[item.dataIndex][1] + " "+ format;
 
 		      var wd = tooltip.width() / 2;
 
@@ -163,17 +163,20 @@ function createGraph ( domContainerId, data, title ) {
 		if (typeof(title) == 'undefined') {
 			title = '';
 		}
+
+
    		var plot = $.jqplot( 
    						domContainerId, 
 			        	data, 
 			        	{
 			        		seriesDefaults: {
+			        			lineWidth:4, 	
 				                showMarker:true, 
 				                pointLabels:{ 
 				                    show:true,
 				                    location:'nw', 
 				                    ypadding:3,
-				                    stackedValue: true
+				                    stackedValue: true,
 				                },				               
 				                rendererOptions:{barMargin: 25}
 				            },
@@ -186,7 +189,8 @@ function createGraph ( domContainerId, data, title ) {
 					        },
 				        	legend: {
 				                show: true,
-				                labels: ['UL', 'DL']
+				                labels: ['DL', 'UL'],
+				                placement: 'outsideGrid'
 				            },
 				        
 				          cursor: {
@@ -196,15 +200,27 @@ function createGraph ( domContainerId, data, title ) {
 				          axes:{
 					        xaxis:{
 					          renderer:$.jqplot.DateAxisRenderer, 
-					          tickOptions:{formatString:'%b %#d'},					        
-					          tickInterval:'1 day',
-					          pad: 0
+					          tickOptions:{formatString:'%H:%M, %b %d'},					        
+					         // tickInterval:'1 day',
+					          pad: 0,
+					          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+		                      tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+		                      tickOptions: {
+		                            angle: -90
+		                      }
 					        },
 					        yaxis: {
 							    autoscale:true
 							}
 					      },				          
-				          series:[{lineWidth:4, markerOptions:{style:'square'}}]
+				          series:[				          
+				          	{
+				          		color: "#08088A"
+				          	},	
+				          	{
+				          		color: "#088A08"
+				          	},
+				          	]
 						}
 		);
 

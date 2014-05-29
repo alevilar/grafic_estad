@@ -23,13 +23,13 @@ public $migration = array(
             	// 'skpi_date_kpis',        
 
 
-        'skpi_hourly_counters',
-        'skpi_counters_kpis',
-        // 'skpi_counters',
-        'skpi_kpis',
-        'skpi_data_days',
-        'skpi_daily_values',
-        'skpi_site_maxims_daily_values',
+        // 'skpi_hourly_counters',
+        // 'skpi_counters_kpis',
+        // // 'skpi_counters',
+        // 'skpi_kpis',
+        // 'skpi_data_days',
+        // 'skpi_daily_values',
+        // //'skpi_site_maxims_daily_values',
 
         ),
 
@@ -140,31 +140,31 @@ public function after($direction) {
 
     if ($direction === 'up') {
         $kpiFields = array(
-            array(
-                'Kpi' =>  array(
-                    'col_name'    => 'carrier_dl_avg_rate',                        
-                    'name'  => 'DL Avg Rate',
-                    'string_format' => '%s Mbit/s',
-                    'sql_formula' => 'AVG(carrier_dl_avg_rate)',
-                    'color' => '#333399',
-                    ),
-                'Counter' => array(
-                    array('Counter' => array('id' => 30)), 
-                    ),
-                ),                 
+            // array(
+            //     'Kpi' =>  array(
+            //         'col_name'    => 'carrier_dl_avg_rate',                        
+            //         'name'  => 'DL Avg Rate',
+            //         'string_format' => '%s Mbit/s',
+            //         'sql_formula' => 'AVG(carrier_dl_avg_rate)',
+            //         'color' => '#333399',
+            //         ),
+            //     'Counter' => array(
+            //         array('Counter' => array('id' => 30)), 
+            //         ),
+            //     ),                 
 
-            array(
-                'Kpi' =>  array(
-                    'col_name'    => 'carrier_ul_avg_rate',
-                    'name'  => 'UL Avg Rate',
-                    'string_format' => '%s kbit/s',
-                    'sql_formula' => 'AVG(carrier_ul_avg_rate)',
-                    'color' => '#006600',
-                    ),
-                'Counter' => array(
-                    array('Counter' => array('id' => 31)), 
-                    ),
-                ),
+            // array(
+            //     'Kpi' =>  array(
+            //         'col_name'    => 'carrier_ul_avg_rate',
+            //         'name'  => 'UL Avg Rate',
+            //         'string_format' => '%s kbit/s',
+            //         'sql_formula' => 'AVG(carrier_ul_avg_rate)',
+            //         'color' => '#006600',
+            //         ),
+            //     'Counter' => array(
+            //         array('Counter' => array('id' => 31)), 
+            //         ),
+            //     ),
 
 
 

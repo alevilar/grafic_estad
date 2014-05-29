@@ -1,7 +1,13 @@
 <?php
+$this->start('script');
     echo $this->Html->script('/bootstrap_datepicker/js/bootstrap-datepicker');
     echo $this->Html->css('/bootstrap_datepicker/css/datepicker');
+    ?>
+    <style type="text/css">
 
+    </style>
+    <?php
+$this->end();
 
 
 $options = array(
@@ -21,40 +27,16 @@ if ( !empty($formAction) ) {
 echo $this->Form->create( $modelName , $options);
 ?>
 
-<style>
-    .search-form select{
-        width: 100%;
-    }
-    
-    .search-form input{
-        width: 100%;
-    }
-    
-    .search-form .date input{
-        width: auto;
-    }
-    
-    .bootstrap-datetimepicker-widget{
-        top: 400px;
-    }
-</style>
 
 
-<div class="search-form">
+
     <div class="span4">
         <?php        
         echo $this->Form->input('date_from', array(          
-            'label' => array(
-                    'text' => 'Desde',
-                    'class' => 'control-label'
-                ),
+            'label' => 'Desde',
             'id' => 'datetimepicker1', 
             'data-date-format' => 'yyyy-mm-dd',
             'placeholder' => 'Seleccionar fecha "desde"',
-            'class' => 'controls',
-            'div' => array(
-                'class' => 'control-group'
-                )
             ));              
         ?>
     </div>
@@ -78,8 +60,7 @@ echo $this->Form->create( $modelName , $options);
         
         <?php //echo $this->Form->input('sector_name', array('label' => 'Sector')); ?>
     </div>    
-    <div class="clearfix"></div>
-</div>    
+
 <?php
 echo $this->Form->end();
 ?>
@@ -92,13 +73,13 @@ echo $this->Form->end();
 <script type="text/javascript">
 
 
-$('#datetimepicker2').datepicker().on('changeDate', function(ev) {  		
-  		$(ev.target).datepicker('hide');
-	});
+    $('#datetimepicker2').datepicker().on('changeDate', function(ev) {  		
+      		$(ev.target).datepicker('hide');
+    	});
 
 
-$('#datetimepicker1').datepicker()
-	.on('changeDate', function(ev) {  		
-  		$(ev.target).datepicker('hide');
-	});
+    $('#datetimepicker1').datepicker()
+    	.on('changeDate', function(ev) {  		
+      		$(ev.target).datepicker('hide');
+    	});
 </script>

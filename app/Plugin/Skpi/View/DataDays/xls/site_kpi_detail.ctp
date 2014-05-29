@@ -1,0 +1,1 @@
+ <?php echo $this->element('kpi_view_full_site_sector_carrier');?>
