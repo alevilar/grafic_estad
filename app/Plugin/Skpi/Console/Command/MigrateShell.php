@@ -354,63 +354,63 @@ class MigrateShell extends AppShell
                 $carrier = $this->Carrier->findByObjectno($md['DataCounter']['objectno']);
 
                 // tiene que ser un valor numerico, si viene NULL u otra cosa, no lo tengo en cuenta
-                if ( !is_null($value) ) {
+                if ( is_null($value) ) return false; // el valor vino null
 
-                    $dataDay = $this->DataDay->find('first', array(
-                        'recursive' => -1,
-                        'conditions' => array(
-                            'DataDay.ml_date'    => $md[0]['ml_datetime'],
-                            'DataDay.carrier_id' => $carrier['Carrier']['id'], 
-                        ),
-                    ));
-                    
-                    if ( empty($dataDay) ) {
-                        // si no existia previamente crear nueva fecha
-                        $this->DataDay->create();
-                        $dataDay['DataDay'] = array(
-                            'ml_date' => $md[0]['ml_datetime'],
-                            'carrier_id' => $carrier['Carrier']['id'],
-                        );
-                        $dataDay['DailyValue'] = array(
-                            'kpi_id' => $k['Kpi']['id'],
-                            'value'  => $value,
-                        );
-                    } else {
-                        // si existia hay que sobreescribir los datos
-                        
-                        // ahora ver si existe el kpi para esa fecha
-                        $kdv = $this->DailyValue->find('first', array(
-                            'conditions' => array(
-                                'DailyValue.data_day_id' => $dataDay['DataDay']['id'],
-                                'DailyValue.kpi_id' => $k['Kpi']['id'],
-                            )
-                        ));
-                        if ( !empty($kdv) ) {
-                            // existe el KPI entonces sobreescribo
-                            $dataDay['DailyValue'] = $kdv['DailyValue'];                            
-                        } else {
-                            // no existe, entonces crear uno nuevo
-                            $this->DailyValue->create();
-                            $dataDay['DailyValue']['kpi_id'] = $k['Kpi']['id'];
-                            
-                        }       
-                        // modificar el valor, aunque existiese o sea nuevo
-                        $dataDay['DailyValue']['value'] = $value;
-                    }
-                    
-                    
-                    if ( !$this->DailyValue->saveAssociated( $dataDay ) ) {
-                        $saveErrors[] = $dataDay;
+        $dataDay = $this->DataDay->find('first', array(
+            'recursive' => -1,
+            'conditions' => array(
+                'DataDay.ml_date'    => $md[0]['ml_datetime'],
+                'DataDay.carrier_id' => $carrier['Carrier']['id'], 
+            ),
+        ));
+        
+        if ( empty($dataDay) ) {
+            // si no existia previamente crear nueva fecha
+            $this->DataDay->create();
+            $dataDay['DataDay'] = array(
+                'ml_date' => $md[0]['ml_datetime'],
+                'carrier_id' => $carrier['Carrier']['id'],
+            );
+            $dataDay['DailyValue'] = array(
+                'kpi_id' => $k['Kpi']['id'],
+                'value'  => $value,
+            );
+        } else {
+            // si existia hay que sobreescribir los datos
+            
+            // ahora ver si existe el kpi para esa fecha
+            $kdv = $this->DailyValue->find('first', array(
+                'conditions' => array(
+                    'DailyValue.data_day_id' => $dataDay['DataDay']['id'],
+                    'DailyValue.kpi_id' => $k['Kpi']['id'],
+                )
+            ));
+            if ( !empty($kdv) ) {
+                // existe el KPI entonces sobreescribo
+                $dataDay['DailyValue'] = $kdv['DailyValue'];                            
+            } else {
+                // no existe, entonces crear uno nuevo
+                $this->DailyValue->create();
+                $dataDay['DailyValue']['kpi_id'] = $k['Kpi']['id'];
+                
+            }       
+            // modificar el valor, aunque existiese o sea nuevo
+            $dataDay['DailyValue']['value'] = $value;
+        }
+        
+        
+        if ( !$this->DailyValue->saveAssociated( $dataDay ) ) {
+            $saveErrors[] = $dataDay;
 
-                        $this->log("--------- Error al migrar DailyValue --------");
-                        $this->log(print_r($dataDay));
-                        $this->log(print_r($this->DataDay->validationErrors, true));
-                        $this->log(print_r($this->DailyValue->validationErrors, true));
-                        throw new Exception('Error al guardar DailyValue');
-                    }
-                } else {
-                    $this->out("<warning>$kpiName retornó un valor que es null. No se guardará valor para este KPI.</warning>");
-                }
+            $this->log("--------- Error al migrar DailyValue --------");
+            $this->log(print_r($dataDay));
+            $this->log(print_r($this->DataDay->validationErrors, true));
+            $this->log(print_r($this->DailyValue->validationErrors, true));
+            throw new Exception('Error al guardar DailyValue');
+        }
+    
+
+        return true; // el valor 
     }
     
      private function __calculateKpisDelDia ( $date ) {

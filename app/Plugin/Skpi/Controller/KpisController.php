@@ -16,18 +16,18 @@ class KpisController extends SkpiAppController
 		'Auth',
 		'Session',
 		'RequestHandler',
-                'DebugKit.Toolbar',
-                'RequestHandler',
-                'Paginator',
-                'Search.Prg' => array(
-                    'presetForm' => array(
-                        'paramType' => 'querystring',
-                    ),
-                    'commonProcess' => array(
-                        'paramType' => 'querystring',
-                        'filterEmpty' => true,
-                    ),
-                ),
+        'DebugKit.Toolbar',
+        'RequestHandler',
+        'Paginator',
+        'Search.Prg' => array(
+            'presetForm' => array(
+                'paramType' => 'querystring',
+            ),
+            'commonProcess' => array(
+                'paramType' => 'querystring',
+                'filterEmpty' => true,
+            ),
+        ),
 	);
     
    

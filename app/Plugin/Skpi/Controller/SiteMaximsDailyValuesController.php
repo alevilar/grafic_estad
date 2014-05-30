@@ -122,8 +122,16 @@ class SiteMaximsDailyValuesController extends SkpiAppController {
 
 		$metricsDl = $metricsUl = array();
 		foreach ($siteVals as $data) {
-			$metricsDl[] = array($data['SiteMaximsDailyValue']['ml_datetime'], $data['SiteMaximsDailyValue']['dl_value']);
-			$metricsUl[] = array($data['SiteMaximsDailyValue']['ml_datetime'], $data['SiteMaximsDailyValue']['ul_value']);
+			$metricsDl[] = array(
+                $data['SiteMaximsDailyValue']['ml_datetime'], 
+                $data['SiteMaximsDailyValue']['dl_value'],
+                sprintf('%0.3G',$data['SiteMaximsDailyValue']['dl_value']) ." (" .date('H:i', strtotime($data['SiteMaximsDailyValue']['ml_datetime'])).")",
+                );
+			$metricsUl[] = array(
+                $data['SiteMaximsDailyValue']['ml_datetime'], 
+                $data['SiteMaximsDailyValue']['ul_value'],
+                sprintf('%0.3G',$data['SiteMaximsDailyValue']['ul_value']) ." (" .date('H:i', strtotime($data['SiteMaximsDailyValue']['ml_datetime'])).")",
+                );
 		}
 
 

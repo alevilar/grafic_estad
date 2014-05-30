@@ -1,7 +1,7 @@
 <?php
 App::uses('SkyAppModel', 'Sky.Model');
 /**
- * SkySite Model
+ * Site Model
  *
  */
 class Site extends SkyAppModel {
@@ -13,8 +13,9 @@ class Site extends SkyAppModel {
  */
 	public $displayField = 'name';
         
-        
-        public $order = array('Site.name');
+    public $order = array('Site.name');
+
+    public $cacheQueries = true;
 
 /**
  * Validation rules
@@ -33,6 +34,8 @@ class Site extends SkyAppModel {
 			),
 		),
 	);
+
+
         
         
         /**
@@ -43,7 +46,17 @@ class Site extends SkyAppModel {
 	public $hasMany = array(
 		'Sky.Sector'
 	);
-        
+
+
+    public function beforeFind( $query ) {
+        parent::beforeFind($query);
+        if ( empty($query['conditions']) && empty($query['conditions']['Site.deleted']) ) {
+            $query['conditions']['Site.deleted'] = 0;    
+        }
+        return $query;
+    }
+
+
         
         public function listCarriers( $site_id = null, $fieldname = 'id' ) {
             

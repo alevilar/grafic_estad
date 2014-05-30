@@ -1,0 +1,59 @@
+<?php
+App::uses('SkySitesController', 'Controller');
+
+/**
+ * SkySitesController Test Case
+ *
+ */
+class SkySitesControllerTest extends ControllerTestCase {
+
+/**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = array(
+		'app.sky_site'
+	);
+
+/**
+ * testAdminIndex method
+ *
+ * @return void
+ */
+	public function testAdminIndex() {
+	}
+
+/**
+ * testAdminView method
+ *
+ * @return void
+ */
+	public function testAdminView() {
+	}
+
+/**
+ * testAdminAdd method
+ *
+ * @return void
+ */
+	public function testAdminAdd() {
+	}
+
+/**
+ * testAdminEdit method
+ *
+ * @return void
+ */
+	public function testAdminEdit() {
+	}
+
+/**
+ * testAdminDelete method
+ *
+ * @return void
+ */
+	public function testAdminDelete() {
+	}
+
+}

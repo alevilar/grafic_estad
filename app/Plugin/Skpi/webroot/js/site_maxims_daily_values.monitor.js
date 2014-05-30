@@ -72,6 +72,7 @@
 		pendinAjax = $.getJSON( url, function ( retObj ) {
 			$('#graph').html("");
             if (retObj && retObj.kpis && retObj.kpis[0].length) {
+                console.debug(retObj.kpis);
                 createGraph('graph', retObj.kpis, retObj.title_for_layout);
             }
             // $('#site-link').html("");

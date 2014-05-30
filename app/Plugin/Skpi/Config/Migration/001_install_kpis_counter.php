@@ -221,16 +221,16 @@ public function after($direction) {
                             'color' => '#CC3399',
                             'sql_formula' => '
                             (
-                              SUM(times_of_dereg_due_to_air_lnk_failure) 
-                              + SUM(times_of_dereg_due_to_hdover_failure) 
+                              IFNULL( SUM(times_of_dereg_due_to_air_lnk_failure) , 0)
+                              + IFNULL( SUM(times_of_dereg_due_to_hdover_failure) , 0)
                               ) / (
-                              SUM(nr_of_users_at_end_of_measur_period)
-                              + SUM(times_of_ms_diconn_from_net)
-                              + SUM(times_of_dereg_init_by_ms)
-                              + SUM(times_of_dereg_init_by_gw)
-                              + SUM(times_of_dereg_due_to_om)
-                              + SUM(times_of_dereg_on_src_bs_side_aft_succ_hdover)
-                              + SUM(times_of_dereg_due_to_ms_pwroff)
+                                 IFNULL( SUM(nr_of_users_at_end_of_measur_period), 0)                  
+                              + IFNULL( SUM(times_of_ms_diconn_from_net), 0)
+                              + IFNULL( SUM(times_of_dereg_init_by_ms) , 0)
+                              + IFNULL( SUM(times_of_dereg_init_by_gw), 0)
+                              + IFNULL( SUM(times_of_dereg_due_to_om), 0)
+                              + IFNULL( SUM(times_of_dereg_on_src_bs_side_aft_succ_hdover), 0)
+                              + IFNULL( SUM(times_of_dereg_due_to_ms_pwroff), 0)
                               )',
                         ),
                         'Counter' => array(
@@ -269,15 +269,16 @@ public function after($direction) {
                             'color' => '#00503B',
                             'sql_formula' => '
                             (
-                              SUM(nr_of_users_at_end_of_msrmt_period) 
+                              IFNULL( SUM(nr_of_users_at_end_of_msrmt_period), 0)
                               ) / (
-                              SUM(nr_of_users_at_end_of_measur_period)
-                              + SUM(times_of_ms_diconn_from_net)
-                              + SUM(times_of_dereg_init_by_ms)
-                              + SUM(times_of_dereg_init_by_gw)
-                              + SUM(times_of_dereg_due_to_om)
-                              + SUM(times_of_dereg_on_src_bs_side_aft_succ_hdover)
-                              + SUM(times_of_dereg_due_to_ms_pwroff)
+
+                              IFNULL( SUM(nr_of_users_at_end_of_measur_period), 0)
+                              + IFNULL( SUM(times_of_ms_diconn_from_net), 0)
+                              + IFNULL( SUM(times_of_dereg_init_by_ms), 0)
+                              + IFNULL( SUM(times_of_dereg_init_by_gw), 0)
+                              + IFNULL( SUM(times_of_dereg_due_to_om), 0)
+                              + IFNULL( SUM(times_of_dereg_on_src_bs_side_aft_succ_hdover), 0)
+                              + IFNULL( SUM(times_of_dereg_due_to_ms_pwroff), 0)
                               )',
 ),
 'Counter' => array(
@@ -342,15 +343,16 @@ public function after($direction) {
                             'name'  => 'UL PER',
                             'sql_threshold_warning' => '? > 1 && ? <= 3',
                             'sql_threshold_danger' => '? > 3',
+                            'string_format' => '%s',
                             'sql_formula' => '
                             (
-                              SUM(nr_of_ul_harq_subbrts_fail_to_be_rec_fin) 
+                              IFNULL( SUM(nr_of_ul_harq_subbrts_fail_to_be_rec_fin) , 0)
                               ) / (
-                              SUM(nr_of_ul_harq_subbrts_succ_rcvd_once)
-                              + SUM(nr_of_ul_harq_subbrts_succ_retr_at_1st_time)
-                              + SUM(nr_of_ul_harq_subbrts_succ_retr_at_2nd_time)
-                              + SUM(nr_of_ul_harq_subbrts_succ_retr_at_3rd_time)
-                              + SUM(nr_of_ul_harq_subbrts_succ_retr_at_4th_time)                            
+                                IFNULL( SUM(nr_of_ul_harq_subbrts_succ_rcvd_once), 0)
+                              + IFNULL( SUM(nr_of_ul_harq_subbrts_succ_retr_at_1st_time), 0)
+                              + IFNULL( SUM(nr_of_ul_harq_subbrts_succ_retr_at_2nd_time), 0)
+                              + IFNULL( SUM(nr_of_ul_harq_subbrts_succ_retr_at_3rd_time), 0)
+                              + IFNULL( SUM(nr_of_ul_harq_subbrts_succ_retr_at_4th_time), 0)
                               ) 
                                 * 100',
                             'color' => '#996600',
@@ -388,13 +390,13 @@ public function after($direction) {
                             'string_format' => '%.4G%%',
                             'sql_formula' => '
                             (
-                              SUM(dl_harq_subbrts_nr_of_sndng_failure_mimo_b)
+                              IFNULL( SUM(dl_harq_subbrts_nr_of_sndng_failure_mimo_b),0)
                               ) / (
-                              SUM(dl_harq_subbrts_nr_of_sndng_succ_one_time_mimo_b)
-                              + SUM(1st_retr_dl_harq_subbrst_of_snd_succ_mimo_b)
-                              + SUM(2nd_retr_dl_harq_subbrst_of_snd_succ_mimo_b)
-                              + SUM(3rd_retr_dl_harq_subbrst_of_snd_succ_mimo_b)
-                              + SUM(4th_retr_dl_harq_subbrst_of_snd_succ_mimo_b)   
+                                IFNULL( SUM(dl_harq_subbrts_nr_of_sndng_succ_one_time_mimo_b),0)
+                              + IFNULL( SUM(1st_retr_dl_harq_subbrst_of_snd_succ_mimo_b),0)
+                              + IFNULL( SUM(2nd_retr_dl_harq_subbrst_of_snd_succ_mimo_b),0)
+                              + IFNULL( SUM(3rd_retr_dl_harq_subbrst_of_snd_succ_mimo_b),0)
+                              + IFNULL( SUM(4th_retr_dl_harq_subbrst_of_snd_succ_mimo_b)   ,0)
                               ) 
                                 * 100',
                             'color' => '#666633',
@@ -444,12 +446,12 @@ public function after($direction) {
                             'col_name'    => 'nr_of_activ_users_wasn9770',
                             'name'  => 'Number of Activated Users (WASN9770)',
                             'string_format' => '%d',
-                            'sql_formula' => 'MAX(nr_of_activ_users_wasn9770)',
+                            'sql_formula' => 'IFNULL( MAX(nr_of_activ_users_wasn9770), 0 )',
                             'color' => '#2929CC',
                             ),
                         'Counter' => array(
-                                                    array('Counter' => array('id' => 29) ),    // nr_of_activ_users_wasn9770                            
-                                                    ),
+                        array('Counter' => array('id' => 29) ),    // nr_of_activ_users_wasn9770                            
+                        ),
                         ),
 
 

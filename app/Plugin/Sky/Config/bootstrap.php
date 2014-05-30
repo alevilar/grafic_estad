@@ -61,6 +61,17 @@ CroogoNav::add('settings.children.sky', array(
 
 
 
+CroogoNav::add('sky', array(
+  'title' => 'Sitios',
+  'url' => array(
+    'admin' => true,
+    'plugin' => 'sky',
+    'controller' => 'sites',
+    'action' => 'index',
+  ),
+  'weight' => 10,  
+));
+
 
 
 function get_num_results_value ( $rawline ) {
