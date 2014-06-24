@@ -57,13 +57,11 @@
 
 <?php 
 
-echo $this->Html->script(array(
-	'/skpi/js/jquery.jcarousel.min',
-	'/skpi/js/data_day_monitor',
-	));
-
 
 echo $this->Html->script(array(
+		'/skpi/js/jquery.jcarousel.min',
+		'/skpi/js/data_day_monitor',
+
         '/jqplot/jquery.jqplot',
         '/jqplot/plugins/jqplot.dateAxisRenderer.min',
         '/jqplot/plugins/jqplot.pointLabels.min',

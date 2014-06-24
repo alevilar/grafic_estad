@@ -14,6 +14,11 @@ class Carrier extends SkyAppModel {
  */
 	public $displayField = 'name';
 
+
+	public $actsAs = array(
+    	'Containable',
+    );
+
 /**
  * Validation rules
  *
@@ -64,5 +69,34 @@ class Carrier extends SkyAppModel {
 			return $carrier['Sector']['Site'];
 		}
 		return false;
+	}
+
+
+	public function listObjectnos () {
+		$cs = $this->find('all', array(
+			'contain' => array('Sector'=>array('Site')),
+			// 'group'=>'objectno', 
+			'order' => 'objectno'
+			)
+		);
+
+		$clist = array();
+		foreach ( $cs as $c ) {			
+			$name = $c['Carrier']['objectno'];
+			$name .= " (";
+			if (!empty($c['Sector']) && !empty($c['Sector']['Site'])) {
+				$name .= $c['Sector']['Site']['name'];	
+			}
+
+			if ( !empty($c['Sector']) ) {
+				$name .= " s:".$c['Sector']['name'];
+			}
+
+			$name .= " c:".$c['Carrier']['name'];
+			
+			$name .= ")";
+			$clist[ $c['Carrier']['objectno'] ] = $name;
+		}		
+		return $clist;
 	}
 }

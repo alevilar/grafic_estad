@@ -12,6 +12,34 @@ class DataCounter extends AppModel {
     public $tablePrefix = '';
 
 
+    public $belongsTo = array(
+        'Carrier' => array(
+            'className' => 'Sky.Carrier',
+            'foreignKey' => 'objectno',
+        )
+    );
+
+
+    public $actsAs = array(
+    	'Containable',
+        'Search.Searchable',
+    );
+
+
+     /**
+     * Filter search fields
+     *
+     * @var array
+     * @access public
+     */
+    public $filterArgs = array(
+    	'objectno' => array('type' => 'value'),
+	 	'date_time' => array('type' => 'value'),	 	
+	 	'date_time_desde' => array('type' => 'value', 'field' => 'DataCounter.date_time >='),
+	 	'date_time_hasta' => array('type' => 'value', 'field' => 'DataCounter.date_time <='),
+    );
+
+
     public function getDataCounter ($what, $what_id, $counterId, $date_from, $date_to ) {
 
 		$fn = $what.'_get_objectnos';

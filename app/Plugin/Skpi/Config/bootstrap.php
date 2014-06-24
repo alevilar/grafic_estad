@@ -5,7 +5,7 @@ define('SK_COUNTER_DL_AVG', 30);
 define('SK_COUNTER_UL_AVG', 31);
 
 
-
+Configure::write('debug',1);
 
 CroogoNav::add('sky', array(
 	'icon' => array('th', 'large'),
@@ -28,12 +28,22 @@ CroogoNav::add('sky', array(
 			),
 			'weight' => 10,
 		),
-                'counters' => array(
+        'counters' => array(
 			'title' => __('Counters'),
 			'url' => array(
 				'admin' => true,
 				'plugin' => 'skpi',
 				'controller' => 'counters',
+				'action' => 'index',
+			),
+			'weight' => 11,
+		),
+		'metrics' => array(
+			'title' => __('Métricas'),
+			'url' => array(
+				'admin' => true,
+				'plugin' => 'skpi',
+				'controller' => 'data_counters',
 				'action' => 'index',
 			),
 			'weight' => 11,

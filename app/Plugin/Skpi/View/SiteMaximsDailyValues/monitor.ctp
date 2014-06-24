@@ -1,3 +1,14 @@
+<?php
+$this->start('head');
+// hay que refrescar porque sino hay un memory leak por todos los ajax
+$timeRefresh = 3600; // cada 1 hora refrescar la pagina
+if ($timeRefresh) {
+    echo "<meta http-equiv='refresh' content='$timeRefresh'>";
+}
+
+$this->end();
+
+?>
 
 <style type="text/css">
     .graph-wrapper .graph-fixed{
@@ -28,8 +39,13 @@
         margin-top: -46px;    
     }
 
+    .controls button.pause{
+        font-size: 70%;
+    }
+
     .controls button{
         width: 50px;
+     
     }
 
     .btn-descargar-xls{

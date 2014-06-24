@@ -160,10 +160,12 @@ class AclActionsController extends AclAppController {
 /**
  * admin_generate
  */
-	public function admin_generate() {            
+	public function admin_generate() {    
+
 		App::uses('AclExtras', 'Acl.Lib');
 		$AclExtras = new AclExtras();
 		$AclExtras->startup($this);
+
 		if (isset($this->request->named['sync'])) {
 			$result = $AclExtras->aco_sync();
 		} else {

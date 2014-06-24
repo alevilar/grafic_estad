@@ -10,6 +10,19 @@
     var timeout;
     var pendinAjax; // ajax call
     var play = true;
+    var $playBtn = $('button.play'  , '.controls');
+    var $pauseBtn = $('button.pause', '.controls');
+
+    initialize();
+
+    function initialize () {
+        $playBtn.hide(); // start hidden
+
+        $playBtn.on('click', setPlay);
+        $pauseBtn.on('click', setPause);
+    
+    }
+    
 
     function abortar(){
     	if (pendinAjax) {
@@ -35,12 +48,8 @@
     	clearTimeout(timeout);
     }
 
-    $playBtn = $('button.play'  , '.controls');
-    $pauseBtn = $('button.pause', '.controls');
-    $playBtn.hide(); // start hidden
-
-    $playBtn.on('click', setPlay);
-    $pauseBtn.on('click', setPause);
+    
+    
         
     function changeRadio ( index ) {
 		if ( index ) {			
@@ -54,29 +63,33 @@
 		}
 		
 		var currRadioEl = $($radios[currRadio])[0];
+        var $currRadio = $( $radios[currRadio] );
 		if ( !$('#grafico').hasClass('span12') ) {
 			// si no esta en modo full view, entonces scrollear porque el grafico es "fixed"
 			currRadioEl.scrollIntoView( false );
 		}
 
-		$($radios[currRadio]).prop('checked', true);
-		$($radios[currRadio]).change();
-		$($radios[currRadio]).parents('tr').siblings('.active').removeClass('active');
-		$($radios[currRadio]).parents('tr').addClass('active');
+		$currRadio.prop('checked', true);
+		$currRadio.change();
+		$currRadio.parents('tr').siblings('.active').removeClass('active');
+		$currRadio.parents('tr').addClass('active');
 	}
 
 	$radios.on('change', function ( ev ) {
 		abortar();
 		var url = $(ev.target).data('url');
 
+        pendinAjax = null;
 		pendinAjax = $.getJSON( url, function ( retObj ) {
-			$('#graph').html("");
-            if (retObj && retObj.kpis && retObj.kpis[0].length) {
-                console.debug(retObj.kpis);
+            // remove childs elements
+			$('#graph').empty();
+            $('#site-link').empty();
+
+            if (retObj && retObj.kpis && retObj.kpis.hasOwnProperty('0') && retObj.kpis[0].length) {
                 createGraph('graph', retObj.kpis, retObj.title_for_layout);
             }
             // $('#site-link').html("");
-            $('#site-link').html(retObj.sitio_link);
+            $('#site-link').html( retObj.sitio_link );
 
             if ( play ) {      
             	// solo hacerlo si esta activado el play, caso contrario seria pausa      	

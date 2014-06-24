@@ -159,14 +159,26 @@ class MigrateShell extends AppShell
             $as->msLogTableData['MsLogTable']['sector_id'] = $sector_id;
             $as->msLogTableData['MsLogTable']['carrier_id'] = $carrier_id;
             $as->msLogTableData['MsLogTable']['retcode_id'] = $retcode_id;
-            
-            $as->calcularYCompletarTotales();
-            
+
+            if ( $as->msLogTableData['Retcode']['code'] != 0 ) {
+                $this->out("el Retcode fue distinto de cero, omitiendo...");
+                continue;
+            }
+                     
+            $conds =  array(
+                    'MsLogTable.site_id' => $site_id,
+                    'MsLogTable.sector_id' => $sector_id,
+                    'MsLogTable.carrier_id' => $carrier_id,
+                    'MsLogTable.retcode_id' => $retcode_id,
+                    'MsLogTable.datetime' => $as->msLogTableData['MsLogTable']['datetime'],
+                    );  
             $exists = $this->MsLogTable->find('count', array(
-                'conditions' =>  $as->msLogTableData['MsLogTable'],
+                'conditions' =>  $conds,
                 'recursive'  => -1,
                 ));
             if ( !$exists ) {
+                $this->out("        Creando nuevo registro de Ms Table");
+                $as->calcularYCompletarTotales();
                 $this->MsLogTable->create();
                 if ($this->MsLogTable->save($as->msLogTableData)) {
                     $saved++;    
@@ -185,7 +197,7 @@ class MigrateShell extends AppShell
                     } else {                            
                         $saveMs++;
                     }
-
+                    $this->out("        Se procesaron ".count($as->msLogTableData['LogMstation'])." Stations");
                 } else {
                     $this->huboError = true;
                     $this->err($this->MsLogTable->validationErrors);
@@ -193,10 +205,11 @@ class MigrateShell extends AppShell
                     continue;
                 }
             } else {
+                $this->out('        Este dato ya existia. Omitiendo. '.$as->msLogTableData['MsLogTable']['datetime']);
                 $existente++;
             }
             
-            $this->out("        Se procesaron ".count($as->msLogTableData['LogMstation'])." Stations");
+            
         }
         
         if ($errores) {

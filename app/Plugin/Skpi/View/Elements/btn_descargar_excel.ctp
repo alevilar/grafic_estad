@@ -1,7 +1,12 @@
 <?php 
         $urlLinda = '';
 
-        $urlBase = $this->action;
+        $action = $this->request->action;
+        if ( $this->request->admin ) {
+            $action = substr($this->request->action, 6);    
+        }
+        
+        $urlBase = $action;
 		foreach ($this->params->pass as $p) {
              $urlBase .= '/'.$p; 
         }

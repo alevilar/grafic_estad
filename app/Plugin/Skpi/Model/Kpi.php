@@ -14,6 +14,10 @@ class Kpi extends SkpiAppModel {
  */
 	public $displayField = 'name';
 
+    public $actsAs = array(
+        'Search.Searchable',
+    );
+
 /**
  * Validation rules
  *

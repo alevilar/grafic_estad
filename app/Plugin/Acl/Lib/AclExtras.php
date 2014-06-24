@@ -198,9 +198,15 @@ class AclExtras extends Object {
 		foreach ($plugins as $plugin) {
 			$controllers = $this->getControllerList($plugin);
 
+
 			$path = $this->rootNode . '/' . $plugin;
 			$pluginRoot = $this->_checkNode($path, $plugin, $root['Aco']['id']);
-			$this->_updateControllers($pluginRoot, $controllers, $plugin);
+
+			try {
+				$this->_updateControllers($pluginRoot, $controllers, $plugin);	
+			} catch (Exception $e) {
+				debug($e);
+			}			
 		}
 		Cache::clearGroup('acl', 'permissions');
 		if ($this->_clean) {

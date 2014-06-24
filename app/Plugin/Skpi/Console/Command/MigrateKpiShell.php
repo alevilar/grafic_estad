@@ -8,7 +8,7 @@
  * @property DataDay $DataDay
  * @property DailyValue $DailyValue
  */
-class MigrateShell extends AppShell
+class MigrateKpiShell extends AppShell
 {
 
     public $uses = array(
@@ -160,6 +160,7 @@ class MigrateShell extends AppShell
     public function day() {
         $datein = $this->args[0];
         if( preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $datein)) {
+            $this->__saveMaximsOfDate( $datein );
             $this->__calculateKpisDelDia($datein);
         }else{
             $this->out('<error>Formato de fecha inválida: ' . $datein. ' se debe ingresar YYYY-mm-dd</error>');
@@ -348,13 +349,18 @@ class MigrateShell extends AppShell
      */
     private function __saveDataCount ( $k, $md ) {
         // setear el valor del calculo del KPI
-                $value = $md[0]['val'];           
-                $kpiName = $k['Kpi']['name'];
-                $this->Carrier->recursive = -1;
-                $carrier = $this->Carrier->findByObjectno($md['DataCounter']['objectno']);
+        $value = $md[0]['val'];           
+        $kpiName = $k['Kpi']['name'];
+        $this->Carrier->recursive = -1;
+        $carrier = $this->Carrier->findByObjectno($md['DataCounter']['objectno']);
 
-                // tiene que ser un valor numerico, si viene NULL u otra cosa, no lo tengo en cuenta
-                if ( is_null($value) ) return false; // el valor vino null
+        // tiene que ser un valor numerico, si viene NULL u otra cosa, no lo tengo en cuenta
+        if ( is_null($value) ) return false; // el valor vino null
+
+        if ( empty($carrier) ) {
+            $this->out("<error>No se encontró carrier para el objectno ".$md['DataCounter']['objectno']."</error>");
+            return false; // el valor vino null
+        }
 
         $dataDay = $this->DataDay->find('first', array(
             'recursive' => -1,
