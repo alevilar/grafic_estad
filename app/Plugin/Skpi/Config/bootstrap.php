@@ -5,7 +5,7 @@ define('SK_COUNTER_DL_AVG', 30);
 define('SK_COUNTER_UL_AVG', 31);
 
 
-Configure::write('debug',1);
+
 
 CroogoNav::add('sky', array(
 	'icon' => array('th', 'large'),

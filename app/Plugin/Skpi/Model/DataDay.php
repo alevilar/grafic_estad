@@ -100,6 +100,46 @@ class DataDay extends SkpiAppModel
     }
 
     
+     /**
+    *
+    *   Devuelve un array con valores para un KPI dado y para un rango de fechas
+    *   Se le puede pasar un array de condiciones que será utilizado en la busqueda.
+    *   
+    *   
+    *   @param $integer kpi_id
+    *   @param array $days array de fechas
+    *   @param array $siteConditions array de condiciones. Si se pasa un numero es tenido en cuenta como el id del sitio
+    *                                               
+    *
+    **/
+    public function red_list_get_day_value_for_kpi( $kpi_id, $days = array(), $conditions = array() ) {  
+
+        $ops['conditions']  = $conditions;
+          
+        if (!is_array($days)) {
+            $days = array($days);
+        }
+        $this->Carrier->Sector->Site->recursive = -1;
+        $sitios = $this->Carrier->Sector->Site->find('all', $ops);
+        foreach ($sitios as &$s) {
+            $carriers = $this->Carrier->Sector->Site->listCarriers($s['Site']['id']);
+            $s['Day'] = array();
+            foreach ( $days as $day ) {
+                $value = $this->DailyValue->getSumBySiteDateKpi($kpi_id, $day, $carriers);
+                $s['Day'][] = $value;
+            }
+        }
+        if ( is_numeric($conditions) ) {
+            $sitios = $sitios[0];
+        }
+
+        return $sitios;
+    }
+    
+
+
+    
+
     
     
     /**
@@ -115,8 +155,9 @@ class DataDay extends SkpiAppModel
     *                                               
     *
     **/
-    public function site_list_get_day_value_for_kpi( $kpi_id, $days = array(), $conditions = array() ) {        
-        if ( is_numeric($conditions) ) {
+    public function site_list_get_day_value_for_kpi( $kpi_id, $days = array(), $conditions = array() ) {  
+
+        if ( is_numeric($conditions) && !empty($conditions)) {
             $ops['conditions']['Site.id']  = $conditions;
         } else {
             $ops['conditions']  = $conditions;
@@ -135,7 +176,6 @@ class DataDay extends SkpiAppModel
                 $s['Day'][] = $value;
             }
         }
-
         if ( is_numeric($conditions) ) {
             $sitios = $sitios[0];
         }
@@ -226,12 +266,23 @@ class DataDay extends SkpiAppModel
     }
 
 
+    public function red_get_data_value ($site_id, $kpis, $days) {
+        $kpiValues = $this->generic_all_kpis_per_day_value('red', $site_id, $kpis, $days);
+        $site = array(
+            'Site' => array(
+                'id' => 0,
+                'name' => ' Toda la Red '
+                ),
+            'KpiValue' => $kpiValues
+            );
+        return $site;
+    }
+
 
     public function site_get_data_value ($site_id, $kpis, $days) {
         $kpiValues = $this->generic_all_kpis_per_day_value('site', $site_id, $kpis, $days);
         $site = $this->Carrier->Sector->Site->readCarrier( $site_id);
         $site['KpiValue'] = $kpiValues;
-
         return $site;
     }
 

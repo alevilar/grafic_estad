@@ -45,7 +45,6 @@ class DataCounter extends AppModel {
 		$fn = $what.'_get_objectnos';
     	$objectnos = $this->{$fn}( $what_id );    	
 
-
     	$Counter = ClassRegistry::init('Skpi.Counter');
         $Counter->recursive = -1;
         
@@ -90,13 +89,13 @@ class DataCounter extends AppModel {
 
 
 
-    public function get_site_values ($days) {
-		$this->DataCounter->find('all', array(
-				'conditions' => array(
-						'DataCounter.ml_date' => $days
-					)
-			));    	
-    }
+  //   public function get_site_values ($days) {
+		// $this->DataCounter->find('all', array(
+		// 		'conditions' => array(
+		// 				'DataCounter.ml_date' => $days
+		// 			)
+		// 	));    	
+  //   }
     
 
     public function carrier_get_objectnos (  $carrier_id ) {
@@ -123,7 +122,7 @@ class DataCounter extends AppModel {
 
 		return $objectnos;        
     }
-    
+  
     
 }
 

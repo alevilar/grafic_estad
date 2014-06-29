@@ -35,7 +35,7 @@ class SiteMaximsDailyValue extends SkpiAppModel {
 
 		$sitesValues = array();
 		foreach ( $sites as $sId=>$sName ) {
-			$vals = $this->getSiteValue($sId, $date_from, $date_to);
+			$vals = $this->getSiteValue( $date_from, $date_to, $sId);
 			$sitesValues[$sId] = $vals;
 		}
 		return $sitesValues;
@@ -51,14 +51,21 @@ class SiteMaximsDailyValue extends SkpiAppModel {
 	 *	@param string $date_to fecha hasta. Toma "now" por defecto 
 	 *
 	 */
-	public function getSiteValue ( $site_id, $date_from = null, $date_to = null) {
+	public function getSiteValue ( $date_from = null, $date_to = null, $site_id = null) {
+
 
 		// set default value for date from
 		$conds = array(
 				'DATE(SiteMaximsDailyValue.ml_datetime) >=' => date('Y-m-d', strtotime('-3 day') ),
 				'DATE(SiteMaximsDailyValue.ml_datetime) <=' => date('Y-m-d'),
-				'SiteMaximsDailyValue.site_id' => $site_id,
 			);
+
+
+		if ( !empty($site_id) ) {
+			$conds['SiteMaximsDailyValue.site_id'] = $site_id;
+		}
+
+		
 		
 		if ( !empty($date_from) ) {
 			$conds['DATE(SiteMaximsDailyValue.ml_datetime) >='] = $date_from;
@@ -69,6 +76,7 @@ class SiteMaximsDailyValue extends SkpiAppModel {
 		if ( !empty($date_to) ) {
 			$conds['DATE(SiteMaximsDailyValue.ml_datetime) <='] = $date_to;			
 		}
+
 		return $this->find('all', array(
 				'conditions' => $conds,
 				'order' => array('SiteMaximsDailyValue.ml_datetime ASC')

@@ -50,44 +50,64 @@ class Site extends SkyAppModel {
 
     public function beforeFind( $query ) {
         parent::beforeFind($query);
-        if ( empty($query['conditions']) && empty($query['conditions']['Site.deleted']) ) {
-            $query['conditions']['Site.deleted'] = 0;    
+
+        if ( !array_key_exists('conditions', $query) ) {
+            $query['conditions'] = array();            
+        }
+
+        if ( is_array($query['conditions']) && empty($query['conditions']['Site.deleted']) ){
+            $query['conditions']['Site.deleted'] = 0;
         }
         return $query;
     }
 
 
-        
+        /**
+         * Lista los carriers como un find 'list'
+         * @param int or array $site_id puede ser el ID del sitio o un array de ID´s de sitio
+         * @param $fieldname el campo que quiero que me devuelva como valor del array de retorno
+         */
         public function listCarriers( $site_id = null, $fieldname = 'id' ) {
-            
+            $conds = array();
+
             if ( !empty($site_id) ) {
-                $this->id = $site_id;
+                $conds['Site.id'] = $site_id;
+            }
+            if ( !empty($this->id) ) {
+                $conds['Site.id'] = $this->id;
+            }
+
+            if ( is_array( $site_id ) ) {
+                $conds['Site.id'] = $site_id ;
             }
             
-            if ( empty($this->id )) {
-                throw new Exception('Se debe pasar un id de Sitio');
-            }
-            $site = $this->find('first', array(
-                'conditions' => array(
-                    'Site.id'=> $this->id
-                    ),
+            $sites = $this->find('all', array(
+                'conditions' => $conds,
                 'contain' => 'Sector.Carrier',                
                 ));
             
             $carriers = array();
-            foreach ( $site['Sector'] as $sector ){
-                foreach ($sector['Carrier'] as $carrier) {                    
-                    $carriers[] = $carrier[$fieldname];
+            foreach ($sites as $site ) {
+                foreach ( $site['Sector'] as $sector ){
+                    foreach ($sector['Carrier'] as $carrier) {                    
+                        $carriers[] = $carrier[$fieldname];
+                    }
                 }
             }
+            
             return $carriers;
         }
 
+
+        /**
+         * Es la funcion read pero con el Contain de Sectors y Carriers
+         * para el sitio
+         */
         public function readCarrier( $site_id = null ){
-            if ( empty($site_id) ) {
-                $site_id = $this->id;
+            if ( !is_null( $site_id ) ) {
+                $this->id = $site_id;
             }
             $this->contain(array('Sector.Carrier'));
-            return $this->read(null, $site_id);
+            return $this->read();
         }
 }

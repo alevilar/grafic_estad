@@ -107,7 +107,7 @@ class SiteMaximsDailyValuesController extends SkpiAppController {
 
 
 
-	public function graph_jplot ( $site_id, $date_from = null, $date_to = null) {
+	public function graph_jplot ( $site_id  = null, $date_from = null, $date_to = null) {
         $this->Prg->commonProcess();
         $conditions = $this->SiteMaximsDailyValue->parseCriteria($this->request->query);
 
@@ -116,9 +116,14 @@ class SiteMaximsDailyValuesController extends SkpiAppController {
                 'defaultDateTo' =>   date('Y-m-d'),
             ));		
 
-		$site = $this->SiteMaximsDailyValue->Site->read(null, $site_id);
-		$siteVals = $this->SiteMaximsDailyValue->getSiteValue($site_id, $days[0], $days[1]);
-
+        $siteName = 'Toda la Red';
+        $siteVals = $this->SiteMaximsDailyValue->getSiteValue( $days[0], $days[1], $site_id);
+        
+        if ( !empty($site_id) ) {
+            $this->SiteMaximsDailyValue->Site->recursive = -1;        
+            $site = $this->SiteMaximsDailyValue->Site->read(null, $site_id);
+            $siteName = $site['Site']['name'];
+        }
 
 		$metricsDl = $metricsUl = array();
 		foreach ($siteVals as $data) {
@@ -135,7 +140,7 @@ class SiteMaximsDailyValuesController extends SkpiAppController {
 		}
 
 
-		$this->set('title_for_layout', "Trafico para ".$site['Site']['name']);
+		$this->set('title_for_layout', "Trafico para ".$siteName);
 		$this->set(compact('metricsUl', 'metricsDl', 'site'));		
 	}
 

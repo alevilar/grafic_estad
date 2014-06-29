@@ -120,6 +120,62 @@ class DataDaysController extends SkpiAppController
 
 
 
+    /**
+    *
+    *
+    *       Ver toda la info de la red completa
+    *       Suma computa todos los valores de todos los sitios
+    *
+    *
+    */  
+    public function view_red ( $date_from = null, $date_to = null ) {
+        $this->Prg->commonProcess();
+        $conditions = $this->DataDay->parseCriteria($this->request->query);
+
+        
+        $sites_list = $this->DataDay->Carrier->Sector->Site->find('list');
+
+        $days = $this->__getDays($conditions, $date_from, $date_to, array(
+                'defaultDateFrom' => date('Y-m-d', strtotime('-3 day'))
+            ));
+
+        
+        // get values
+
+        $carriers = $this->DataDay->Carrier->Sector->Site->listCarriers();
+        $values = array();
+        $kpis = $this->DataDay->DailyValue->Kpi->find('all', array('recursive'=>-1));
+        foreach ($kpis as $k) {
+            $kpi_id = $k['Kpi']['id'];
+            $values[$kpi_id]['Kpi'] = $k['Kpi'];
+            foreach ( $days as $day ) {
+                $value = $this->DataDay->DailyValue->getSumBySiteDateKpi($kpi_id, $day, $carriers);
+                $values[$kpi_id]['Day'][] = $value;
+            }    
+        }
+        $kpiValues['KpiValue'] = array_values($values);        
+
+        $this->set('kpiValues', $kpiValues);
+        $this->set('title_for_layout', "Toda la Red");
+
+        $graph_date_from = date('Y-m-d', strtotime('-1 month'));
+        $graph_date_to = date('Y-m-d');
+
+        // Get DataCounter Model
+        $DataCounter = ClassRegistry::init('Skpi.DataCounter');
+        // set        
+        $metricsDl = $DataCounter->getDataCounter('site', 0, SK_COUNTER_DL_AVG, $graph_date_from, $graph_date_to);
+        $metricsUl = $DataCounter->getDataCounter('site', 0, SK_COUNTER_UL_AVG, $graph_date_from, $graph_date_to);
+
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+        }
+
+        $this->set(compact('metricsDl','metricsUl'));
+    }
+
+
+
 
 
     /**
@@ -144,7 +200,6 @@ class DataDaysController extends SkpiAppController
         
         // get values
         $kpiValues = $this->DataDay->generic_get_data_value($what, $what_id, $days, $conditions);
-
         $site = $this->DataDay->Carrier->Sector->Site->readCarrier( $kpiValues['Site']['id'] );
 
 
@@ -165,8 +220,6 @@ class DataDaysController extends SkpiAppController
         }
 
         $this->set(compact('metricsDl','metricsUl'));
-
-
     }
 
 

@@ -19,37 +19,48 @@ $headers[] = "AVG";
 
 
 $cels = array();
-foreach ($kpis['KpiValue'] as $k) {
-    $row = array();
-    $row[] = $this->Html->link($k['Kpi']['name'], array(
-        'controller' => 'data_days',
-        'action' =>'site_kpi_detail',
-        $site_id,
-        $k['Kpi']['id']
-        ));
-    $avg = 0;
-    $i = 0;
-    foreach ($k['Day'] as $day) {
-        $val = $day[0]['valor'];
-        if ($val) {
-            $avg += $val;
-            $i++;
+if (!empty($kpis['KpiValue'])) {
+    foreach ($kpis['KpiValue'] as $k) {
+        $row = array();
+        if ( !empty($site_id) ) {
+            $row[] = $this->Html->link($k['Kpi']['name'], array(
+            'controller' => 'data_days',
+            'action' =>'site_kpi_detail',
+            $site_id,
+            $k['Kpi']['id']
+            ));    
+        } else {
+            $row[] = $k['Kpi']['name'];
         }
-        $class = $this->Kpi->thresholdEval($val, $k['Kpi']['sql_threshold_warning'], $k['Kpi']['sql_threshold_danger']);
-        $ops['class'] = $class;
-        $row[] = $this->Kpi->format_bg_class($val, $k['Kpi']['string_format'], $ops);
+        
+        $avg = 0;
+        $i = 0;
+        if (!empty($k['Day'])) {
+            foreach ($k['Day'] as $day) {
+                $val = $day[0]['valor'];
+                if ($val) {
+                    $avg += $val;
+                    $i++;
+                }
+                $class = $this->Kpi->thresholdEval($val, $k['Kpi']['sql_threshold_warning'], $k['Kpi']['sql_threshold_danger']);
+                $ops['class'] = $class;
+                $row[] = $this->Kpi->format_bg_class($val, $k['Kpi']['string_format'], $ops);
+            }    
+        }
+       
+        if ($i) {
+            $val = $avg / $i;
+            $class = $this->Kpi->thresholdEval($val, $k['Kpi']['sql_threshold_warning'], $k['Kpi']['sql_threshold_danger']);
+            $ops['class'] = $class;
+            $val = $this->Kpi->format_bg_class($val, $k['Kpi']['string_format'], $ops);
+        } else {
+            $val = '';
+        }
+        $row[] = $val;
+        $cels[] = $row;
     }
-    if ($i) {
-        $val = $avg / $i;
-        $class = $this->Kpi->thresholdEval($val, $k['Kpi']['sql_threshold_warning'], $k['Kpi']['sql_threshold_danger']);
-        $ops['class'] = $class;
-        $val = $this->Kpi->format_bg_class($val, $k['Kpi']['string_format'], $ops);
-    } else {
-        $val = '';
-    }
-    $row[] = $val;
-    $cels[] = $row;
 }
+
 
 
 ?>
