@@ -50,3 +50,33 @@ CroogoNav::add('sky', array(
 		),
 	),
 ));
+
+
+CroogoNav::add('sky_probes', array(
+	'icon' => array('th', 'large'),
+	'title' => __('Probes'),
+	'url' => '#',
+	'weight' => 50,
+	'children' => array(		
+		'probes' => array(
+			'title' => __('Probes'),
+			'url' => array(
+				'admin' => true,
+				'plugin' => 'skpi',
+				'controller' => 'probes',
+				'action' => 'index',
+			),
+			'weight' => 11,
+		),
+		'probes_values' => array(
+			'title' => __('Probes Values'),
+			'url' => array(
+				'admin' => true,
+				'plugin' => 'skpi',
+				'controller' => 'probe_values',
+				'action' => 'index',
+			),
+			'weight' => 12,
+		),
+	),
+));

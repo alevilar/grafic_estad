@@ -70,7 +70,20 @@ $this->end();
         <button class="play btn btn-primary">►</button>
         <button class="pause btn  btn-success">▐ ▌</button>
     </div>
+    
 </div>
+
+
+        <?php 
+        echo $this->Html->link(
+            'Ver Toda la Red'
+            , array(
+                'controller'=>'data_days', 
+                'action' => 'view_red'
+                )
+            , array('class' => 'btn btn-warning')
+                );
+        ?>
 
 <div>
 

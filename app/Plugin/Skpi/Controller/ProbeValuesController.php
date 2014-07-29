@@ -1,5 +1,6 @@
 <?php
 App::uses('SkpiAppController', 'Skpi.Controller');
+
 /**
  * ProbeValues Controller
  *
@@ -39,15 +40,30 @@ class ProbeValuesController extends SkpiAppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
+		$this->Prg->commonProcess();
+        $conds = $this->ProbeValue->parseCriteria($this->request->query);
+        $this->Paginator->settings['conditions'] = $conds;
 		$this->ProbeValue->recursive = 0;
+
+		if ( array_key_exists('ext', $this->request->params) && $this->request->params['ext'] == 'xls') {			
+			$this->Paginator->settings['limit'] = Configure::read('Sky.max_reg_export');
+			if ( $this->Paginator->settings['limit'] == 0 ) {
+				$this->Paginator->settings['limit'] = 9999999999;
+				$this->Paginator->settings['maxLimit'] = 9999999999;
+
+			}
+		}
+
 		$this->set('probeValues', $this->Paginator->paginate());
+		$this->set('probes', $this->ProbeValue->Probe->find('list'));
 	}
 
 
 
 
 	public function by_day() {
+		Configure::write('debug', 1);
 
 		$this->Prg->commonProcess();
         $conds = $this->ProbeValue->parseCriteria($this->request->query);
@@ -55,7 +71,7 @@ class ProbeValuesController extends SkpiAppController {
 		$probes = $this->ProbeValue->Probe->find('all', array('recursive'=>-1));
 		$pvals = array();
 		if ( empty($conds['DATE(ProbeValue.date_time) >=']) ) {
-			$conds['DATE(ProbeValue.date_time) >='] = date('Y-m-d', strtotime('-5 day'));
+			$conds['ProbeValue.date_time >='] = date('Y-m-d H', strtotime('-28 hour'));
 		}
 
 		if ( !empty($conds['DATE(ProbeValue.date_time) >=']) ) {
@@ -107,7 +123,7 @@ class ProbeValuesController extends SkpiAppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function admin_view($id = null) {
 		if (!$this->ProbeValue->exists($id)) {
 			throw new NotFoundException(__('Invalid probe value'));
 		}
@@ -120,7 +136,7 @@ class ProbeValuesController extends SkpiAppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->ProbeValue->create();
 			if ($this->ProbeValue->save($this->request->data)) {
@@ -141,7 +157,7 @@ class ProbeValuesController extends SkpiAppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->ProbeValue->exists($id)) {
 			throw new NotFoundException(__('Invalid probe value'));
 		}
@@ -167,7 +183,7 @@ class ProbeValuesController extends SkpiAppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->ProbeValue->id = $id;
 		if (!$this->ProbeValue->exists()) {
 			throw new NotFoundException(__('Invalid probe value'));

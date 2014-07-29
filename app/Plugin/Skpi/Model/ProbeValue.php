@@ -9,6 +9,8 @@ class ProbeValue extends SkpiAppModel {
 
 	public $tablePrefix = '';
 
+    public $useDbConfig = 'migration_db';
+
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	 public $actsAs = array(
@@ -39,9 +41,12 @@ class ProbeValue extends SkpiAppModel {
      * @access public
      */
     public $filterArgs = array(
+    	'probe_id' =>  array('type' => 'value'),
         'date_time' =>  array('type' => 'value'),
         'date_from' => array('type' => 'value', 'field' => 'DATE(ProbeValue.date_time) >='),
         'date_to'   =>  array('type' => 'value', 'field' => 'DATE(ProbeValue.date_time) <='),
+        'date_time_from' => array('type' => 'value', 'field' => 'ProbeValue.date_time >='),
+        'date_time_to'   =>  array('type' => 'value', 'field' => 'ProbeValue.date_time <='),
     );
 
 

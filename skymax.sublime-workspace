@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"tic",
+				"ticks"
+			],
+			[
+				"ul",
+				"ulvalues"
+			],
+			[
+				"dl",
+				"dlvalues"
+			],
+			[
 				"border",
 				"border-top"
 			],
@@ -240,10 +252,6 @@
 				"avg_ul"
 			],
 			[
-				"dl",
-				"dl_metrics"
-			],
-			[
 				"strt",
 				"strtotime"
 			],
@@ -400,18 +408,27 @@
 	"buffers":
 	[
 		{
-			"file": "app/Plugin/Skpi/Controller/ProbesController.php",
+			"file": "app/Plugin/Skpi/View/ProbeValues/by_day.ctp",
 			"settings":
 			{
-				"buffer_size": 2987,
+				"buffer_size": 2556,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Plugin/Skpi/View/Probes/view.ctp",
+			"file": "app/Plugin/Skpi/View/Elements/probes_bar_graph.ctp",
 			"settings":
 			{
-				"buffer_size": 1676,
+				"buffer_size": 3138,
+				"line_ending": "Unix",
+				"name": "probes_bar_graph.ctp"
+			}
+		},
+		{
+			"file": "app/Plugin/Skpi/Controller/ProbeValuesController.php",
+			"settings":
+			{
+				"buffer_size": 5280,
 				"line_ending": "Unix"
 			}
 		},
@@ -428,14 +445,6 @@
 			"settings":
 			{
 				"buffer_size": 1758,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Plugin/Skpi/Config/bootstrap.php",
-			"settings":
-			{
-				"buffer_size": 930,
 				"line_ending": "Unix"
 			}
 		}
@@ -464,43 +473,57 @@
 	},
 	"file_history":
 	[
+		"/var/www/skymax_graf/app/Plugin/Sky/View/LogMstations/max_usuarios_x_modulacion2.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/ProbeValues/admin_index.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataCounters/admin_index.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/ProbeValues/xls/admin_index.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/probe_values_table.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/ProbeValuesController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataCountersController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/ProbeValue.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataCounter.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/Controller/LogMstationsController.php",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/LogMstations/modulaciones.ctp",
+		"/var/www/skymax_graf/app/Plugin/Sky/View/LogMstations/modulaciones_x_sitio.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/ProbeValues/by_day.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/SiteMaximsDailyValues/monitor.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Config/bootstrap.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Probes/admin_index.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/ProbesController.php",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Kpis/admin_index.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Kpis/admin_form.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Probes/admin_form.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/ProbeValues/index.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/view_red.ctp",
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/Probes/view.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Schema/probes.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/Probe.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/ProbeValue.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Probes/add.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/kpi_site_date_search.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/monitor.ctp",
 		"/var/www/skymax_graf/app/Config/bootstrap.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/ProbeValuesController.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/ProbeValues/by_day.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/site_kpi_detail.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataDay.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataDaysController.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/view_red.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DailyValue.php",
 		"/var/www/skymax_graf/app/Plugin/Sky/Model/Site.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/sitio_sectores_y_carriers.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/kpis_table.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/DataCounter.php",
 		"/var/www/skymax_graf/app/tmp/logs/error.log",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/SiteMaximsDailyValue.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/SiteMaximsDailyValuesController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Console/Command/MigrateKpiShell.php",
 		"/var/www/skymax_graf/app/Plugin/Acl/Controller/AclActionsController.php",
 		"/var/www/skymax_graf/app/Plugin/Acl/Lib/AclExtras.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Config/bootstrap.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/ProbesController.php",
 		"/var/www/skymax_graf/app/Plugin/Sky/View/LogMstations/index.ctp",
 		"/var/www/skymax_graf/app/Plugin/Sky/Model/Carrier.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/data_counters_table.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataCounters/xls/admin_index.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/btn_descargar_excel.ctp",
 		"/var/www/skymax_graf/app/Plugin/Sky/View/Elements/btn_excel.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataCounters/admin_index.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataCountersController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Config/routes.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Layouts/xls/admin.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/SiteMaximsDailyValues/monitor.ctp",
 		"/var/www/skymax_graf/app/View/Themed/SkyTheme/Layouts/xls/admin.ctp",
 		"/var/www/skymax_graf/app/Plugin/Sky/Controller/CarriersController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/Kpi.php",
@@ -511,7 +534,6 @@
 		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/css/jcarousel.css",
 		"/var/www/skymax_graf/app/Plugin/Sky/Console/Command/MigrateShell.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/scroll_interval_to_js.ctp",
-		"/var/www/skymax_graf/app/Plugin/Sky/Controller/LogMstationsController.php",
 		"/var/www/skymax_graf/app/Config/Schema/sql/sky_sqls/eliminar_mac_duplicadas.sql",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/SiteMaximsDailyValues/graph_jplot.ctp",
 		"/var/www/skymax_graf/app/Plugin/Sky/Config/bootstrap.php",
@@ -537,7 +559,6 @@
 		"/var/www/skymax_graf/app/Plugin/Skpi/Config/SkpiActivation.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/graf_max_uldl_de_sitio.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DateKpis/max_uldl_x_sitio.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
 		"/var/www/skymax_graf/app/View/Themed/SkyTheme/Layouts/clean.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/SkpiAppModel.php",
 		"/var/www/skymax_graf/app/View/Themed/SkyTheme/webroot/theme.json",
@@ -568,7 +589,6 @@
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataDays/site_overview.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Config/Schema/schema.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/Kpis/full_site_view.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/Kpis/admin_form.ctp",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/HourlyCounter.php",
 		"/var/www/skymax_graf/app/Plugin/Sky/Config/Migration/002_install_kpis.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/KpiDataDaysController.php",
@@ -580,18 +600,7 @@
 		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiCounter.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/DataMetricsController.php",
 		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/by_site.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/site_overview.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/DataMetrics/graph_site_kpi.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/monitor.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/webroot/js/kpi_graph.js",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Controller/KpiCountersController.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/kpi_values_x_sitio.ctp",
-		"/var/www/skymax_graf/app/Plugin/Skpi/Model/KpiDataDay.php",
-		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/index.ctp",
-		"/var/www/skymax_graf/app/Plugin/Sky/View/Elements/kpi_site_date_search.ctp",
-		"/var/www/skymax_graf/app/Plugin/Sky/Config/routes.php",
-		"/var/www/skymax_graf/app/Plugin/Sky/View/DateKpis/max_uldl_x_sitio.ctp",
-		"/var/www/skymax_graf/app/Plugin/Sky/Controller/DateKpisController.php"
+		"/var/www/skymax_graf/app/Plugin/Skpi/View/KpiDataDays/site_overview.ctp"
 	],
 	"find":
 	{
@@ -599,9 +608,11 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			"/var/www/skymax_graf/app/Plugin",
+			"/var/www/skymax_graf/app/Plugin/Skpi",
 			"/var/www/skymax_graf/app",
 			"/var/www/skymax_graf/app/Plugin",
 			"/var/www/skymax_graf/app/Plugin/Skpi",
@@ -624,6 +635,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"tick",
+			"categoryAxisRenderer",
+			"view_red",
 			"_list_get_day_value_for_kpi",
 			"generic_get_day_value_for_kpi",
 			"generic_all_kpis_per_day_value",
@@ -748,10 +762,7 @@
 			"newkpi",
 			"DataDay",
 			"max_uldl",
-			"table-kpis",
-			"get_maxims_by_site",
-			"__saveMaximsFromDate",
-			"get_maxims_by_site"
+			"table-kpis"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -818,45 +829,18 @@
 			[
 				{
 					"buffer": 0,
-					"file": "app/Plugin/Skpi/Controller/ProbesController.php",
+					"file": "app/Plugin/Skpi/View/ProbeValues/by_day.ctp",
 					"settings":
 					{
-						"buffer_size": 2987,
+						"buffer_size": 2556,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								873,
-								873
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 561.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/Plugin/Skpi/View/Probes/view.ctp",
-					"settings":
-					{
-						"buffer_size": 1676,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1676,
-								1676
+								1339,
+								1339
 							]
 						],
 						"settings":
@@ -865,13 +849,67 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 306.0,
+						"translation.y": 180.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/Plugin/Skpi/View/Elements/probes_bar_graph.ctp",
+					"settings":
+					{
+						"buffer_size": 3138,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2456,
+								2456
+							]
+						],
+						"settings":
+						{
+							"auto_name": "probes_bar_graph.ctp",
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
+					"file": "app/Plugin/Skpi/Controller/ProbeValuesController.php",
+					"settings":
+					{
+						"buffer_size": 5280,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1894,
+								1894
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "app/Plugin/Skpi/View/DataDays/view_red.ctp",
 					"settings":
 					{
@@ -882,8 +920,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								2091,
+								2091
 							]
 						],
 						"settings":
@@ -893,13 +931,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 915.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "app/Plugin/Skpi/View/Elements/counter_zooming_view.ctp",
 					"settings":
 					{
@@ -910,8 +948,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								1222,
+								1222
 							]
 						],
 						"settings":
@@ -921,34 +959,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/Plugin/Skpi/Config/bootstrap.php",
-					"settings":
-					{
-						"buffer_size": 930,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								33,
-								33
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 405.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -998,12 +1009,28 @@
 		"selected_items":
 		[
 			[
-				"skpiboos",
-				"Plugin/Skpi/Config/bootstrap.php"
-			],
-			[
 				"counter_zooming_view",
 				"Plugin/Skpi/View/Elements/counter_zooming_view.ctp"
+			],
+			[
+				"view_red",
+				"Plugin/Skpi/View/DataDays/view_red.ctp"
+			],
+			[
+				"modulaciones_x_sitio",
+				"Plugin/Sky/View/LogMstations/modulaciones_x_sitio.ctp"
+			],
+			[
+				"modulaciones",
+				"Plugin/Sky/View/LogMstations/modulaciones.ctp"
+			],
+			[
+				"logmstatio",
+				"Plugin/Sky/Controller/LogMstationsController.php"
+			],
+			[
+				"skpiboos",
+				"Plugin/Skpi/Config/bootstrap.php"
 			],
 			[
 				"kpi_site_date_search",
@@ -1491,22 +1518,6 @@
 			],
 			[
 				"skpi/migr",
-				"Skpi/Config/Migration/001_install_kpis_counter.php"
-			],
-			[
-				"skpi/help",
-				"Skpi/View/Helper/KpiHelper.php"
-			],
-			[
-				"by",
-				"Skpi/View/KpiDataDays/by_site.ctp"
-			],
-			[
-				"skpi/she",
-				"Skpi/Console/Command/MigrateShell.php"
-			],
-			[
-				"skpi/conf/mig",
 				"Skpi/Config/Migration/001_install_kpis_counter.php"
 			]
 		],

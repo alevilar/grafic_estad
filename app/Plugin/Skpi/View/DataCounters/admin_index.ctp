@@ -16,7 +16,7 @@ $this->Html
 <?php echo $this->element('Skpi.btn_descargar_excel'); ?>
 </div>
 
-<h1>Contadores</h1>
+<h1>Métricas por Contador</h1>
 
 
 <?php echo $this->Form->create('DataCounter', array('type'=>'get')); ?>

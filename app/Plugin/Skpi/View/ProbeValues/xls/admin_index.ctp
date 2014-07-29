@@ -1,0 +1,1 @@
+<?php echo $this->element('Skpi.probe_values_table'); ?>

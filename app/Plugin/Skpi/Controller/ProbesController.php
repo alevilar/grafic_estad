@@ -20,7 +20,7 @@ class ProbesController extends SkpiAppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->Probe->recursive = 0;
 		$this->set('probes', $this->Paginator->paginate());
 	}
@@ -63,7 +63,7 @@ class ProbesController extends SkpiAppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Probe->create();
 			if ($this->Probe->save($this->request->data)) {
@@ -82,7 +82,7 @@ class ProbesController extends SkpiAppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Probe->exists($id)) {
 			throw new NotFoundException(__('Invalid probe'));
 		}
@@ -106,7 +106,7 @@ class ProbesController extends SkpiAppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->Probe->id = $id;
 		if (!$this->Probe->exists()) {
 			throw new NotFoundException(__('Invalid probe'));
