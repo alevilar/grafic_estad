@@ -38,8 +38,8 @@ $this->Html
 
 	<div class="span3">
 		<?php
-		echo $this->Form->input('date_time_desde', array(
-			'label'=>'Fecha desde', 
+		echo $this->Form->input('date_time_hasta', array(
+			'label'=>'Fecha hasta', 
 			'class'=>'datetime', 
 			'value'=>$datetime_desde,
 			'placeholder' => 'formato: YYYY-MM-DD HH:MM:SS',
