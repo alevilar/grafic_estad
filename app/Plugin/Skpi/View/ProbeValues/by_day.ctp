@@ -58,13 +58,16 @@ foreach ($probeValues as $pb) {
 
 	$cels[] = $cel;
 
-	echo $this->element('probes_bar_graph', array(
-			'probe_id' => $pb['Probe']['id'],
-			'probeName' => $pb['Probe']['name'],
-			'dlvalues' => $dlvalues,
-			'ulvalues' => $ulvalues,
-			'ticks' => $ticks
-			));
+	if ( !empty($dlvalues) || !empty($ulvalues) ) {
+		echo $this->element('probes_bar_graph', array(
+				'probe_id' => $pb['Probe']['id'],
+				'probeName' => $pb['Probe']['name'],
+				'dlvalues' => $dlvalues,
+				'ulvalues' => $ulvalues,
+				'ticks' => $ticks
+				));
+	} 
+
 }
 
 ?>

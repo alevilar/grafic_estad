@@ -1,13 +1,6 @@
 <?php echo $this->element('search'); ?>
 
-    <?php
-echo $this->Paginator->counter(
-        'Page {:page} of {:pages}, showing {:current} records out of
-     {:count} total, starting on record {:start}, ending on {:end}'
-);
 
-
-?>
 
 <table class="table table-striped">
     <thead>

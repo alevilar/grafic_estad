@@ -31,7 +31,7 @@ class SiteMaximsDailyValue extends SkpiAppModel {
 
 
 	public function getSitesValues ($date_from = null, $date_to = null) {
-		$sites = $this->Site->find('list');
+		$sites = $this->Site->find('list', array('conditions'=>array('Site.deleted'=>false)));
 
 		$sitesValues = array();
 		foreach ( $sites as $sId=>$sName ) {

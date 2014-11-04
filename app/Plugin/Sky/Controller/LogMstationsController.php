@@ -697,25 +697,20 @@ group by date(datetime)
     
     public function show_cloned_mac () {
        
-//         $this->Prg->commonProcess();
-//         $condi = $this->LogMstation->parseCriteria($this->request->query);
-//         debug($this->paginate);
-        
-         
-         $this->paginate['fields'] = array(                
+        $ops['fields'] = array(                
                 'MsLogTable.datetime',
                 'LogMstation.mstation_id',
                 'COUNT( LogMstation.mstation_id ) '
             );
          
-        $this->paginate['group'] = 'MsLogTable.datetime, LogMstation.mstation_id HAVING COUNT( LogMstation.mstation_id ) >1';
+        $ops['group'] = 'MsLogTable.datetime, LogMstation.mstation_id HAVING COUNT( LogMstation.mstation_id ) >1';
         
-        $this->paginate['contain'] = array(
+        $ops['contain'] = array(
                 'MsLogTable'
             );
         
         
-        $this->set('logMstations', $this->paginate());
+        $this->set('logMstations', $this->LogMstation->find('all', $ops ));
         
         
         $sites = $this->LogMstation->MsLogTable->Site->find('list');
