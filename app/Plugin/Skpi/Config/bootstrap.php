@@ -18,6 +18,16 @@ CroogoNav::add('sky', array(
 	),
 	'weight' => 50,
 	'children' => array(
+		'sites' => array(
+			'title' => __('Sites'),
+			'url' => array(
+				'admin' => true,
+				'plugin' => 'sky',
+				'controller' => 'sites',
+				'action' => 'index',
+			),
+			'weight' => 9,
+		),
 		'kpis' => array(
 			'title' => __('Kpis'),
 			'url' => array(
